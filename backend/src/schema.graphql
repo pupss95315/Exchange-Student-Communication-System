@@ -5,13 +5,14 @@ type Query {
 }
 
 type Mutation {
-  updateUser(id: ID!, data: UpdateUserInput!): User!
+  createUser(id: String!, password: String!): User!
+  updateUser(id: String!, data: UpdateUserInput!): User!
   createComment(data: CreateCommentInput!): Comment!
-  deleteComment(id: ID!): Comment!
-  updateComment(id: ID!, data: UpdateCommentInput!): Comment!
+  deleteComment(id: String!): Comment!
+  updateComment(id: String!, data: UpdateCommentInput!): Comment!
   createReply(data: CreateReplyInput!): Reply!
-  deleteReply(id: ID!): Reply!
-  updateReply(id: ID!, data: UpdateReplyInput!): Reply!
+  deleteReply(id: String!): Reply!
+  updateReply(id: String!, data: UpdateReplyInput!): Reply!
 }
 
 type Subscription {
@@ -32,15 +33,15 @@ input UpdateUserInput {
 input CreateCommentInput {
   author: ID!
   content: String!
-  followers: [User]
-  replies: [Reply]
+  followers: [ID!]
+  replies: [ID!]
 }
 
 input UpdateCommentInput {
   author: ID!
   content: String!
-  followers: [User]
-  replies: [Reply]
+  followers: [ID!]
+  replies: [ID!]
 }
 
 input CreateReplyInput {

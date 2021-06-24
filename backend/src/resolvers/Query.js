@@ -1,11 +1,11 @@
 const Query = {
   users(parent, args, { db }, info) {
-    if (!args.query) {
+    if (!args.id) {
       return db.users;
     }
 
     return db.users.filter((user) => {
-      return user.name.toLowerCase().includes(args.query.toLowerCase());
+      return user.id===args.id;
     });
   },
   comments(parent, { type, args }, { db }, info) {
