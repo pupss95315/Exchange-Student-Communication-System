@@ -1,6 +1,6 @@
 type Query {
   users(id: String): [User!]!
-  comments(query: String): [Comment!]!
+  comments(type: QueryType!, data: String): [Comment!]!
   replies(cmtID: ID!): [Reply!]!
 }
 
@@ -86,6 +86,12 @@ enum MutationType {
   CREATED
   UPDATED
   DELETED
+}
+
+enum QueryType {
+  SEARCH
+  SELF
+  FOLLOW
 }
 
 type CommentSubscriptionPayload {

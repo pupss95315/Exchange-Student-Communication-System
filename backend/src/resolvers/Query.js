@@ -8,7 +8,10 @@ const Query = {
       return user.name.toLowerCase().includes(args.query.toLowerCase());
     });
   },
-  comments(parent, args, { db }, info) {
+  comments(parent, { type, args }, { db }, info) {
+    if (type === 'SELF') {
+      return db.comments.filter
+    }
     if (!args.query) {
       return db.comments;
     }
