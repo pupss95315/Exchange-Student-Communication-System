@@ -3,18 +3,28 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  name: { type: String, required: true },
+  user_id: { type: String, required: true },
+  password: String,
+  GPA: Number,
+  college: String,
+  school: String,
+  isRegistered: Boolean, 
+  duration: String,
+  languageExam: String, 
+  apply_list: [String],
 });
   
 const commentSchema = new Schema({
-  sender: { type: mongoose.Types.ObjectId, ref: 'User' },
-  body: { type: String, required: true },
+  author: { type: mongoose.Types.ObjectId, ref: 'users' },
+  content: { type: String, required: true },
+  followers: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
+  replies: [{ type: mongoose.Types.ObjectId, ref: 'replies' }],
 });
 
 const replySchema = new Schema({
-  name: { type: String, required: true },
-  users: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
-  messages: [{ type: mongoose.Types.ObjectId, ref: 'Message' }],
+  author: { type: mongoose.Types.ObjectId, ref: 'users' },
+  content: { type: String, required: true },
+  comment: { type: mongoose.Types.ObjectId, ref: 'comments' },
 });
   
 const UserModel = mongoose.model('users', userSchema);

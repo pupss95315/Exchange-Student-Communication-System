@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import dataInit from './upload.js'
 // i use mongodb://localhost:27017/cardmongo for MONGO_URL
 
 function connectMongo() {
@@ -12,6 +13,7 @@ function connectMongo() {
 
   db.on('error', console.error.bind(console, 'connection error:'));
   db.once('open', function () {
+    dataInit();
     console.log('Mongo database connected!');
   });
 }

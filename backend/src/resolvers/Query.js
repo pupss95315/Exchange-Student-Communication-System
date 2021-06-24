@@ -1,11 +1,11 @@
 const Query = {
   users(parent, args, { db }, info) {
-    if (!args.id) {
+    if (!args.UID) {
       return db.users;
     }
 
     return db.users.filter((user) => {
-      return user.id===args.id;
+      return user.user_id===args.UID;
     });
   },
   comments(parent, { type, args }, { db }, info) {

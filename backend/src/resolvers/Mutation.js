@@ -2,26 +2,18 @@
 
 const Mutation = {
   createUser(parent, args, { db, pubsub }, info) {
-    const userExists = db.users.some((user) => user.id === args.id);
+    // const userExists = db.users.some((user) => user.id === args.id);
 
-    if (userExists) {
-      throw new Error('User already Exist');
-    }
-
-    const user = {
-      ...args,
-    };
-
-    db.posts.unshift(user);
-
-    // if (args.data.published) {
-    //   pubsub.publish('post', {
-    //     post: {
-    //       mutation: 'CREATED',
-    //       data: post,
-    //     },
-    //   });
+    // if (userExists) {
+    //   throw new Error('User already Exist');
+    // } else {
+    //   console.log("User not exist. You can register that account. ")
     // }
+
+    var user = new db.UserModel({...args});
+    console.log(user);
+    // user.save();
+    db.users.insert(user);
 
     return user;
   },
