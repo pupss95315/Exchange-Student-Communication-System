@@ -16,7 +16,7 @@ import {
 } from '../graphql';
 
 const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
-    const [input, setInput] = useState(props.comment.text);
+    //const [input, setInput] = useState(props.comment.text);
     const [replies, setReplies] = useState([]);
     const [isReplyEdit, setReplyEdit] = useState(false);
     const [isReplied, setIsReplied] = useState(false);
@@ -140,7 +140,7 @@ const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
     // };
     
 
-    const id = props.index > 8 ? (props.index +1) : "0" + (props.index +1)
+    //const id = props.index > 8 ? (props.index +1) : "0" + (props.index +1)
 
     return (
         <div className="mb-4">
@@ -174,7 +174,7 @@ const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
                 <Card>
                     <Accordion.Toggle md="8" as={Card.Header} eventKey="0" className="d-flex pl-2">
                         {/* <span className="font-weight-bold mr-3">{id}</span> */}
-                        <span>{props.comment}</span>
+                        <span>{comment}</span>
                     </Accordion.Toggle>
                     {replies.length === 0 ? 
                         (<Accordion.Collapse eventKey="0">
@@ -187,7 +187,7 @@ const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
                                 key={index}
                                 id={index}
                                 reply={reply}
-                                deleteReply={deleteReply}
+                                //deleteReply={deleteReply}
                                 //removeReply={removeReply}
                                 editReply={editReply}
                                 updateReply={updateReply}

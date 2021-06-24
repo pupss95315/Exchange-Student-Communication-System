@@ -20,22 +20,22 @@ const SearchBar = (props) => {
 
     return (
     <>
-        <Form.Row className="mt-3 mb-3 align-items-center justify-content-center">
+        <Form.Row className=" align-items-center justify-content-center">
             {/* <div key={`inline`} className="mb-3">
            
                 <Form.Check inline label="依序號" name="condition" type='radio' id={`inline-1`} />
                 <Form.Check inline label="依內容" name="condition" type='radio' id={`inline-2`} />
             </div> */}
-            <Col md="3">
+            {/* <Col>
                 <div className="d-flex align-items-end justify-content-center "> 
-                    <h6 style={{ width: '30%' }}>搜尋依</h6>
-                    <Form.Control as="select" style={{ width: '20%' }}>
+                    <h6 style={{ fontSize: "24px", width: '50%' }}>搜尋依</h6>
+                    <Form.Control as="select" style={{ fontSize: "18px", width: "40px" }}>
                         <option value="內容">內容</option>
                         <option value="序號">序號</option>
                     </Form.Control>
                 </div>
-            </Col>
-            <Col md="9" className="d-flex">
+            </Col> */}
+            <Col className="d-flex">
                 <Form.Control placeholder="搜尋" />
                 <Button type="submit"  variant="secondary" size="sm" ><SearchIcon></SearchIcon></Button>    
             </Col>

@@ -1,20 +1,35 @@
 import React from "react";
 import { Container, Navbar, Nav, NavDropdown, Row, Col, Accordion, Card, Button,Form} from 'react-bootstrap';
-
+import SearchBar from "./SearchBar";
 export default (props) => (
-    <Navbar bg="dark" variant="dark" className="mb-5">
-        <Navbar.Brand >110 級交換學生搓湯圓系統</Navbar.Brand>
-        <Nav>  
-            <Nav.Item>
-                    <Nav.Link href="mainPage" >首頁</Nav.Link>
-            </Nav.Item>
-            <NavDropdown title="法文組" id="navbarScrollingDropdown">
-                <NavDropdown.Item href="infoPage">志願表</NavDropdown.Item>
-                <NavDropdown.Item href="groupBulletin">聊天室</NavDropdown.Item>
-            </NavDropdown>
-            <Nav.Item>
-                    <Nav.Link href="/">登出</Nav.Link>
-            </Nav.Item>
-        </Nav>
+    <Navbar bg="light" className="mb-5 py-4 pr-5 pl-5" expand="xl">
+        <Navbar.Brand>
+            <h2 style={{fontsize:"80px"}}>110 級交換學生搓湯圓系統</h2>
+        </Navbar.Brand>
+        <SearchBar></SearchBar>
+        <Navbar.Collapse className="justify-content-end">
+            {/* <Nav>  
+                <Nav.Item id="navbarItem">
+                        <Nav.Link href="mainPage" >
+                            <h3>首頁</h3>
+                        </Nav.Link>
+                </Nav.Item>
+                <NavDropdown title="法文組" style={{fontSize:"1.8em"}}>
+                    <NavDropdown.Item href="infoPage">
+                        <h5>志願表</h5>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item href="groupBulletin">
+                        <h5>聊天室</h5>
+                    </NavDropdown.Item>
+                </NavDropdown>
+            </Nav> */}
+            <Nav>  
+                <Nav.Item id="navbarItem">
+                    <Nav.Link href="/">
+                        <h3>登出</h3>
+                    </Nav.Link>
+                </Nav.Item>
+            </Nav>
+        </Navbar.Collapse>
     </Navbar>
 )

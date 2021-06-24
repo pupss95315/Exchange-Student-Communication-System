@@ -6,7 +6,7 @@ const ReplyForm = ({addReply}) => {
     const handleSubmit = e => {
         e.preventDefault();
         if (!replyValue) return;
-        props.addReply(replyValue);
+        addReply(replyValue);
         //addReply({ variables: {}}replyValue);
         setReplyValue("");
     };

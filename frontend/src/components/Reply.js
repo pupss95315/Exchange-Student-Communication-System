@@ -13,7 +13,7 @@ const Reply = ({
         <Accordion.Collapse eventKey="0">
             <Card.Body>
                 <AccountCircleIcon color="action" className="mr-2" style={{ fontSize:"35" }}></AccountCircleIcon>
-                {props.reply}
+                {reply}
             </Card.Body>
         </Accordion.Collapse>
     )

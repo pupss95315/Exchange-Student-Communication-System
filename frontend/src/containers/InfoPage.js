@@ -3,7 +3,6 @@ import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import axios from '../api';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
     USER_QUERY,

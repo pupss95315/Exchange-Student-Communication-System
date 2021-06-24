@@ -1,23 +1,26 @@
 import { Button,Form, Card, Container, Modal } from 'react-bootstrap';
 import React, { useState } from 'react';
-import axios from '../api';
 import '../App.css';
-import { useMutation } from '@apollo/react-hooks';
-import {
-    UPDATE_USER_MUTATION,
-} from '../graphql';
+// import { useMutation, useLazyQuery } from '@apollo/react-hooks';
+// import {
+//     UPDATE_USER_MUTATION,
+//     USER_QUERY
+// } from '../graphql';
 
 const LoginPage = () => {
-
+    // const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY);
+    
     const [UID, setUID] = useState("");
     const [password, setPassword] = useState("");
     const [regisUID, setRegisUID] = useState("");
     const [regisPassword, setRegisPassword] = useState("");
     const [page, setPage] = useState("login")
     const [show, setShow] = useState(false)
+    const [isCorrectPsw, setIsCorrectPsw] = useState(false)
+
 
     // Mutation functions
-    const [register] = useMutation(UPDATE_USER_MUTATION);
+    //const [handleRegister] = useMutation(UPDATE_USER_MUTATION);
 
     const validateForm = () => {
         return UID.length > 0 && password.length > 0;
@@ -26,18 +29,13 @@ const LoginPage = () => {
         return regisUID.length > 0 && regisPassword.length > 0;
     }
 
-    // const handleLogin = async(e) => {
-    //     e.preventDefault();
-    //     const {
-    //         data: { msg },
-    //     } = await axios.get('/api/login', {
-    //         UID, 
-    //         password
-    //     });
+    // const handleLogin = e => {
+    //     //e.preventDefault();
+    //     // queryUser({ variables: { query: UID } });
 
-    //     if(msg === "success"){
-    //         // 將 UID 設成 local storage
-    //     }
+    //     // if(data.password === password){
+    //         setIsCorrectPsw(true)
+    //     //}
     // }
 
     // const handleRegister = async(e) => {
@@ -113,7 +111,7 @@ const LoginPage = () => {
                         onChange={(e) => setRegisPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button onClick={(e) => handleRegister(e)} variant="dark" block size="lg" type="submit" disabled={!validateRegisForm()}> 註冊 </Button>
+                <Button onClick={(e) => register(e)} variant="dark" block size="lg" type="submit" disabled={!validateRegisForm()}> 註冊 </Button>
                 <div className="d-flex justify-content-center mt-3">
                     返回 <Card.Link href="#" className="ml-2" onClick={(e) => setPage("login")}>登入</Card.Link>
                 </div>
