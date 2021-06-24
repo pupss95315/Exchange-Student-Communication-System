@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-import Comment from "../components/Comment";
-import CommentForm from "../components/CommentForm";
+import Comment from "./Comment";
+import Sort from "./Sort";
+import CommentForm from "./CommentForm";
 import { Row, Col, Card, Container, Nav, Form, Button, Alert, Modal } from 'react-bootstrap';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import {
-    CREATE_COMMENT_MUTATION,
-    DELETE_COMMENT_MUTATION,
-    UPDATE_COMMENT_MUTATION,
-    COMMENT_QUERY
-} from '../graphql';
+// import { useQuery, useMutation } from '@apollo/react-hooks';
+// import {
+//     CREATE_COMMENT_MUTATION,
+//     DELETE_COMMENT_MUTATION,
+//     UPDATE_COMMENT_MUTATION,
+//     COMMENT_QUERY
+// } from '../graphql';
 
 const Bulletin = ({me}) => {
     const [comments, setComments] = useState([]);
     const [isEdit, setEdit] = useState(false);
-    const [sort, setSort] = useState("最新");
     const [section, setSection] = useState("全體留言板");
     const [show, setShow] = useState(false);
     const [isAlert, setIsAlert] = useState(false);
 
     // Mutation functions
-    const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
-    const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
-    const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
+    // const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
+    // const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
+    // const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
 
     // Query functions
-    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY);
+    //const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY);
     
     // useEffect(() => {
     //     try {
@@ -85,29 +85,13 @@ const Bulletin = ({me}) => {
     return (
       <>
         <Row md="9" className="align-items-cneter justify-content-between">
-          <Nav md="8" variant="tabs" defaultActiveKey="/mainPage">
-              <Nav.Item>
-                  <Nav.Link href="/mainPage" style={{ color: "black" }}>全部</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                  <Nav.Link eventKey="focus" style={{ color: "black" }}>已關注</Nav.Link>
-              </Nav.Item>
-              <Nav.Item>
-                  <Nav.Link eventKey="reply" style={{ color: "black" }}>已回覆</Nav.Link>
-              </Nav.Item>
-          </Nav>
           <Col md="4">
-              <div className="d-flex align-items-end justify-content-end"> 
-                  <h6 style={{ width: '20%' }}>排序依</h6>
-                  <Form.Control as="select" value={sort} className="ml-3" style={{ width: '5%' }} onChange={e => setSort(e.target.value)}>
-                      <option value="最新">最新</option>
-                      <option value="最受歡迎">最受歡迎</option>
-                      <option value="最多人回覆">最多人回覆</option>
-                  </Form.Control>
-              </div>
+              {/* <Sort sort={sort} setSort={setSort}></Sort> */}
           </Col>
         </Row>
-        <CommentForm md="9" addCmt={addCmt}></CommentForm>
+        <CommentForm md="9" 
+        //addCmt={addCmt}
+        ></CommentForm>
         {comments.map((comment, index) => (
           <Comment
               key={index}
@@ -117,8 +101,8 @@ const Bulletin = ({me}) => {
             //   editComment={editComment}
             //   updateComment={updateComment}
               isEdit={isEdit}
-              deleteCmt={deleteCmt}
-              updateCmt={updateCmt}
+            //   deleteCmt={deleteCmt}
+            //   updateCmt={updateCmt}
               editComment={editCmt}
           />
         ))}
