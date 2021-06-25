@@ -1,4 +1,4 @@
-import { Button,Form, Card, Container, Modal, OverlayTrigger, Tooltip, Col } from 'react-bootstrap';
+import { Button,Form, Card, Container, Modal, Row, InputGroup } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import '../App.css';
@@ -7,6 +7,8 @@ import {
     CREATE_USER_MUTATION,
     USER_QUERY
 } from '../graphql';
+import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const LoginPage = () => {
     const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY);
@@ -127,9 +129,10 @@ const LoginPage = () => {
 
     const login = (
         <>
-            <Form noValidate validated={validated} onSubmit={handleLogin}>
-                <Form.Group controlId="UID">
-                    <Form.Label>交換學生序號</Form.Label>
+            <Form noValidate validated={validated} onSubmit={handleLogin} style={{width: "60%"}}>
+                <Form.Group controlId="UID" className="mb-4">
+                    {/* <Form.Label>交換學生序號</Form.Label> */}
+                    {/* <InputGroup.Text>@</InputGroup.Text> */}
                     <Form.Control
                         autoFocus
                         required
@@ -138,25 +141,34 @@ const LoginPage = () => {
                         value={UID}
                         onChange={(e) => setUID(e.target.value)}
                         className="form-control"
+                        placeholder="交換學生序號"
+                        style={{borderRadius: "30px"}}
+                        // startAdornment={
+                        //     <InputAdornment position='start'>
+                        //       <AccountCircleOutlinedIcon />
+                        //     </InputAdornment>
+                        // }
                     />
                     {/* <Form.Control.Feedback type="invalid"></Form.Control.Feedback> */}
                 </Form.Group>
                 <Form.Group controlId="password">
-                    <Form.Label>密碼</Form.Label>
+                    {/* <Form.Label>密碼</Form.Label> */}
                     <Form.Control
                         required 
                         //isInvalid={password.length === 0}
                         type="password"
                         value={password}
+                        placeholder="密碼"
+                        style={{borderRadius: "30px"}}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     {/* <Form.Control.Feedback type="invalid"></Form.Control.Feedback> */}
                 </Form.Group>
-                <Button variant="dark" block size="lg" type="submit"> 登入 </Button>
-            </Form>
-            <div className="d-flex justify-content-center mt-3">
+                <Button style={{borderRadius: "30px"}}variant="secondary" block size="lg" type="submit"> 登入 </Button>
+                <div className="d-flex justify-content-center mt-3">
                 還沒有帳號嗎? <Card.Link href="#" className="ml-2" onClick={(e) => setPage("register")}>註冊</Card.Link>
             </div>
+            </Form>
         </>
     )
     const register = (
@@ -211,12 +223,22 @@ const LoginPage = () => {
     return (
         <Container className="center d-flex justify-content-center">
             {showAlert}
-            <Card bg="light">
-                <Card.Header className="d-flex justify-content-center">交換學生搓湯圓系統</Card.Header>
-                <Card.Body>
+                {/* <Card bg="white" style={{width:"40%"}}> */}
+                    {/* <Card.Header style={{fontSize: "18px"}} className="d-flex justify-content-center"> */}
+                    {/* </Card.Header> */}
+                    {/* <Row>
+                        <Card.Body> */}
+            <Card style={{width: "50%", borderRadius: "30px"}}>
+                <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
+                    <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
+                </Card.Title>
+                <div className="d-flex justify-content-center mb-4">
                     { page === "login" ? login : register }
-                </Card.Body>
+                </div>
             </Card>
+                        {/* </Card.Body>
+                    </Row>
+                </Card> */}
         </Container>
     )
 };

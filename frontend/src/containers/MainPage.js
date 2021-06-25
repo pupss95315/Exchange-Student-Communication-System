@@ -135,22 +135,22 @@ function MainPage() {
                 <Row className="justify-content-center">
                     <Col md="3">
                         <Nav className="flex-column" variant="pills">
-                          <Button className="d-flex justify-content-center pt-3" variant= {section === "全體留言板" ? "secondary" : null} eventKey="mainPage"  onClick={e => setSection("全體留言板")}>
+                          <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "全體留言板" ? "secondary" : null} eventKey="mainPage"  onClick={e => setSection("全體留言板")}>
                               <DashboardIcon className="mr-2"></DashboardIcon>
                               <h5>全體留言板</h5>
                             </Button>
-                          <Button className="d-flex justify-content-center pt-3" variant= {section === "分組留言板" ? "secondary" : null} eventKey="link-2" onClick={e => setSection("分組留言板")}>
+                          <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "分組留言板" ? "secondary" : null} eventKey="link-2" onClick={e => setSection("分組留言板")}>
                                 <PeopleAltIcon className="mr-2"></PeopleAltIcon>
                                 <h5>分組留言板</h5>
                             </Button>
-                          <Button className="d-flex justify-content-center pt-3" variant= {section === "分組志願表" ? "secondary" : null} eventKey="disabled" onClick={e => setSection("分組志願表")}>
+                          <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "分組志願表" ? "secondary" : null} eventKey="disabled" onClick={e => setSection("分組志願表")}>
                               <GradeIcon className="mr-2"></GradeIcon>
                               <h5>分組志願表</h5>
                             </Button>
                         </Nav>
                     </Col>
                     <Col md="9">
-                        <Card className="align-items-start" style={{ height: '200rem' }}>
+                        <Card className="align-items-start" style={{ height: '200rem', borderRadius: "30px" }}>
                             {/* <Card.Header style={{ width: '100%' }}as="h5"> */}
                             {/* </Card.Header> */}
                             <Card.Body style={{ width: '100%' }}>
