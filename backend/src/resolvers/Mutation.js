@@ -2,7 +2,9 @@
 
 const Mutation = {
   createUser(parent, {UID, password}, { db, pubsub }, info) {
-    const userExists = db.users.find({user_id: UID});
+    const userExists = db.users.find({user_id: UID}, function(err, cursor) {
+      console.log(cursor);
+    });
     console.log(userExists);
     if (userExists) {
       throw new Error('User already Exist');
