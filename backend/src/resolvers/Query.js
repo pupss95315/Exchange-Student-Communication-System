@@ -11,7 +11,7 @@ const Query = {
     }
     if (type === 'SEARCH') {
       const prefix = ".*";
-      return db.comments.find({ content: prefix.concat("", data).concat("", prefix) });
+      return db.comments.find({ content: { $regex: prefix.concat("", data).concat("", prefix) } });
     }
     if (type === 'FOLLOW') {  
       return db.comments.find({ followers: data });
