@@ -4,24 +4,26 @@ const Query = {
       return db.users;
     }
     return [db.UserModel.findOne({user_id : args.UID})]
-    // return db.UserModel.filter((user) => {
-    //   return user.user_id===args.UID;
-    // });
   },
   comments(parent, { type, args }, { db }, info) {
     if (type === 'SELF') {
-      return db.comments.filter
+      return db.comments.find((comment) => {
+        return comment.author == args.data;
+      });
     }
-    if (!args.query) {
-      return db.comments;
+    if (type === 'FOLLOW') {
+      return db.comments.find((comment) => {
+        comment.followers.includes(args.data);
+      });
     }
-
-    return db.comments.filter((comment) => {
-      const isBodyMatch = comment.body
-        .toLowerCase()
-        .includes(args.query.toLowerCase());
-      return isBodyMatch;
-    });
+    if (type === 'SEARCH') {  
+      return db.comments.find((comment) => {
+        const isBodyMatch = comment.body
+          .toLowerCase()
+          .includes(args.query.toLowerCase());
+        return isBodyMatch;
+      });
+    }
   },
   replies(parent, args, { db }, info) {
     return db.replies.filter((reply) => {
