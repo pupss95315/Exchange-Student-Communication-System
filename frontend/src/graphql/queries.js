@@ -1,16 +1,17 @@
 import { gql } from '@apollo/client';
 
 export const USER_QUERY = gql`
-  query{
-    users{
-        id,
-        GPA,
-        college,
-        school,
-        isRegistered,
-        duration,
-        languageExam,
-        apply_list
+  query($UID: String){
+    users(UID: $UID){
+      id,
+      password,
+      GPA,
+      college,
+      school,
+      isRegistered,
+      duration,
+      languageExam,
+      password
     }
   }
 `;

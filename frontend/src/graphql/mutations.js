@@ -8,6 +8,14 @@ export const UPDATE_USER_MUTATION = gql`
     }
 `;
 
+export const CREATE_USER_MUTATION = gql`
+  mutation createUser($UID: String!, $password: String!) {
+        createUser(UID: $UID, password: $password){
+            pasword
+        }
+    }
+`;
+
 export const CREATE_COMMENT_MUTATION = gql`
   mutation createComment($data: CreateCommentInput!) {
         createComment(data: $data) {

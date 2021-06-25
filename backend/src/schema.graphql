@@ -1,5 +1,5 @@
 type Query {
-  users(id: String): [User!]
+  users(UID: String): [User]
   comments(type: QueryType!, data: String): [Comment!]!
   replies(cmtID: ID!): [Reply!]!
 }

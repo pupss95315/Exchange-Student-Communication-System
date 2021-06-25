@@ -12,8 +12,8 @@ const Mutation = {
 
     var user = new db.UserModel({...args});
     console.log(user);
-    // user.save();
-    db.users.insert(user);
+    user.save();
+    //db.users.insert(user);
 
     return user;
   },

@@ -3,10 +3,10 @@ const Query = {
     if (!args.UID) {
       return db.users;
     }
-
-    return db.users.filter((user) => {
-      return user.user_id===args.UID;
-    });
+    return [db.UserModel.findOne({user_id : args.UID})]
+    // return db.UserModel.filter((user) => {
+    //   return user.user_id===args.UID;
+    // });
   },
   comments(parent, { type, args }, { db }, info) {
     if (type === 'SELF') {
