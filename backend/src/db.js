@@ -27,14 +27,14 @@ const replySchema = new Schema({
   comment: { type: mongoose.Types.ObjectId, ref: 'comments' },
 });
   
-const UserModel = mongoose.model('users', userSchema);
-const CommentModel = mongoose.model('comments', commentSchema);
-const ReplyModel = mongoose.model('replies', replySchema);
+const users = mongoose.model('users', userSchema);
+const comments = mongoose.model('comments', commentSchema);
+const replies = mongoose.model('replies', replySchema);
 
 const db = {
-  UserModel,
-  CommentModel, 
-  ReplyModel,
+  users,
+  comments,
+  replies,
 }
 
 export { db as default };

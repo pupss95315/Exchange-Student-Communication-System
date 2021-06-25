@@ -75,19 +75,19 @@ const replydata = [
 ]
 
 const dataInit = async () => {
-  var checkData = await db.UserModel.find()
+  var checkData = await db.users.find()
   if (!checkData.length) {
-    await db.UserModel.insertMany(userdata)
+    await db.users.insertMany(userdata)
   }
-  checkData = await db.CommentModel.find()
+  checkData = await db.comments.find()
   if (!checkData.length) {
-    await db.CommentModel.insertMany(commentdata)
+    await db.comments.insertMany(commentdata)
   }
   // await db.CommentModel.updateOne({"content": "Introduce yourself!"}, {$set: {"replies": ["60d401f8105176542801f43b", "60d401f8105176542801f43c"]}})
   // await db.CommentModel.updateOne({"content": "Hi!"}, {$set: {"replies": ["60d401f8105176542801f43d"]}})
-  checkData = await db.ReplyModel.find()
+  checkData = await db.replies.find()
   if (!checkData.length) {
-    await db.ReplyModel.insertMany(replydata)
+    await db.replies.insertMany(replydata)
   }
 }
 

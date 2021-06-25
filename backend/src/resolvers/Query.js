@@ -3,26 +3,18 @@ const Query = {
     if (!args.UID) {
       return db.users;
     }
-    return [db.UserModel.findOne({user_id : args.UID})]
+    return [db.users.findOne({user_id : args.UID})]
   },
-  comments(parent, { type, args }, { db }, info) {
+  comments(parent, { type, data }, { db }, info) {
     if (type === 'SELF') {
-      return db.comments.find((comment) => {
-        return comment.author == args.data;
-      });
+      return db.comments.find({ author: data });
     }
-    if (type === 'FOLLOW') {
-      return db.comments.find((comment) => {
-        comment.followers.includes(args.data);
-      });
+    if (type === 'SEARCH') {
+      const prefix = ".*";
+      return db.comments.find({ content: prefix.concat("", data).concat("", prefix) });
     }
-    if (type === 'SEARCH') {  
-      return db.comments.find((comment) => {
-        const isBodyMatch = comment.body
-          .toLowerCase()
-          .includes(args.query.toLowerCase());
-        return isBodyMatch;
-      });
+    if (type === 'FOLLOW') {  
+      return db.comments.find({ followers: data });
     }
   },
   replies(parent, args, { db }, info) {
