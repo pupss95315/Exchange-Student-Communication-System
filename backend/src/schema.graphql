@@ -7,7 +7,7 @@ type Query {
 type Mutation {
   createUser(UID: String!, password: String!): User!
   updateUser(UID: String!, data: UpdateUserInput!): User!
-  createComment(data: CreateCommentInput!): Comment!
+  createComment(UID: String!, content: String!): Comment!
   deleteComment(id: String!): Comment!
   updateComment(id: String!, data: UpdateCommentInput!): Comment!
   createReply(data: CreateReplyInput!): Reply!
@@ -28,13 +28,6 @@ input UpdateUserInput {
   duration: String
   languageExam: String 
   apply_list: [String]
-}
-
-input CreateCommentInput {
-  author: ID!
-  content: String!
-  followers: [ID!]
-  replies: [ID!]
 }
 
 input UpdateCommentInput {

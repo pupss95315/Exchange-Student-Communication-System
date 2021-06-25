@@ -15,7 +15,7 @@ const userSchema = new Schema({
 });
   
 const commentSchema = new Schema({
-  author: { type: mongoose.Types.ObjectId, ref: 'users' },
+  author: { type: mongoose.Types.ObjectId, ref: 'users', required: true },
   content: { type: String, required: true },
   followers: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
   replies: [{ type: mongoose.Types.ObjectId, ref: 'replies' }],

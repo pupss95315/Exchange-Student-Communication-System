@@ -1,75 +1,51 @@
 // import uuidv4 from 'uuid/v4.js';
 
 const Mutation = {
-  createUser(parent, args, { db, pubsub }, info) {
-    // const userExists = db.users.some((user) => user.id === args.id);
+  createUser(parent, {UID, password}, { db, pubsub }, info) {
+    const userExists = db.users.find({user_id: UID});
+    console.log(userExists);
+    if (userExists) {
+      throw new Error('User already Exist');
+    } 
 
-    // if (userExists) {
-    //   throw new Error('User already Exist');
-    // } else {
-    //   console.log("User not exist. You can register that account. ")
-    // }
-
-    var user = new db.UserModel({...args});
+    var user = new db.users({user_id: UID, password: password});
     console.log(user);
     user.save();
-    //db.users.insert(user);
 
     return user;
   },
-  updateUser(parent, args, { db }, info) {
-    const { id, data } = args;
-    const user = db.users.find((user) => user.id === id);
-
-    if (!user) {
-      throw new Error('User not found');
-    }
-
-    if (typeof data.email === 'string') {
-      const emailTaken = db.users.some((user) => user.email === data.email);
-
-      if (emailTaken) {
-        throw new Error('Email taken');
-      }
-
-      user.email = data.email;
-    }
-
-    if (typeof data.name === 'string') {
-      user.name = data.name;
-    }
-
-    if (typeof data.age !== 'undefined') {
-      user.age = data.age;
-    }
-
-    return user;
-  },
-  // createPost(parent, args, { db, pubsub }, info) {
-  //   const userExists = db.users.some((user) => user.id === args.data.author);
-
-  //   if (!userExists) {
+  // updateUser(parent, args, { db }, info) {
+  //   const { id, data } = args;
+  //   const user = db.users.find((user) => user.id === id);
+  //   if (!user) {
   //     throw new Error('User not found');
   //   }
-
-  //   const post = {
-  //     id: uuidv4(),
-  //     ...args.data,
-  //   };
-
-  //   db.posts.unshift(post);
-
-  //   if (args.data.published) {
-  //     pubsub.publish('post', {
-  //       post: {
-  //         mutation: 'CREATED',
-  //         data: post,
-  //       },
-  //     });
+  //   if (typeof data.email === 'string') {
+  //     const emailTaken = db.users.some((user) => user.email === data.email);
+  //     if (emailTaken) {
+  //       throw new Error('Email taken');
+  //     }
+  //     user.email = data.email;
   //   }
-
-  //   return post;
+  //   if (typeof data.name === 'string') {
+  //     user.name = data.name;
+  //   }
+  //   if (typeof data.age !== 'undefined') {
+  //     user.age = data.age;
+  //   }
+  //   return user;
   // },
+  createComment(parent, {UID, content}, { db, pubsub }, info) {
+    const user = db.users.findOne({user_id: UID});
+    if (!user) {
+      throw new Error('User not Exist');
+    } 
+    var comment = new db.comments({author: user._id, content: content});
+    console.log(comment);
+    comment.save();
+
+    return comment;
+  },
   // deletePost(parent, args, { db, pubsub }, info) {
   //   const postIndex = db.posts.findIndex((post) => post.id === args.id);
 
