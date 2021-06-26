@@ -42,10 +42,16 @@ const Bulletin = ({me}) => {
     //         } catch (e) {}
     // }, [subscribeToMore]);
 
-    const addComment = text => {
+    // const addComment = text => {
+    //   const newComments = [...comments, text];
+    //   setComments(newComments);
+    //   setShow(true);
+    // };
+
+    const addCmt = text => {
       const newComments = [...comments, text];
       setComments(newComments);
-      setShow(true);
+      //setShow(true);
     };
 
     const removeComment = id => {
@@ -84,14 +90,12 @@ const Bulletin = ({me}) => {
 
     return (
       <>
-        <Row md="9" className="align-items-cneter justify-content-between">
+        <CommentForm md="9" addCmt={addCmt}></CommentForm>
+        <Row md="9" className="mt-4 align-items-cneter justify-content-between">
           <Col md="4">
               {/* <Sort sort={sort} setSort={setSort}></Sort> */}
           </Col>
         </Row>
-        <CommentForm md="9" 
-        //addCmt={addCmt}
-        ></CommentForm>
         {comments.map((comment, index) => (
           <Comment
               key={index}

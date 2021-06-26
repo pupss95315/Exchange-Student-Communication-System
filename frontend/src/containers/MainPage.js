@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import Header from "../components/Header";
-import SearchBar from "../components/SearchBar";
 import Bulletin from "../components/Bulletin";
+import CommentForm from "../components/CommentForm";
 import Sort from "../components/Sort";
+import InfoPage from "./InfoPage";
 import '../App.css';
-import { Row, Col, Card, Container, Figure,Nav, Button } from 'react-bootstrap';
+import { Row, Col, Card, Container, Nav, Button } from 'react-bootstrap';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import GradeIcon from '@material-ui/icons/Grade';
@@ -69,12 +69,6 @@ function MainPage() {
     //     setComments(queryComments)
     // };
 
-    // const addComment = text => {
-    //     const newComments = [...comments, text];
-    //     setComments(newComments);
-    //     setShow(true);
-    // };
-
     // const removeComment = id => {
     //     const newComments = [...comments];
     //     newComments.splice(id, 1);
@@ -125,15 +119,14 @@ function MainPage() {
 
     return( 
         <>
-            <Header></Header>
-            <Container className="container">
+            <Container>
                 {/* {showAlert} */}
                 <div>
-                    <h6 style={{fontSize:"60px", textAlign: "center"}} className="mb-4">交換學生搓湯圓平台</h6>
+                    <h6 style={{fontSize:"60px", textAlign: "center", fontWeight: "bold"}} className="mb-4">交換學生搓湯圓平台</h6>
                     <h1 style={{fontSize:"24px", textAlign: "center", color:"grey", fontWeight: "lighter"}} className="mb-5">一個讓大家搓湯圓的地方</h1>
                 </div>
                 <Row className="justify-content-center">
-                    <Col md="3">
+                    <Col md="3" style={{borderRadius: "30px"}}>
                         <Nav className="flex-column" variant="pills">
                           <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "全體留言板" ? "secondary" : null} eventKey="mainPage"  onClick={e => setSection("全體留言板")}>
                               <DashboardIcon className="mr-2"></DashboardIcon>
@@ -143,10 +136,10 @@ function MainPage() {
                                 <PeopleAltIcon className="mr-2"></PeopleAltIcon>
                                 <h5>分組留言板</h5>
                             </Button>
-                          <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "分組志願表" ? "secondary" : null} eventKey="disabled" onClick={e => setSection("分組志願表")}>
+                          {/* <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "分組志願表" ? "secondary" : null} eventKey="disabled" onClick={e => setSection("分組志願表")}>
                               <GradeIcon className="mr-2"></GradeIcon>
                               <h5>分組志願表</h5>
-                            </Button>
+                            </Button> */}
                         </Nav>
                     </Col>
                     <Col md="9">
@@ -166,9 +159,13 @@ function MainPage() {
                                                 <Nav.Link eventKey="reply" style={{ color: "grey", fontSize: "22px" }}>回覆</Nav.Link>
                                             </Nav.Item>
                                     </Nav>
-                                    <Sort sort={sort} setSort={setSort}></Sort>
+                                    <div className="d-flex align-items-center">
+                                        <Sort sort={sort} setSort={setSort}></Sort>
+                                    </div>
                                 </Row>
-                                <Bulletin me={me}></Bulletin>
+                                <Bulletin 
+                                    me={me}
+                                ></Bulletin>
                             </Card.Body>
                         </Card>
                     </Col> 

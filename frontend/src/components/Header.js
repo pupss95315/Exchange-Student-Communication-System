@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Navbar, Nav, NavDropdown, Row, Col, Accordion, Card, Button,Form} from 'react-bootstrap';
 import SearchBar from "./SearchBar";
 export default (props) => (
-    <Navbar bg="light" className="mb-5 py-4 pr-5 pl-5" expand="xl">
+    <Navbar bg="light" className="mb-5 py-4 pr-5 pl-5 align-items-center" expand="xl">
         <Navbar.Brand>
             <h2 style={{fontsize:"80px"}}>110 級交換學生搓湯圓系統</h2>
         </Navbar.Brand>
@@ -25,8 +25,18 @@ export default (props) => (
             </Nav> */}
             <Nav>  
                 <Nav.Item id="navbarItem">
+                    <Nav.Link href="/mainPage">
+                        <h4>首頁</h4>
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item id="navbarItem">
+                    <Nav.Link href="/infoPage">
+                        <h4>志願表</h4>
+                    </Nav.Link>
+                </Nav.Item>
+                <Nav.Item id="navbarItem">
                     <Nav.Link href="/">
-                        <h3>登出</h3>
+                        <h4>登出</h4>
                     </Nav.Link>
                 </Nav.Item>
             </Nav>

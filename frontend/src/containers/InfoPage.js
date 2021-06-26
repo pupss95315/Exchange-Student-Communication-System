@@ -3,26 +3,28 @@ import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/client';
 import {
     USER_QUERY,
-    ME_QUERY,
     UPDATE_USER_MUTATION
 } from '../graphql';
 
-const infoList = [
-    { UID: "G10", GPA: 3.5, School: "", College: "管理學院", Duration:"上學期"}
-];
+// const infoList = [
+//     { UID: "G10", GPA: 3.5, School: "", College: "管理學院", Duration:"上學期"}
+// ];
 
 
 const InfoPage = (props) => {
-    // const [infoList, setInfoList] = useState([]);
+    const [infoList, setInfoList] = useState([]);
 
     // Mutation function
     // const [updateUser] = useMutation(UPDATE_USER_MUTATION);
 
     // Query function
-    //const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY);
+    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY);
+    console.log(data)
+
+    // infoList = data;
     
     const [show, setShow] = useState(false);
 
@@ -161,16 +163,21 @@ const InfoPage = (props) => {
         text: '預計志願'
       }];
     return(
-      <Container>
-        <Header></Header>
-        {showAlert}
-        <BootstrapTable 
-            keyField="UID" 
-            data={infoList} 
-            columns={columns}
-            cellEdit={cellEdit}
-        />
-      </Container>
+      <>
+        <Container>
+          {showAlert}
+          <div>
+              <h3 style={{fontWeight: "bold"}} className="mb-3">法文組志願表</h3>
+              <h6 style={{color:"grey", fontWeight: "lighter"}} className="mb-4">祝大家都可以申請到喜歡的學校！</h6>
+          </div>
+          <BootstrapTable 
+              keyField="UID" 
+              data={infoList} 
+              columns={columns}
+              cellEdit={cellEdit}
+          />
+        </Container>
+      </>
     )
 }
 

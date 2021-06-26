@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Col, Button } from 'react-bootstrap';
+import { Form, Col, Button, Row } from 'react-bootstrap';
 
 const ReplyForm = ({addReply}) => {
     const [replyValue, setReplyValue] = useState("");
@@ -12,12 +12,15 @@ const ReplyForm = ({addReply}) => {
     };
 
     return (
-        <Form.Row className="ml-3">
-            <Col>
-                <Form.Control  size="sm"value={replyValue} onChange={ e => setReplyValue(e.target.value)} placeholder="Leave your reply !" />
+        <Row className="ml-1">
+            <Col className="p-0">
+                <Form.Control  
+                    value={replyValue} 
+                    onChange={ e => setReplyValue(e.target.value)} 
+                    placeholder="回覆..." />
             </Col>
-            <Button  onClick={ e => handleSubmit(e) } type="submit"  variant="secondary" size="sm">Submit</Button>
-        </Form.Row>
+            <Button onClick={ e => handleSubmit(e) } type="submit"  variant="secondary">送出</Button>
+        </Row>
     )
 }
 
