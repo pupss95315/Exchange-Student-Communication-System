@@ -24,7 +24,7 @@ function App() {
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
                 <Route path="/mainPage/:id" component={MainPage}/>
-                <Route path="/infoPage/:id" component={InfoPage}/>
+                <Route path="/infoPage/:group/:id" component={InfoPage}/>
                 {/* <Route path="/groupBulletin" component={GroupBulletin}/> */}
             </Switch>
         </>

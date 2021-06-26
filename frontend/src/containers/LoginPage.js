@@ -50,6 +50,9 @@ const LoginPage = () => {
             else{
                 setValidated(true)
                 window.localStorage.setItem("id", UID)
+                // console.log(data.users[0].group)
+                // console.log(typeof(data.users[0].group))
+                window.localStorage.setItem("group", data.users[0].group)
                 history.push(`/mainPage/${UID}`)
             }
         }

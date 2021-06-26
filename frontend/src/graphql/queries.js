@@ -6,6 +6,7 @@ export const USER_QUERY = gql`
       id,
       user_id,
       password,
+      group,
       GPA,
       college,
       school,

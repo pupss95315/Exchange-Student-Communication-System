@@ -13,17 +13,23 @@ import {
 //     { UID: "G10", GPA: 3.5, School: "", College: "管理學院", Duration:"上學期"}
 // ];
 
-
 const InfoPage = props => {
+    const MyEnum = {
+      CHINESE: "CHINESE"
+    }
+    
+    console.log(MyEnum.CHINESE)
+    
     const [infoList, setInfoList] = useState([]);
     const { match } = props;
-    let {id} = match.params;
+    let {group, id} = match.params;
 
     // Mutation function
     // const [updateUser] = useMutation(UPDATE_USER_MUTATION);
 
     // Query function
-    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {UID: id}});
+
+    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: "CHINESE"}});
     useEffect(() => {
       if(data){
         console.log(data)
