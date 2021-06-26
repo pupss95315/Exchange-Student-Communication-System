@@ -12,18 +12,19 @@ import { BrowserRouter, Switch } from 'react-router-dom';
 function App() {
     const location = useLocation();
     const [isLogin, setIsLogin] = useState(false)
+    const [id, setId] = useState("")
     
     //console.log(history.location.pathname)
     return(
         <>
-            {/* {
-              location.pathname ==='/' ? null:<Header/>
-            } */}
+            {
+              location.pathname ==='/' ? null:<Header id={id}/>
+            }
             {/* <Header/> */}
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
-                <Route path="/mainPage" component={MainPage}/>
-                <Route path="/infoPage" component={InfoPage}/>
+                <Route path="/mainPage/:id" component={MainPage}/>
+                <Route path="/infoPage/:id" component={InfoPage}/>
                 {/* <Route path="/groupBulletin" component={GroupBulletin}/> */}
             </Switch>
         </>

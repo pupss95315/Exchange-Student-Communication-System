@@ -8,11 +8,14 @@ import { Row, Col, Card, Container, Nav, Button } from 'react-bootstrap';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import GradeIcon from '@material-ui/icons/Grade';
-
-function MainPage() {
+const MainPage = props => {
     const [me, setMe] = useState("")
     const [section, setSection] = useState("全體留言板")
     const [sort, setSort] = useState("最新");
+    const { match } = props;
+
+    let {id} = match.params;
+    console.log(id)
     // API functions
     // const getAllCmts = async () => {
     //     const {
