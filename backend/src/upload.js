@@ -4,6 +4,7 @@ const userdata = [
   {
     user_id: 'b07705053',
     password: 'pjl', 
+    group: 'CHINESE',
     GPA: 3.8,
     college: 'Management',
     school: 'University A', 
@@ -14,6 +15,7 @@ const userdata = [
   },{
     user_id: 'b07705027',
     password: '77hsu', 
+    group: 'SPANISH',
     GPA: 4,
     college: 'Management',
     school: 'University B', 
@@ -24,6 +26,7 @@ const userdata = [
   },{
     user_id: 'b07902005',
     password: 'abc', 
+    group: 'JAPANESE',
     GPA: 3.9,
     college: 'EECS',
     school: 'University A', 
@@ -34,6 +37,7 @@ const userdata = [
   },{
     user_id: 'b06105032',
     password: 'julie', 
+    group: 'GENERAL',
     GPA: 4.2,
     college: 'Literature',
     school: 'University D', 
@@ -46,49 +50,49 @@ const userdata = [
 
 const commentdata = [
   {
-    author: "60d3f97208ab2c069cbdaf55",
+    author: "60d68d443bec192eecfffabe",
     content: "Introduce yourself!",
-    followers: ["60d3f97208ab2c069cbdaf56", "60d3f97208ab2c069cbdaf57"], 
-    replies: ["60d401f8105176542801f43b", "60d401f8105176542801f43c"],
+    followers: ["60d68d443bec192eecfffabb", "60d68d443bec192eecfffabc"], 
+    replies: ["60d699e039fafb1de405c40a", "60d699e039fafb1de405c40b"],
   }, {
-    author: "60d3f97208ab2c069cbdaf56",
-    content: "Hi!",
-    followers: ["60d3f97208ab2c069cbdaf55"], 
-    replies: ["60d401f8105176542801f43d"],
+    author: "60d68d443bec192eecfffabd",
+    content: "Hi Japan!",
+    group: 'JAPANESE',
+  }, {
+    author: "60d68d443bec192eecfffabc",
+    content: "Hi Spanish!",
+    group: 'SPANISH'
   }
 ]
 
 const replydata = [
   {
-    author: "60d3f97208ab2c069cbdaf55",
-    comment: "60d400ca363aa9340c16d850",
+    author: "60d68d443bec192eecfffabb",
+    comment: "60d69962c1b0712b008f7250",
     content: "Hi I am PJL",
   }, {
-    author: "60d3f97208ab2c069cbdaf56",
-    comment: "60d400ca363aa9340c16d850",
+    author: "60d68d443bec192eecfffabc",
+    comment: "60d69962c1b0712b008f7250",
     content: "Hi I am 77",
-  }, {
-    author: "60d3f97208ab2c069cbdaf55",
-    comment: "60d400ca363aa9340c16d851",
-    content: "Bye",
-  }
+  },
 ]
 
 const dataInit = async () => {
+  // await db.users.deleteMany({})
   var checkData = await db.users.find()
-  if (!checkData.length) {
+  if (!checkData.length) 
     await db.users.insertMany(userdata)
-  }
+  
+  // await db.comments.deleteMany({})
   checkData = await db.comments.find()
-  if (!checkData.length) {
+  if (!checkData.length) 
     await db.comments.insertMany(commentdata)
-  }
-  // await db.CommentModel.updateOne({"content": "Introduce yourself!"}, {$set: {"replies": ["60d401f8105176542801f43b", "60d401f8105176542801f43c"]}})
-  // await db.CommentModel.updateOne({"content": "Hi!"}, {$set: {"replies": ["60d401f8105176542801f43d"]}})
+  // await db.comments.updateOne({ content: 'Introduce yourself!' }, { $set: { "replies": ["60d699e039fafb1de405c40a", "60d699e039fafb1de405c40b"]} })
+
+  // await db.replies.deleteMany({})
   checkData = await db.replies.find()
-  if (!checkData.length) {
+  if (!checkData.length) 
     await db.replies.insertMany(replydata)
-  }
 }
 
 export default dataInit;

@@ -1,18 +1,20 @@
 type Query {
-  users(UID: String): [User]
-  comments(type: QueryType!, data: String): [Comment!]!
+  users(UID: String, group: GroupType): [User]
+  comments(group: GroupType, type: QueryType, data: String): [Comment!]!
   replies(cmtID: ID!): [Reply!]!
 }
 
 type Mutation {
-  createUser(UID: String!, password: String!): User!
+  createUser(UID: String!, password: String!, group: GroupType!): User!
   updateUser(UID: String!, data: UpdateUserInput!): User!
-  createComment(UID: String!, content: String!): Comment!
-  deleteComment(id: String!): Comment!
-  updateComment(id: String!, data: UpdateCommentInput!): Comment!
-  createReply(data: CreateReplyInput!): Reply!
-  deleteReply(id: String!): Reply!
-  updateReply(id: String!, data: UpdateReplyInput!): Reply!
+  
+  createComment(UID: String!, content: String!, group: GroupType): Comment
+  deleteComment(CID: String!): String
+  updateComment(CID: String!, data: UpdateCommentInput!): Comment!
+  
+  createReply(UID: String!, CID: String!, content: String!): Reply!
+  deleteReply(RID: String!): Reply!
+  updateReply(RID: String!, data: UpdateReplyInput!): Reply!
 }
 
 type Subscription {
@@ -37,12 +39,6 @@ input UpdateCommentInput {
   replies: [ID!]
 }
 
-input CreateReplyInput {
-  author: ID!
-  comment: ID!
-  content: String!
-}
-
 input UpdateReplyInput {
   author: String!
   comment: ID!
@@ -52,7 +48,8 @@ input UpdateReplyInput {
 type User {
   id: ID!
   UID: String!
-  password: String
+  password: String!
+  group: GroupType!
   GPA: Float
   college: String
   school: String
@@ -65,6 +62,7 @@ type User {
 type Comment {
   id: ID!
   author: User!
+  group: GroupType
   content: String!
   followers: [User!]
   replies: [Reply!]
@@ -87,6 +85,16 @@ enum QueryType {
   SEARCH
   SELF
   FOLLOW
+}
+
+enum GroupType {
+  GENERAL
+  FRENCH
+  JAPANESE
+  SPANISH
+  KOREAN
+  GERMAN
+  CHINESE
 }
 
 type CommentSubscriptionPayload {
