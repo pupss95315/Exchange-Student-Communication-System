@@ -3,13 +3,13 @@ import Comment from "./Comment";
 import Sort from "./Sort";
 import CommentForm from "./CommentForm";
 import { Row, Col, Card, Container, Nav, Form, Button, Alert, Modal } from 'react-bootstrap';
-// import { useQuery, useMutation } from '@apollo/react-hooks';
-// import {
-//     CREATE_COMMENT_MUTATION,
-//     DELETE_COMMENT_MUTATION,
-//     UPDATE_COMMENT_MUTATION,
-//     COMMENT_QUERY
-// } from '../graphql';
+import { useQuery, useMutation } from '@apollo/client';
+import {
+    CREATE_COMMENT_MUTATION,
+    DELETE_COMMENT_MUTATION,
+    UPDATE_COMMENT_MUTATION,
+    COMMENT_QUERY
+} from '../graphql';
 
 const Bulletin = ({me}) => {
     const [comments, setComments] = useState([]);
@@ -19,7 +19,7 @@ const Bulletin = ({me}) => {
     const [isAlert, setIsAlert] = useState(false);
 
     // Mutation functions
-    // const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
+    const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
     // const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
     // const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
 
@@ -48,11 +48,11 @@ const Bulletin = ({me}) => {
     //   setShow(true);
     // };
 
-    const addCmt = text => {
-      const newComments = [...comments, text];
-      setComments(newComments);
-      //setShow(true);
-    };
+    // const addCmt = text => {
+    //   const newComments = [...comments, text];
+    //   setComments(newComments);
+    //   //setShow(true);
+    // };
 
     const removeComment = id => {
         const newComments = [...comments];

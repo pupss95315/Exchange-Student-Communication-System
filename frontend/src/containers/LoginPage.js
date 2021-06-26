@@ -34,7 +34,6 @@ const LoginPage = () => {
     }, [data, loading]);
     
     const handleAfterQuery = () => {
-        
         if(page === "login"){
             if(! data.users[0]){
                 setMsg("序號不存在")
@@ -49,9 +48,9 @@ const LoginPage = () => {
                 setShow(true)
             }
             else{
-                alert(true)
                 setValidated(true)
-                history.push(`/mainPage`)
+                window.localStorage.setItem("id", UID)
+                history.push(`/mainPage/${UID}`)
             }
         }
         else{
@@ -95,7 +94,9 @@ const LoginPage = () => {
     )
 
     const handleLogin = (e) => {
+        e.preventDefault()
         if(e.currentTarget.checkValidity()){
+            //console.log(true)
             queryUser({ variables: { UID: UID }})
         }
         else{

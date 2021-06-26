@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -14,16 +14,22 @@ import {
 // ];
 
 
-const InfoPage = (props) => {
+const InfoPage = props => {
     const [infoList, setInfoList] = useState([]);
+    const { match } = props;
+    let {id} = match.params;
 
     // Mutation function
     // const [updateUser] = useMutation(UPDATE_USER_MUTATION);
 
     // Query function
-    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY);
-    console.log(data)
-
+    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {UID: id}});
+    useEffect(() => {
+      if(data){
+        console.log(data)
+        setInfoList(data.users)
+      }
+    }, [data])
     // infoList = data;
     
     const [show, setShow] = useState(false);
@@ -35,7 +41,7 @@ const InfoPage = (props) => {
 
     const nonEditableRows = () => {
       return infoList && infoList.filter((title) => {
-        return title.UID !== "G10";})
+        return title.user_id !== id;})
         .map(title => title.UID)
     }
 
@@ -82,7 +88,7 @@ const InfoPage = (props) => {
 
 
     const columns = [{
-        dataField: 'UID',
+        dataField: 'user_id',
         text: '序號',
         active: false
       }, {
@@ -93,7 +99,7 @@ const InfoPage = (props) => {
         text: '複查成績'
       }, 
       {
-        dataField: 'College',
+        dataField: 'college',
         text: '學院',
         editor: {
             type: Type.SELECT,
@@ -121,7 +127,7 @@ const InfoPage = (props) => {
             }]
         }
       }, {
-        dataField: 'School',
+        dataField: 'school',
         text: '錄取學校'
       }, {
         dataField: 'isRegistered',
@@ -137,7 +143,7 @@ const InfoPage = (props) => {
             }]
         }
       },{
-        dataField: 'Duration',
+        dataField: 'duration',
         text: '預計交換期間',
         editor: {
             type: Type.SELECT,
@@ -153,13 +159,13 @@ const InfoPage = (props) => {
             }]
         }
       }, {
-        dataField: 'LanguageExam',
+        dataField: 'languageExam',
         text: '語言檢定'
       }, {
         dataField: 'isCollegeExchange',
         text: '院級交換'
       }, {
-        dataField: 'Application',
+        dataField: 'application',
         text: '預計志願'
       }];
     return(
@@ -171,11 +177,14 @@ const InfoPage = (props) => {
               <h6 style={{color:"grey", fontWeight: "lighter"}} className="mb-4">祝大家都可以申請到喜歡的學校！</h6>
           </div>
           <BootstrapTable 
-              keyField="UID" 
+              keyField="user_id" 
               data={infoList} 
               columns={columns}
               cellEdit={cellEdit}
-          />
+              className="align-items-center justify-content-center"
+              headerAlign='center'
+          >
+          </BootstrapTable >
         </Container>
       </>
     )

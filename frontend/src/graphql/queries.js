@@ -4,6 +4,7 @@ export const USER_QUERY = gql`
   query($UID: String){
     users(UID: $UID){
       id,
+      user_id,
       password,
       GPA,
       college,
@@ -21,7 +22,7 @@ export const COMMENT_QUERY = gql`
     comments{
         id,
         author{
-            id
+            user_id
         },
         content,
         followers{
