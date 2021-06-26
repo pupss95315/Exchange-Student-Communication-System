@@ -181,25 +181,27 @@ const LoginPage = () => {
     )
     const register = (
         <>
-            <Form noValidate validated={validated} onSubmit={handleRegister}>
-                <Form.Group size="lg" controlId="regisUID">
-                    <Form.Label>交換學生序號</Form.Label>
+            <Form noValidate validated={validated} onSubmit={handleRegister} style={{width: "60%"}}>
+                <Form.Group size="lg" controlId="regisUID" className="mb-4">
                     <Form.Control
                         autoFocus
                         required
                         type="text"
                         value={regisUID}
+                        placeholder="交換學生序號"
+                        style={{borderRadius: "30px"}}
                         onChange={(e) => setRegisUID(e.target.value)}
                         className="form-control"
                     />
                     {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
-                    <Form.Label>密碼</Form.Label>
                     <Form.Control
                         required
                         type="password"
                         value={regisPassword}
+                        placeholder="密碼"
+                        style={{borderRadius: "30px"}}
                         onChange={(e) => setRegisPassword(e.target.value)}
                     />
                     {/* <Form.Control.Feedback type="invalid">
@@ -207,7 +209,7 @@ const LoginPage = () => {
                     </Form.Control.Feedback> */}
                 </Form.Group>
                 {/* <OverlayTrigger placement="top" overlay={renderTooltip}> */}
-                <Button variant="dark" block size="lg" type="submit"> 註冊 </Button>
+                <Button variant="secondary" style={{borderRadius: "30px"}} block size="lg" type="submit"> 註冊 </Button>
                 {/* </OverlayTrigger> */}
                 {/* <OverlayTrigger
                   key="top"

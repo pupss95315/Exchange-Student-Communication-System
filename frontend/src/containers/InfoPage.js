@@ -14,11 +14,6 @@ import {
 // ];
 
 const InfoPage = props => {
-    const MyEnum = {
-      CHINESE: "CHINESE"
-    }
-    
-    console.log(MyEnum.CHINESE)
     
     const [infoList, setInfoList] = useState([]);
     const { match } = props;
@@ -26,10 +21,21 @@ const InfoPage = props => {
 
     // Mutation function
     // const [updateUser] = useMutation(UPDATE_USER_MUTATION);
-
-    // Query function
-
-    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: "CHINESE"}});
+    const collegeMapping = {
+      "C1": "文學院",
+      "C2": "理學院",
+      "C3": "社科院",
+      "C4": "醫學院",
+      "C5": "工學院",
+      "C6": "生農學院",
+      "C7": "管院",
+      "C8": "公衛學院",
+      "C9": "電資學院",
+      "CA": "法學院",
+      "C8": "生科院"
+    }
+    
+    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: group}});
     useEffect(() => {
       if(data){
         console.log(data)

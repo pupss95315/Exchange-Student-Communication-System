@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const USER_QUERY = gql`
-  query($UID: String){
-    users(UID: $UID){
+  query($UID: String, $group: GroupType){
+    users(UID: $UID, group: $group){
       id,
       user_id,
       password,
