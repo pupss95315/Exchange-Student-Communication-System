@@ -16,6 +16,16 @@ const Mutation = {
 
     return user;
   },
+  updateUser(parent, { UID, data }, { db, pubsub }, info) {
+    db.users.findOne({ user_id: UID }, function(err, user) {
+      if (!user) {
+        throw new Error ('User not exist');
+      } 
+    });
+    db.users.updateOne({ user_id: UID }, { $set: { data } })
+    
+    return "success";
+  },
   createComment(parent, args, { db, pubsub }, info) {
     db.users.findOne({user_id: args.UID}, function(err, user) {
       if (!user) {
@@ -30,6 +40,28 @@ const Mutation = {
       
       return comment;
     });
+  },
+  updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
+    db.comments.findOne({_id: mongodb.ObjectId(CID)}, function(err, comment) {
+      console.log(comment);
+      if (!comment) {
+        throw new Error ('Comment not exist');
+      } 
+      switch (type) {
+        case "EDIT":
+          db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $set: { content: data } })
+          return "success";
+        case "FOLLOW":
+          if (db.comments.findOne({ replies: { $in: data } })) {
+            db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $pull: { followers: mongodb.ObjectId(data) } })
+          } else
+            db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $push: { followers: mongodb.ObjectId(data) } })
+          return "success";
+        default:
+          break;
+      }
+    });    
+    return "success";
   },
   deleteComment(parent, args, { db, pubsub }, info) {
     db.comments.findOne({_id: mongodb.ObjectId(args.CID)}, function(err, comment) {
@@ -78,73 +110,16 @@ const Mutation = {
       }
     });
   },
-  // updatePost(parent, args, { db, pubsub }, info) {
-  //   const { id, data } = args;
-  //   const post = db.posts.find((post) => post.id === id);
-  //   const originalPost = { ...post };
-
-  //   if (!post) {
-  //     throw new Error('Post not found');
-  //   }
-
-  //   if (typeof data.title === 'string') {
-  //     post.title = data.title;
-  //   }
-
-  //   if (typeof data.body === 'string') {
-  //     post.body = data.body;
-  //   }
-
-  //   if (typeof data.published === 'boolean') {
-  //     post.published = data.published;
-
-  //     if (originalPost.published && !post.published) {
-  //       pubsub.publish('post', {
-  //         post: {
-  //           mutation: 'DELETED',
-  //           data: originalPost,
-  //         },
-  //       });
-  //     } else if (!originalPost.published && post.published) {
-  //       pubsub.publish('post', {
-  //         post: {
-  //           mutation: 'CREATED',
-  //           data: post,
-  //         },
-  //       });
-  //     }
-  //   } else if (post.published) {
-  //     pubsub.publish('post', {
-  //       post: {
-  //         mutation: 'UPDATED',
-  //         data: post,
-  //       },
-  //     });
-  //   }
-
-  //   return post;
-  // },
-  // updateComment(parent, args, { db, pubsub }, info) {
-  //   const { id, data } = args;
-  //   const comment = db.comments.find((comment) => comment.id === id);
-
-  //   if (!comment) {
-  //     throw new Error('Comment not found');
-  //   }
-
-  //   if (typeof data.text === 'string') {
-  //     comment.text = data.text;
-  //   }
-
-  //   pubsub.publish(`comment ${comment.post}`, {
-  //     comment: {
-  //       mutation: 'UPDATED',
-  //       data: comment,
-  //     },
-  //   });
-
-  //   return comment;
-  // },
+  updateReply(parent, { RID, content }, { db, pubsub }, info) {
+    db.replies.findOne({_id: mongodb.ObjectId(RID)}, function(err, reply) {
+      console.log(reply);
+      if (!reply) {
+        throw new Error ('Reply not exist');
+      } 
+      db.replies.updateOne({ _id: mongodb.ObjectId(RID) }, { $set: { content: data } })
+      return "success";
+    });    
+  },
 };
 
 export { Mutation as default };

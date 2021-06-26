@@ -6,15 +6,15 @@ type Query {
 
 type Mutation {
   createUser(UID: String!, GPA: Float!, group: GroupType!): User!
-  updateUser(UID: String!, data: UpdateUserInput!): User!
+  updateUser(UID: String!, data: UpdateUserInput!): String!
   
   createComment(UID: String!, content: String!, group: GroupType): Comment
-  deleteComment(CID: String!): String
-  updateComment(CID: String!, data: UpdateCommentInput!): Comment!
+  deleteComment(CID: String!): String!
+  updateComment(CID: String!, type: UpdateType!, data: String!): Comment!
   
   createReply(UID: String!, CID: String!, content: String!): Reply!
   deleteReply(RID: String!): Reply!
-  updateReply(RID: String!, data: UpdateReplyInput!): Reply!
+  updateReply(RID: String!, content: String!): Reply!
 }
 
 type Subscription {
@@ -22,9 +22,9 @@ type Subscription {
 }
 
 input UpdateUserInput {
-  password: String!
+  password: String
   GPA: Float
-  college: String
+  college: CollegeType
   school: String
   isRegistered: Boolean 
   duration: String
@@ -33,16 +33,8 @@ input UpdateUserInput {
 }
 
 input UpdateCommentInput {
-  author: ID!
   content: String!
   followers: [ID!]
-  replies: [ID!]
-}
-
-input UpdateReplyInput {
-  author: String!
-  comment: ID!
-  content: String!
 }
 
 type User {
@@ -84,6 +76,11 @@ enum MutationType {
 enum QueryType {
   SEARCH
   SELF
+  FOLLOW
+}
+
+enum UpdateType {
+  EDIT
   FOLLOW
 }
 
