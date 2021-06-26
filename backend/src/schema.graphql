@@ -8,7 +8,7 @@ type Mutation {
   createUser(UID: String!, GPA: Float!, group: GroupType!): User!
   updateUser(UID: String!, data: UpdateUserInput!): String!
   
-  createComment(UID: String!, content: String!, group: GroupType): Comment
+  createComment(UID: String!, content: String!, group: GroupType): Comment!
   deleteComment(CID: String!): String!
   updateComment(CID: String!, type: UpdateType!, data: String!): Comment!
   

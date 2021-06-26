@@ -27,6 +27,7 @@ const Mutation = {
     return "success";
   },
   createComment(parent, args, { db, pubsub }, info) {
+    var u_id;
     db.users.findOne({user_id: args.UID}, function(err, user) {
       if (!user) {
         throw new Error ('User not exist');
@@ -34,12 +35,13 @@ const Mutation = {
       if (args.group && args.group !== user.group) {
         throw new Error ('User cannot leave comment in the other groups');
       }
-      var comment = new db.comments({ author: user._id, ...args });
-      console.log(comment);
-      comment.save();
-      
-      return comment;
+      u_id = user._id;
     });
+    var comment = new db.comments({ author: u_id, ...args });
+    console.log(comment);
+    comment.save();
+    
+    return comment;
   },
   updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
     db.comments.findOne({_id: mongodb.ObjectId(CID)}, function(err, comment) {
