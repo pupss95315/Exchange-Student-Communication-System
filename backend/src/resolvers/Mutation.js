@@ -2,16 +2,15 @@
 import mongodb from 'mongodb'
 
 const Mutation = {
-  createUser(parent, { UID, password, groupType }, { db, pubsub }, info) {
+  createUser(parent, { UID, GPA, group }, { db, pubsub }, info) {
     db.users.findOne({user_id: UID}, function(err, existuser) {
-      // console.log(existuser)
       if (existuser) {
         throw new Error ('User already exist');
         // console.log('User already exist');
         // return existuser;
       } 
     });
-    var user = new db.users({user_id: UID, password: password, group: groupType});
+    var user = new db.users({user_id: UID, GPA: GPA, group: group});
     console.log(user);
     user.save();
 
@@ -28,6 +27,7 @@ const Mutation = {
       var comment = new db.comments({ author: user._id, ...args });
       console.log(comment);
       comment.save();
+      
       return comment;
     });
   },

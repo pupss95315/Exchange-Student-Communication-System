@@ -5,7 +5,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(UID: String!, password: String!, group: GroupType!): User!
+  createUser(UID: String!, GPA: Float!, group: GroupType!): User!
   updateUser(UID: String!, data: UpdateUserInput!): User!
   
   createComment(UID: String!, content: String!, group: GroupType): Comment
@@ -47,11 +47,11 @@ input UpdateReplyInput {
 
 type User {
   id: ID!
-  UID: String!
-  password: String!
+  user_id: String!
   group: GroupType!
-  GPA: Float
-  college: String
+  GPA: Float!
+  password: String
+  college: CollegeType
   school: String
   isRegistered: Boolean 
   duration: String
@@ -95,6 +95,20 @@ enum GroupType {
   KOREAN
   GERMAN
   CHINESE
+}
+
+enum CollegeType {
+  C1
+  C2
+  C3
+  C4
+  C5
+  C6
+  C7
+  C8
+  C9
+  CA
+  CB
 }
 
 type CommentSubscriptionPayload {
