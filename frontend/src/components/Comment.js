@@ -6,6 +6,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutlined';
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 import ReplyOutlinedIcon from '@material-ui/icons/ReplyOutlined';
+import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import { Accordion, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import {
@@ -145,7 +146,7 @@ const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
     return (
         <div className="mb-4">
             <div className="mt-2 d-flex justify-content-between button">
-                <div className="mt-2 d-flex justify-content-start button">
+                <div className="mt-2 d-flex align-items-center justify-content-start button">
                     <AccountCircleIcon color="action" className="mr-2" style={{ fontSize:"45" }}></AccountCircleIcon>
                     <div>
                         <h6 className="mb-0">G01</h6>
@@ -153,32 +154,21 @@ const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
                     </div>
                 </div>
                 <div className="d-flex align-items-center">
-                    {
-                        isFocus ? 
-                        <FavoriteIcon color="secondary" onClick={(e) => handleFocus(e)}></FavoriteIcon > :
-                        <FavoriteBorderOutlinedIcon onClick={(e) => handleFocus(e)}></FavoriteBorderOutlinedIcon>
-                    }
-                    <span className='mr-3 ml-3'>{focusNum}</span>
-                    <ModeCommentOutlinedIcon variant="outline-dark" >回覆</ModeCommentOutlinedIcon>
-                    <span className='mr-3 ml-3'>{replyNum}</span> 
-                    <ReplyOutlinedIcon  className='ml-3' color={isReplied?"disabled":"outline-dark"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
-                    {isReplied ? <ReplyForm addReply={addReply} />:null}
+                    <Button variant="outline-secondary" size="sm" onClick={() => editCmt(id)}>編輯</Button>
+                    <a className='ml-3' style={{color: "grey"}}variant="light" onClick={() => deleteCmt(id)}>
+                        <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
+                    </a>
                 </div>
-                
-                {/* <div>
-                    <Button variant="outline-dark" size="sm" onClick={() => props.editComment(props.id)}>編輯</Button>
-                    <Button className='ml-3' variant="outline-dark" size="sm" onClick={() => props.removeComment(props.id)}>x</Button>
-                </div> */}
             </div>
-            <Accordion className='mt-3'defaultActiveKey="1">
+            <Accordion className='mt-4'defaultActiveKey="1">
                 <Card>
-                    <Accordion.Toggle md="8" as={Card.Header} eventKey="0" className="d-flex pl-2">
+                    <Accordion.Toggle md="8" style={{ backgroundColor: "white"}}as={Card.Header} eventKey="0" className="d-flex pl-2">
                         {/* <span className="font-weight-bold mr-3">{id}</span> */}
-                        <span>{comment}</span>
+                        <span style={{fontSize:"18px"}}>{comment}</span>
                     </Accordion.Toggle>
                     {replies.length === 0 ? 
                         (<Accordion.Collapse eventKey="0">
-                            <Card.Body>
+                            <Card.Body style={{fontSize:"18px"}}>
                                 目前尚無回覆
                             </Card.Body>
                         </Accordion.Collapse>) :
@@ -197,6 +187,18 @@ const Comment = ({key, id, comment, deleteCmt, updateCmt, editCmt}) => {
                     }
                 </Card>
             </Accordion>
+            <div className="mt-4 mr-3 d-flex justify-content-end align-items-center">
+                    {
+                        isFocus ? 
+                        <FavoriteIcon style={{color: "red"}} onClick={(e) => handleFocus(e)}></FavoriteIcon > :
+                        <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={(e) => handleFocus(e)}></FavoriteBorderOutlinedIcon>
+                    }
+                    <span className='mr-3 ml-3'>{focusNum}</span>
+                    <ModeCommentOutlinedIcon style={{color: "grey"}} >回覆</ModeCommentOutlinedIcon>
+                    <span className='mr-3 ml-3'>{replyNum}</span> 
+                    <ReplyOutlinedIcon color={isReplied?"disabled":"grey"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
+                    {isReplied ? <ReplyForm addReply={addReply} />:null}
+            </div>
         </div>
     )
 };

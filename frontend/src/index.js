@@ -40,13 +40,13 @@ const client = new ApolloClient({
 })
 
 ReactDOM.render(
-    <ApolloProvider client={client}>
-        <BrowserRouter>
-            <Switch>
-                <App />
-            </Switch>
-        </BrowserRouter>
-    </ApolloProvider>,
+    <BrowserRouter>
+        <ApolloProvider client={client}>   
+            {/* <Switch> */}
+            <App />
+            {/* </Switch> */}
+        </ApolloProvider>
+    </BrowserRouter>,
     document.getElementById("root")
 );
 

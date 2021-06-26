@@ -35,8 +35,8 @@ const SearchBar = (props) => {
                     </Form.Control>
                 </div>
             </Col> */}
-            <Col className="d-flex">
-                <Form.Control placeholder="搜尋" />
+            <Col className="d-flex" >
+                <Form.Control placeholder="搜尋"/>
                 <Button type="submit"  variant="secondary" size="sm" ><SearchIcon></SearchIcon></Button>    
             </Col>
         </Form.Row>

@@ -25,13 +25,16 @@ const LoginPage = () => {
     const [validated, setValidated] = useState(false);
     //const [isCorrectPsw, setIsCorrectPsw] = useState(false)
     const history = useHistory();
+    // const location = useLocation();
     useEffect(() => {
         if (data && !loading) {
+            console.log(data)
             handleAfterQuery()
         }
     }, [data, loading]);
-      
+    
     const handleAfterQuery = () => {
+        
         if(page === "login"){
             if(! data.users[0]){
                 setMsg("序號不存在")
@@ -46,8 +49,9 @@ const LoginPage = () => {
                 setShow(true)
             }
             else{
-                history.push(`/mainPage`)
+                alert(true)
                 setValidated(true)
+                history.push(`/mainPage`)
             }
         }
         else{
@@ -218,8 +222,8 @@ const LoginPage = () => {
             </Form>
         </>
     )
-    if (loading) return <p>ERROR</p>;
-    if (error) return <p>ERROR</p>;
+    // if (loading) return <p>ERROR</p>;
+    // if (error) return <p>ERROR</p>;
     return (
         <Container className="center d-flex justify-content-center">
             {showAlert}

@@ -2,7 +2,7 @@ import { Form } from 'react-bootstrap';
 import SortIcon from '@material-ui/icons/Sort';
 const Sort = ({sort, setSort}) => {
     return(
-        <div md="7" className="d-flex align-items-center justify-content-end"> 
+        <div md="7" className="ml-3 d-flex align-items-center justify-content-end"> 
             <h5 style={{ width: '80%', fontSize: "18px", color:"grey", fontWeight: "lighter"}}>排序依</h5>
             <Form.Control as="select" value={sort} className="ml-3 mb-2" style={{ width: '20%', fontSize: "18px", borderRadius: "20px" }} onChange={e => setSort(e.target.value)}>
                 <option value="最新">最新</option>
