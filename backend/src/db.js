@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
   user_id: { type: String, required: true },
-  password: String,
+  password: { type: String, required: true },
+  group: { type: String, required: true },
   GPA: Number,
   college: String,
   school: String,
@@ -19,6 +20,7 @@ const commentSchema = new Schema({
   content: { type: String, required: true },
   followers: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
   replies: [{ type: mongoose.Types.ObjectId, ref: 'replies' }],
+  group: String,
 });
 
 const replySchema = new Schema({

@@ -2,46 +2,79 @@
 import mongodb from 'mongodb'
 
 const Mutation = {
-  createUser(parent, {UID, password}, { db, pubsub }, info) {
+  createUser(parent, { UID, password, groupType }, { db, pubsub }, info) {
     db.users.findOne({user_id: UID}, function(err, existuser) {
       // console.log(existuser)
       if (existuser) {
         throw new Error ('User already exist');
-        console.log('User already exist');
-        return existuser;
+        // console.log('User already exist');
+        // return existuser;
       } 
     });
-    var user = new db.users({user_id: UID, password: password});
+    var user = new db.users({user_id: UID, password: password, group: groupType});
     console.log(user);
     user.save();
 
     return user;
   },
-  createComment(parent, {UID, content}, { db, pubsub }, info) {
-    db.users.findOne({user_id: UID}, function(err, user) {
-      // console.log(user)
+  createComment(parent, args, { db, pubsub }, info) {
+    db.users.findOne({user_id: args.UID}, function(err, user) {
       if (!user) {
         throw new Error ('User not exist');
-      } else {
-        var comment = new db.comments({author: user._id, content: content});
-        console.log(comment);
-        comment.save();
-    
-        return comment;    
+      } 
+      if (args.group && args.group !== user.group) {
+        throw new Error ('User cannot leave comment in the other groups');
       }
+      var comment = new db.comments({ author: user._id, ...args });
+      console.log(comment);
+      comment.save();
+      return comment;
     });
   },
   deleteComment(parent, args, { db, pubsub }, info) {
-    db.comments.findOne({_id: mongodb.ObjectId(args.cmtId)}, function(err, comment) {
+    db.comments.findOne({_id: mongodb.ObjectId(args.CID)}, function(err, comment) {
       console.log(comment);
       if (!comment) {
-        // throw new Error ('Comment not exist');
-        console.log("not exist");
-        return "Comment not exist";
+        throw new Error ('Comment not exist');
+        // var msg = "Comment not exist";
+        // console.log(msg);
+        // return msg;
       } else {
-        db.comments.deleteOne({_id: mongodb.ObjectId(args.cmtId)});
-        console.log("success");
-        return "Deleted successfully";
+        db.comments.deleteOne({_id: mongodb.ObjectId(args.CID)});
+        var msg = "Comment deleted successfully";
+        console.log(msg);
+        return msg;
+      }
+    });
+  },
+  createReply(parent, { UID, CID, content }, { db, pubsub }, info) {
+    db.comments.findOne({ _id: mongodb.ObjectId(CID) }, function(err, comment) {
+      if (!comment)
+        throw new Error ('comment not exist');
+    });
+    db.users.findOne({ user_id: UID }, function(err, user) {
+      if (!user)
+        throw new Error ('User not exist');
+      // if both author and parent comment are found, create a reply and return it
+      var reply = new db.replies({author: user._id, comment: mongodb.ObjectId(CID),content: content});
+      console.log(reply);
+      reply.save();
+      return reply;
+    });
+  },
+  deleteReply(parent, args, { db, pubsub }, info) {
+    db.replies.findOne({_id: mongodb.ObjectId(args.RID)}, function(err, comment) {
+      console.log(reply);
+      if (!reply) {
+        throw new Error ('Reply not exist');
+        // var msg = "Reply not exist";
+        // console.log(msg);
+        // return msg;
+      } else {
+        db.comments.deleteOne({_id: mongodb.ObjectId(args.RID)});
+        var msg = "Reply deleted successfully";
+        console.log(msg);
+        return msg;
       }
     });
   },
@@ -90,50 +123,6 @@ const Mutation = {
   //   }
 
   //   return post;
-  // },
-  // createComment(parent, args, { db, pubsub }, info) {
-  //   const userExists = db.users.some((user) => user.id === args.data.author);
-  //   const postExists = db.posts.some(
-  //     (post) => post.id === args.data.post && post.published,
-  //   );
-
-  //   if (!userExists || !postExists) {
-  //     throw new Error('Unable to find user and post');
-  //   }
-
-  //   const comment = {
-  //     id: uuidv4(),
-  //     ...args.data,
-  //   };
-
-  //   db.comments.push(comment);
-  //   pubsub.publish(`comment ${args.data.post}`, {
-  //     comment: {
-  //       mutation: 'CREATED',
-  //       data: comment,
-  //     },
-  //   });
-
-  //   return comment;
-  // },
-  // deleteComment(parent, args, { db, pubsub }, info) {
-  //   const commentIndex = db.comments.findIndex(
-  //     (comment) => comment.id === args.id,
-  //   );
-
-  //   if (commentIndex === -1) {
-  //     throw new Error('Comment not found');
-  //   }
-
-  //   const [deletedComment] = db.comments.splice(commentIndex, 1);
-  //   pubsub.publish(`comment ${deletedComment.post}`, {
-  //     comment: {
-  //       mutation: 'DELETED',
-  //       data: deletedComment,
-  //     },
-  //   });
-
-  //   return deletedComment;
   // },
   // updateComment(parent, args, { db, pubsub }, info) {
   //   const { id, data } = args;
