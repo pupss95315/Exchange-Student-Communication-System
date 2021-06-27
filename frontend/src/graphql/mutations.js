@@ -23,13 +23,13 @@ export const CREATE_COMMENT_MUTATION = gql`
 `;
 
 export const DELETE_COMMENT_MUTATION = gql`
-  mutation deleteComment($CID: String!) {
+  mutation deleteComment($CID: ID!) {
         deleteComment(CID: $CID)
     }
 `;
 
 export const UPDATE_COMMENT_MUTATION = gql`
-  mutation updateComment($CID: String!, $type: UpdateType!, $data: String!) {
+  mutation updateComment($CID: ID!, $type: UpdateType!, $data: String!) {
     updateComment(CID: $CID, type: $type, data: $data){
             id, 
             content
@@ -38,7 +38,7 @@ export const UPDATE_COMMENT_MUTATION = gql`
 `;
 
 export const CREATE_REPLY_MUTATION = gql`
-  mutation createReply($UID: String!, $CID: String!, $content: String!) {
+  mutation createReply($UID: String!, $CID: ID!, $content: String!) {
     createReply(UID: $UID, CID: $CID, content: $content){
             id,
             content
@@ -47,8 +47,8 @@ export const CREATE_REPLY_MUTATION = gql`
 `;
 
 export const DELETE_REPLY_MUTATION = gql`
-  mutation deleteReply($id: ID!) {
-    deleteReply(id: $id){
+  mutation deleteReply($RID: ID!) {
+    deleteReply(RID: $RID){
             id,
             content
         }
