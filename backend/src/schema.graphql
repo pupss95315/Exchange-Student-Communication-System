@@ -1,7 +1,6 @@
 type Query {
   users(UID: String, group: GroupType): [User]
   comments(group: GroupType, type: QueryType, data: String): [Comment!]
-  replies(cmtID: ID!): [Reply!]!
 }
 
 type Mutation {
