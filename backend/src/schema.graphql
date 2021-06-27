@@ -1,7 +1,6 @@
 type Query {
   users(UID: String, group: GroupType): [User]
   comments(group: GroupType, type: QueryType, data: String): [Comment!]
-  replies(cmtID: ID!): [Reply!]!
 }
 
 type Mutation {
@@ -9,12 +8,12 @@ type Mutation {
   updateUser(UID: String!, data: UpdateUserInput!): String!
   
   createComment(UID: String!, content: String!, group: GroupType): Comment!
-  deleteComment(CID: String!): String!
-  updateComment(CID: String!, type: UpdateType!, data: String!): Comment!
+  deleteComment(CID: ID!): String!
+  updateComment(CID: ID!, type: UpdateType!, data: String!): Comment!
   
-  createReply(UID: String!, CID: String!, content: String!): Reply!
-  deleteReply(RID: String!): Reply!
-  updateReply(RID: String!, content: String!): Reply!
+  createReply(UID: String!, CID: ID!, content: String!): Reply!
+  deleteReply(RID: ID!): Reply!
+  updateReply(RID: ID!, content: String!): Reply!
 }
 
 type Subscription {
@@ -58,6 +57,7 @@ type Comment {
   content: String!
   followers: [User!]
   replies: [Reply!]
+  datetime: String!
 }
 
 type Reply {
@@ -65,6 +65,7 @@ type Reply {
   author: User!
   comment: Comment!
   content: String!
+  datetime: String!
 }
 
 enum MutationType {
