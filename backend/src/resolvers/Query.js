@@ -9,7 +9,7 @@ const Query = {
     // if no filter, return all users
     return db.users;  
   },
-  comments(parent, args, { db }, info) {
+  async comments(parent, args, { db }, info) {
     var comments = db.comments;
     if (args.group) {
       comments = db.comments.find({ group: args.group });
@@ -29,6 +29,7 @@ const Query = {
     if (args.type === 'FOLLOW') {  
       return comments.find({ followers: args.data });
     }
+    return comments;
   },
   replies(parent, args, { db }, info) {
     // return all replies under a specified comment

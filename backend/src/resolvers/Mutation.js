@@ -2,7 +2,7 @@
 import mongodb from 'mongodb'
 
 const Mutation = {
-  createUser(parent, { UID, GPA, group }, { db, pubsub }, info) {
+  async createUser(parent, { UID, GPA, group }, { db, pubsub }, info) {
     db.users.findOne({user_id: UID}, function(err, existuser) {
       if (existuser) {
         throw new Error ('User already exist');
@@ -26,8 +26,9 @@ const Mutation = {
     
     return "success";
   },
-  createComment(parent, args, { db, pubsub }, info) {
+  async createComment(parent, args, { db, pubsub }, info) {
     var u_id;
+    // console.log("u_id: ", u_id)
     db.users.findOne({user_id: args.UID}, function(err, user) {
       if (!user) {
         throw new Error ('User not exist');
@@ -36,9 +37,11 @@ const Mutation = {
         throw new Error ('User cannot leave comment in the other groups');
       }
       u_id = user._id;
+      console.log("u_id: ", u_id);
     });
-    var comment = new db.comments({ author: u_id, ...args });
-    console.log(comment);
+    var comment = new db.comments({ author: mongodb.ObjectId(u_id), ...args });
+    console.log("comment.author: ", comment.author);
+    // console.log("comment.author._id: ", comment.author._id);
     comment.save();
     
     return comment;
