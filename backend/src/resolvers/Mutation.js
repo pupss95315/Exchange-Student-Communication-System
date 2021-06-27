@@ -50,7 +50,7 @@ const Mutation = {
         return "success";
       case "FOLLOW":
         const follower = await db.users.findOne({ user_id: data });
-        if (await db.comments.findOne({ replies: { $in: data } })) {
+        if (await db.comments.findOne({ replies: { $in: follower._id } })) {
           await db.comments.updateOne({ _id: CID }, { $pull: { followers: follower._id } })
         } else {
           await db.comments.updateOne({ _id: CID }, { $push: { followers: follower._id } })
@@ -62,12 +62,20 @@ const Mutation = {
     return "success";
   },
   async deleteComment(parent, { CID }, { db, pubsub }, info) {
-    const comment = await db.comments.findOne({_id: CID});
+    const comment = await db.comments.findOne({ _id: CID });
     // console.log(comment);
     if (!comment) {
       throw new Error ('Comment not exist');
     }
-    await db.comments.deleteOne({_id: CID});
+
+    // delete all replies under the comment
+    console.log(comment.replies)
+    for (var i = 0; i < comment.replies.length; i++) {
+      await db.replies.deleteOne({ _id: comment.replies[i]._id });
+    }
+    // delete the comment itself
+    await db.comments.deleteOne({ _id: CID });
+
     return "success";
   },
   async createReply(parent, { UID, CID, content }, { db, pubsub }, info) {
@@ -85,6 +93,14 @@ const Mutation = {
     var reply = new db.replies({ author: user._id, comment: CID, content: content, datetime: currenttime });
     console.log(reply);
     reply.save();
+
+    pubsub.publish(`reply ${CID}`, {
+      comment: {
+        mutation: 'CREATED',
+        data: comment
+      }
+    })
+
     return reply;
   },
   async deleteReply(parent, { RID }, { db, pubsub }, info) {
@@ -94,6 +110,14 @@ const Mutation = {
       throw new Error ('Reply not exist');
     }
     await db.comments.deleteOne({ _id: RID });
+
+    pubsub.publish(`reply ${reply.comment._id}`, {
+      comment: {
+        mutation: 'DELETED',
+        data: comment
+      }
+    })
+
     var msg = "success";
     console.log(msg);
     return msg;
@@ -105,6 +129,14 @@ const Mutation = {
       throw new Error ('Reply not exist');
     }
     await db.replies.updateOne({ _id: RID }, { $set: { content: data } })
+
+    pubsub.publish(`reply ${reply.comment._id}`, {
+      comment: {
+        mutation: 'UPDATED',
+        data: comment
+      }
+    })
+
     return "success";
   },
 };

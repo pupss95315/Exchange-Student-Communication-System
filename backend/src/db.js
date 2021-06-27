@@ -28,6 +28,7 @@ const replySchema = new Schema({
   author: { type: mongoose.Types.ObjectId, ref: 'users' },
   content: { type: String, required: true },
   comment: { type: mongoose.Types.ObjectId, ref: 'comments' },
+  datetime: { type: Date, required: true },
 });
   
 const users = mongoose.model('users', userSchema);
