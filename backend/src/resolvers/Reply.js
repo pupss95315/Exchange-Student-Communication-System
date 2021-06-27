@@ -1,13 +1,13 @@
+import mongodb from 'mongodb'
+
 const Reply = {
-  author(parent, args, { db }, info) {
-    return db.users.find((user) => {
-      return user.id === parent.author;
-    });
+  async author(parent, args, { db }, info) {
+    var ret = await db.users.findOne({ _id: mongodb.ObjectId(parent.author._id) });
+    return ret;
   },
-  comment(parent, args, { db }, info) {
-    return db.comments.find((comment) => {
-      return comment.id === parent.comment;
-    });
+  async comment(parent, args, { db }, info) {
+    var ret = await db.comments.findOne({ _id: mongodb.ObjectId(parent.comment._id) });
+    return ret;
   },
 };
 
