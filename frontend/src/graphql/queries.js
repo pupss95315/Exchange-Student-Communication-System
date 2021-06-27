@@ -30,6 +30,10 @@ export const COMMENT_QUERY = gql`
           id
           content
         }
+        followers{
+          user_id
+        }
+        datetime
     }
   }
 `;

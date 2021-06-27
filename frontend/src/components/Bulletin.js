@@ -26,13 +26,22 @@ const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY);
     // console.log(id)
     console.log(data)
+
     const handleDeleteCmt = async (id) => {
       console.log(id)
-      const res = await deleteCmt({ variables: {CID: id } })
+      const res = await deleteCmt({ variables: { CID: id } })
       // if(res.deleteCmt === "success")
       console.log(res)
       setMsg("留言刪除成功")
       setShow(true)
+    }
+
+    const handleFollow = async (CID, type, data) => {
+      // isFocus ? setFocusNum(focusNum - 1) : setFocusNum(focusNum + 1)
+      // setIsFocus(!isFocus)
+      const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
+      // if(res.updateCmt === "success"){
+      //}
     }
     // useEffect(() => {
     //     try {
@@ -102,6 +111,7 @@ const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
             //   updateComment={updateComment}
               isEdit={isEdit}
               handleDeleteCmt={handleDeleteCmt}
+              handleFollow={handleFollow}
             //   updateCmt={updateCmt}
               editComment={editCmt}
           />

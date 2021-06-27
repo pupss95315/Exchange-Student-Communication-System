@@ -16,7 +16,7 @@ import {
     REPLY_QUERY
 } from '../graphql';
 
-const Comment = ({key, UID, comment, handleDeleteCmt, updateCmt, editCmt}) => {
+const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, editCmt}) => {
     //const [input, setInput] = useState(props.comment.text);
     const [replies, setReplies] = useState([]);
     const [isReplyEdit, setReplyEdit] = useState(false);
@@ -86,10 +86,6 @@ const Comment = ({key, UID, comment, handleDeleteCmt, updateCmt, editCmt}) => {
     //     setReplies(newReplies);
     //     setReplyEdit(false)
     // };
-    const handleFocus = (e) => {
-        isFocus ? setFocusNum(focusNum - 1) : setFocusNum(focusNum + 1)
-        setIsFocus(!isFocus)
-    }
 
     /* API function*/
     // const getReply = async () => {
@@ -194,13 +190,13 @@ const Comment = ({key, UID, comment, handleDeleteCmt, updateCmt, editCmt}) => {
             </Accordion>
             <div className="mt-4 mr-3 d-flex justify-content-end align-items-center">
                     {
-                        isFocus ? 
-                        <FavoriteIcon style={{color: "red"}} onClick={(e) => handleFocus(e)}></FavoriteIcon > :
-                        <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={(e) => handleFocus(e)}></FavoriteBorderOutlinedIcon>
+                        comment.followers && comment.followers.length && comment.followers.user_id.includes(UID) ? 
+                        <FavoriteIcon style={{color: "red"}} onClick={() => handleFollow(comment.id, "FOLLOW", UID)}></FavoriteIcon > :
+                        <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={() => handleFollow(comment.id, "FOLLOW", UID)}></FavoriteBorderOutlinedIcon>
                     }
-                    <span className='mr-3 ml-3'>{focusNum}</span>
+                    <span className='mr-3 ml-3'>{comment.followers.length}</span>
                     <ModeCommentOutlinedIcon style={{color: "grey"}} >回覆</ModeCommentOutlinedIcon>
-                    <span className='mr-3 ml-3'>{replyNum}</span> 
+                    <span className='mr-3 ml-3'>{comment.replies.length}</span> 
                     <ReplyOutlinedIcon color={isReplied?"disabled":"grey"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
                     {isReplied ? <ReplyForm UID={UID} CID={comment.id} addReply={addReply} />:null}
             </div>
