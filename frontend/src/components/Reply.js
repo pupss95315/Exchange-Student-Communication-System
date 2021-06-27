@@ -15,7 +15,7 @@ const Reply = ({
             <Card.Body className="d-flex align-items-center justify-content-between">
                 <div>    
                     <AccountCircleIcon className="mr-2" style={{ fontSize:"45", color:"#E0E0E0" }}></AccountCircleIcon>
-                    <span style={{fontSize:"18px"}}>{reply}</span>
+                    <span style={{fontSize:"18px"}}>{reply.content}</span>
                 </div>
                 <div>
                     <Button variant="outline-secondary" size="sm" onClick={() => editReply(id)}>編輯</Button>

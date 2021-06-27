@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import {
-    CREATE_USER_MUTATION,
+    UPDATE_USER_MUTATION,
     USER_QUERY
 } from '../graphql';
 import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
@@ -13,7 +13,7 @@ import InputAdornment from "@material-ui/core/InputAdornment";
 const LoginPage = () => {
     const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY);
     //const [addUser] = useMutation(CREATE_USER_MUTATION)
-    //const [register] = useMutation(UPDATE_USER_MUTATION);
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     
     const [UID, setUID] = useState("");
     const [password, setPassword] = useState("");
@@ -33,13 +33,14 @@ const LoginPage = () => {
         }
     }, [data, loading]);
     
-    const handleAfterQuery = () => {
+    const handleAfterQuery = async () => {
+        console.log(data.users[0].password)
         if(page === "login"){
             if(! data.users[0]){
                 setMsg("序號不存在")
                 setShow(true)
             }
-            else if(!data.users[0].isRegistered){
+            else if(data.users[0].password === null){
                 setMsg("序號未註冊")
                 setShow(true)
             }
@@ -61,13 +62,18 @@ const LoginPage = () => {
                 setMsg("序號不存在")
                 setShow(true)
             }
-            else if(data.users[0].isRegistered){
+            else if(data.users[0].password !== null){
                 setMsg("序號已註冊")
                 setShow(true)
             }
             else{
-                setMsg("註冊成功")
-                setPage(register)
+                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
+                if(msg.data.updateUser === "success"){
+                    console.log(true)
+                    setMsg("註冊成功")
+                    setShow(true)
+                    setPage("login")
+                }
             }
         }
     }

@@ -21,15 +21,15 @@ export const USER_QUERY = gql`
 export const COMMENT_QUERY = gql`
   query{
     comments{
-        id,
         author{
             user_id
-        },
-        content,
-        followers{
-            id
-        },
-        replies
+        }
+        id
+        content
+        replies{
+          id
+          content
+        }
     }
   }
 `;

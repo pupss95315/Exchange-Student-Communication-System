@@ -4,15 +4,18 @@ import CommentForm from "../components/CommentForm";
 import Sort from "../components/Sort";
 import InfoPage from "./InfoPage";
 import '../App.css';
-import { Row, Col, Card, Container, Nav, Button } from 'react-bootstrap';
+import { Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import GradeIcon from '@material-ui/icons/Grade';
+
 const MainPage = props => {
     const [me, setMe] = useState("")
     const [section, setSection] = useState("全體留言板")
     const [sort, setSort] = useState("最新");
     const { match } = props;
+    const [show, setShow] = useState(false);
+    const [msg, setMsg] = useState("")
 
     let {id} = match.params;
     console.log(id)
@@ -120,10 +123,21 @@ const MainPage = props => {
     //   }
     // };
 
+    const showAlert = (
+        <Modal
+            size="sm"
+            show={show}
+            onHide={() => setShow(false)}
+            aria-labelledby="example-modal-sizes-title-sm"
+        >
+            <Modal.Header closeButton>{msg}</Modal.Header>
+        </Modal>
+    )
+
     return( 
         <>
             <Container>
-                {/* {showAlert} */}
+                {showAlert}
                 <div>
                     <h6 style={{fontSize:"60px", textAlign: "center", fontWeight: "bold"}} className="mb-4">交換學生搓湯圓平台</h6>
                     <h1 style={{fontSize:"24px", textAlign: "center", color:"grey", fontWeight: "lighter"}} className="mb-5">一個讓大家搓湯圓的地方</h1>
@@ -168,6 +182,12 @@ const MainPage = props => {
                                 </Row>
                                 <Bulletin 
                                     me={me}
+                                    UID={id}
+                                    show={show}
+                                    setShow={setShow}
+                                    showAlert={showAlert}
+                                    msg={msg}
+                                    setMsg={setMsg}
                                 ></Bulletin>
                             </Card.Body>
                         </Card>

@@ -11,21 +11,29 @@ import {
     COMMENT_QUERY
 } from '../graphql';
 
-const Bulletin = ({me}) => {
+const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
     const [comments, setComments] = useState([]);
     const [isEdit, setEdit] = useState(false);
     const [section, setSection] = useState("全體留言板");
-    const [show, setShow] = useState(false);
     const [isAlert, setIsAlert] = useState(false);
 
     // Mutation functions
     const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
-    // const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
-    // const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
+    const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
+    const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
 
     // Query functions
-    //const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY);
-    
+    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY);
+    // console.log(id)
+    console.log(data)
+    const handleDeleteCmt = async (id) => {
+      console.log(id)
+      const res = await deleteCmt({ variables: {CID: id } })
+      // if(res.deleteCmt === "success")
+      console.log(res)
+      setMsg("留言刪除成功")
+      setShow(true)
+    }
     // useEffect(() => {
     //     try {
     //         subscribeToMore({
@@ -76,40 +84,29 @@ const Bulletin = ({me}) => {
         setEdit(false)
     };
 
-    const showAlert = (
-        <Modal
-            size="sm"
-            show={show}
-            onHide={() => setShow(false)}
-            aria-labelledby="example-modal-sizes-title-sm"
-        >
-            <Modal.Header closeButton>留言新增成功 !</Modal.Header>
-        </Modal>
-    )
-
-
     return (
       <>
-        <CommentForm md="9" addCmt={addCmt}></CommentForm>
+        <CommentForm md="9" UID={UID} addCmt={addCmt}></CommentForm>
         <Row md="9" className="mt-4 align-items-cneter justify-content-between">
           <Col md="4">
               {/* <Sort sort={sort} setSort={setSort}></Sort> */}
           </Col>
         </Row>
-        {comments.map((comment, index) => (
+        { data?data.comments.map((comment, index) => (
           <Comment
               key={index}
-              id={index}
+              UID={UID}
               comment={comment}
             //   removeComment={removeComment}
             //   editComment={editComment}
             //   updateComment={updateComment}
               isEdit={isEdit}
-            //   deleteCmt={deleteCmt}
+              handleDeleteCmt={handleDeleteCmt}
             //   updateCmt={updateCmt}
               editComment={editCmt}
           />
-        ))}
+        )): null
+        }
     </>
   )
 }

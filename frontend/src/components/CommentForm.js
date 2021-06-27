@@ -3,7 +3,7 @@ import { Form, Col, Button, Modal } from 'react-bootstrap';
 import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
 
-const CommentForm = ({addCmt}) => {
+const CommentForm = ({UID, addCmt}) => {
     const [value, setValue] = useState("");
     const [show, setShow] = useState(false);
 
@@ -15,7 +15,8 @@ const CommentForm = ({addCmt}) => {
         //         content: value,
         //     }
         // });
-        addCmt(value)
+        console.log()
+        addCmt({ variables: {UID: UID, content: value}})
         setValue("");
         setShow(false)
     };

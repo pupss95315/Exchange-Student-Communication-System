@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Col, Button, Row } from 'react-bootstrap';
 
-const ReplyForm = ({addReply}) => {
+const ReplyForm = ({UID, CID, addReply}) => {
     const [replyValue, setReplyValue] = useState("");
     const handleSubmit = e => {
         e.preventDefault();
         if (!replyValue) return;
-        addReply(replyValue);
+        addReply({ variables: { UID: UID, CID: CID, content: replyValue} });
         //addReply({ variables: {}}replyValue);
         setReplyValue("");
     };
