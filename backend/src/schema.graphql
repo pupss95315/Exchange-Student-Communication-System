@@ -9,15 +9,15 @@ type Mutation {
   
   createComment(UID: String!, content: String!, group: GroupType): Comment!
   deleteComment(CID: ID!): String!
-  updateComment(CID: ID!, type: UpdateType!, data: String!): Comment!
+  updateComment(CID: ID!, type: UpdateType!, data: String!): String!
   
   createReply(UID: String!, CID: ID!, content: String!): Reply!
   deleteReply(RID: ID!): Reply!
-  updateReply(RID: ID!, content: String!): Reply!
+  updateReply(RID: ID!, content: String!): String!
 }
 
 type Subscription {
-  comment: CommentSubscriptionPayload!
+  reply: ReplySubscriptionPayload!
 }
 
 input UpdateUserInput {
@@ -68,12 +68,6 @@ type Reply {
   datetime: String!
 }
 
-enum MutationType {
-  CREATED
-  UPDATED
-  DELETED
-}
-
 enum QueryType {
   SEARCH
   SELF
@@ -109,7 +103,13 @@ enum CollegeType {
   CB
 }
 
-type CommentSubscriptionPayload {
+type ReplySubscriptionPayload {
   mutation: MutationType!
-  data: Comment!
+  data: Reply!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
 }

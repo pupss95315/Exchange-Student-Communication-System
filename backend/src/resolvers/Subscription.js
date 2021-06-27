@@ -1,15 +1,12 @@
 const Subscription = {
-  comment: {
-    subscribe(parent, { commentId }, { db, pubsub }, info) {
-      const comment = db.comments.find(
-        (comment) => comment.id === commentId && comment.published,
-      );
-
+  reply: {
+    subscribe(parent, { CID }, { db, pubsub }, info) {
+      const comment = db.comments.find({ _id: CID });
       if (!comment) {
         throw new Error('Comment not found');
       }
 
-      return pubsub.asyncIterator(`comment ${commentId}`);
+      return pubsub.asyncIterator(`reply ${ CID }`);
     },
   },
 };
