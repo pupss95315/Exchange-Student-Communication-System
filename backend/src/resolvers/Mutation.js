@@ -3,127 +3,99 @@ import mongodb from 'mongodb'
 
 const Mutation = {
   async createUser(parent, { UID, GPA, group }, { db, pubsub }, info) {
-    db.users.findOne({user_id: UID}, function(err, existuser) {
-      if (existuser) {
-        throw new Error ('User already exist');
-        // console.log('User already exist');
-        // return existuser;
-      } 
-    });
+    const userExist = await db.users.findOne({user_id: UID});
+    if (userExist) 
+      throw new Error ('User already exist');
     var user = new db.users({user_id: UID, GPA: GPA, group: group});
     console.log(user);
     user.save();
 
     return user;
   },
-  updateUser(parent, { UID, data }, { db, pubsub }, info) {
-    db.users.findOne({ user_id: UID }, function(err, user) {
-      if (!user) {
-        throw new Error ('User not exist');
-      } 
-    });
+  async updateUser(parent, { UID, data }, { db, pubsub }, info) {
+    const user = await db.users.findOne({ user_id: UID });
+    if (!user) {
+      throw new Error ('User not exist');
+    }
     db.users.updateOne({ user_id: UID }, { $set: { data } })
     
     return "success";
   },
   async createComment(parent, args, { db, pubsub }, info) {
-    var u_id;
-    // console.log("u_id: ", u_id)
-    db.users.findOne({user_id: args.UID}, function(err, user) {
-      if (!user) {
-        throw new Error ('User not exist');
-      } 
-      if (args.group && args.group !== user.group) {
-        throw new Error ('User cannot leave comment in the other groups');
-      }
-      u_id = user._id;
-      console.log("u_id: ", u_id);
-    });
-    var comment = new db.comments({ author: mongodb.ObjectId(u_id), ...args });
-    console.log("comment.author: ", comment.author);
-    // console.log("comment.author._id: ", comment.author._id);
+    const user = await db.users.findOne({user_id: args.UID});
+    if (!user) {
+      throw new Error ('User not exist');
+    } 
+    if (args.group && args.group !== user.group) {
+      throw new Error ('User cannot leave comment in the other groups');
+    }
+    var comment = new db.comments({ author: mongodb.ObjectId(user._id), ...args });
+    console.log("comment: ", comment);
     comment.save();
     
     return comment;
   },
-  updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
-    db.comments.findOne({_id: mongodb.ObjectId(CID)}, function(err, comment) {
-      console.log(comment);
-      if (!comment) {
-        throw new Error ('Comment not exist');
-      } 
-      switch (type) {
-        case "EDIT":
-          db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $set: { content: data } })
-          return "success";
-        case "FOLLOW":
-          if (db.comments.findOne({ replies: { $in: data } })) {
-            db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $pull: { followers: mongodb.ObjectId(data) } })
-          } else
-            db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $push: { followers: mongodb.ObjectId(data) } })
-          return "success";
-        default:
-          break;
-      }
-    });    
+  async updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
+    const comment = await db.comments.findOne({_id: mongodb.ObjectId(CID)});
+    // console.log(comment);
+    if (!comment) {
+      throw new Error ('Comment not exist');
+    } 
+    switch (type) {
+      case "EDIT":
+        await db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $set: { content: data } })
+        return "success";
+      case "FOLLOW":
+        if (await db.comments.findOne({ replies: { $in: data } })) {
+          await db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $pull: { followers: mongodb.ObjectId(data) } })
+        } else {
+          await db.comments.updateOne({ _id: mongodb.ObjectId(CID) }, { $push: { followers: mongodb.ObjectId(data) } })
+        } 
+        return "success";
+      default:
+        break;
+    }
     return "success";
   },
-  deleteComment(parent, args, { db, pubsub }, info) {
-    db.comments.findOne({_id: mongodb.ObjectId(args.CID)}, function(err, comment) {
-      console.log(comment);
-      if (!comment) {
-        throw new Error ('Comment not exist');
-        // var msg = "Comment not exist";
-        // console.log(msg);
-        // return msg;
-      } else {
-        db.comments.deleteOne({_id: mongodb.ObjectId(args.CID)});
-        var msg = "Comment deleted successfully";
-        console.log(msg);
-        return msg;
-      }
-    });
+  async deleteComment(parent, args, { db, pubsub }, info) {
+    const comment = await db.comments.findOne({_id: mongodb.ObjectId(args.CID)});
+    // console.log(comment);
+    if (!comment) {
+      throw new Error ('Comment not exist');
+    }
+    await db.comments.deleteOne({_id: mongodb.ObjectId(args.CID)});
+    return "Comment deleted successfully";
   },
-  createReply(parent, { UID, CID, content }, { db, pubsub }, info) {
-    db.comments.findOne({ _id: mongodb.ObjectId(CID) }, function(err, comment) {
-      if (!comment)
-        throw new Error ('comment not exist');
-    });
-    db.users.findOne({ user_id: UID }, function(err, user) {
-      if (!user)
-        throw new Error ('User not exist');
-      // if both author and parent comment are found, create a reply and return it
-      var reply = new db.replies({author: user._id, comment: mongodb.ObjectId(CID),content: content});
-      console.log(reply);
-      reply.save();
-      return reply;
-    });
+  async createReply(parent, { UID, CID, content }, { db, pubsub }, info) {
+    const comment = await db.comments.findOne({ _id: mongodb.ObjectId(CID) });
+    if (!comment)
+      throw new Error ('comment not exist');
+    const user = await db.users.findOne({ user_id: UID });
+    if (!user)
+      throw new Error ('User not exist');
+    // if both author and parent comment are found, create a reply and return it
+    var reply = new db.replies({author: user._id, comment: mongodb.ObjectId(CID),content: content});
+    console.log(reply);
+    reply.save();
+    return reply;
   },
-  deleteReply(parent, args, { db, pubsub }, info) {
-    db.replies.findOne({_id: mongodb.ObjectId(args.RID)}, function(err, comment) {
-      console.log(reply);
-      if (!reply) {
-        throw new Error ('Reply not exist');
-        // var msg = "Reply not exist";
-        // console.log(msg);
-        // return msg;
-      } else {
-        db.comments.deleteOne({_id: mongodb.ObjectId(args.RID)});
-        var msg = "Reply deleted successfully";
-        console.log(msg);
-        return msg;
-      }
-    });
+  async deleteReply(parent, args, { db, pubsub }, info) {
+    const reply = await db.replies.findOne({_id: mongodb.ObjectId(args.RID)});
+    console.log(reply);
+    if (!reply) 
+      throw new Error ('Reply not exist');
+    await db.comments.deleteOne({_id: mongodb.ObjectId(args.RID)});
+    var msg = "Reply deleted successfully";
+    console.log(msg);
+    return msg;
   },
-  updateReply(parent, { RID, content }, { db, pubsub }, info) {
-    db.replies.findOne({_id: mongodb.ObjectId(RID)}, function(err, reply) {
-      console.log(reply);
-      if (!reply) {
-        throw new Error ('Reply not exist');
-      } 
-      db.replies.updateOne({ _id: mongodb.ObjectId(RID) }, { $set: { content: data } })
-      return "success";
-    });    
+  async updateReply(parent, { RID, content }, { db, pubsub }, info) {
+    const reply = await db.replies.findOne({_id: mongodb.ObjectId(RID)});
+    console.log(reply);
+    if (!reply) 
+      throw new Error ('Reply not exist');
+    await db.replies.updateOne({ _id: mongodb.ObjectId(RID) }, { $set: { content: data } })
+    return "success";
   },
 };
 
