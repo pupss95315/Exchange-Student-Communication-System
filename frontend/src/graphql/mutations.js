@@ -30,10 +30,7 @@ export const DELETE_COMMENT_MUTATION = gql`
 
 export const UPDATE_COMMENT_MUTATION = gql`
   mutation updateComment($CID: ID!, $type: UpdateType!, $data: String!) {
-    updateComment(CID: $CID, type: $type, data: $data){
-            id, 
-            content
-        }
+    updateComment(CID: $CID, type: $type, data: $data)
     }
 `;
 

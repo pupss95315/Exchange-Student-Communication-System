@@ -39,7 +39,12 @@ const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
     const handleFollow = async (CID, type, data) => {
       // isFocus ? setFocusNum(focusNum - 1) : setFocusNum(focusNum + 1)
       // setIsFocus(!isFocus)
+      console.log(CID)
+      console.log(type)
+      console.log(data)
       const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
+      console.log(res)
+
       // if(res.updateCmt === "success"){
       //}
     }
