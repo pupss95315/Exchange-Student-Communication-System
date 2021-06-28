@@ -113,10 +113,10 @@ const Mutation = {
     console.log(reply);
     reply.save();
 
-    pubsub.publish(`reply`, {
-      reply: {
-        mutation: 'CREATED',
-        data: reply
+    pubsub.publish(`comment`, {
+      comment: {
+        mutation: 'UPDATED',
+        data: comment
       }
     })
 
@@ -131,10 +131,10 @@ const Mutation = {
     }
     await db.replies.deleteOne({ _id: RID });
 
-    pubsub.publish(`reply`, {
-      reply: {
-        mutation: 'DELETED',
-        data: reply
+    pubsub.publish(`comment`, {
+      comment: {
+        mutation: 'UPDATED',
+        data: comment
       }
     })
     var msg = "success";
@@ -149,10 +149,10 @@ const Mutation = {
     }
     await db.replies.updateOne({ _id: RID }, { $set: { content: content } })
 
-    pubsub.publish(`reply`, {
-      reply: {
+    pubsub.publish(`comment`, {
+      comment: {
         mutation: 'UPDATED',
-        data: reply
+        data: comment
       }
     })
 

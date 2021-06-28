@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Comment from "./Comment";
 import Sort from "./Sort";
 import CommentForm from "./CommentForm";
@@ -8,7 +8,8 @@ import {
     CREATE_COMMENT_MUTATION,
     DELETE_COMMENT_MUTATION,
     UPDATE_COMMENT_MUTATION,
-    COMMENT_QUERY
+    COMMENT_QUERY,
+    COMMENT_SUBSCRIPTION
 } from '../graphql';
 
 const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
@@ -46,11 +47,70 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
       // if(res.updateCmt === "success"){
       //}
     }
+    useEffect(() => {
+        try {
+            subscribeToMore({
+                document: COMMENT_SUBSCRIPTION,
+                updateQuery: (prev, { subscriptionData }) => {
+                  console.log(subscriptionData.data.comment.mutation)
+                    if (!subscriptionData.data) return prev;
+                    const mutation = subscriptionData.data.comment.mutation
+                    switch(mutation){
+                      case "CREATED":
+                        const newComment = subscriptionData.data.comment.data;
+                        // console.log(prev.comments)
+                        // console.log([newComment, ...prev.comments])
+                        // console.log({
+                        //   comments: [newComment, ...prev.comments]
+                        // })
+                        console.log([newComment, ...prev.comments])
+                        return {
+                          comments: [newComment, ...prev.comments]
+                        }
+                      // case "DELETED":
+                      // case "UPDATED":
+                    }
+                    },
+                });
+            } catch (e) {}
+    }, [subscribeToMore]);
+
+    const addComment = text => {
+      const newComments = [...comments, text];
+      setComments(newComments);
+      setShow(true);
+    };
+
+    // const addCmt = text => {
+    //   const newComments = [...comments, text];
+    //   setComments(newComments);
+    //   //setShow(true);
+    // };
+
+    const removeComment = id => {
+        const newComments = [...comments];
+        newComments.splice(id, 1);
+        setComments(newComments);
+    };
   
     const editCmt = (id) => {
         setEdit(true);
     };
     
+    const updateComment = (id, text) => {
+        console.log(text)
+        let newComments = comments.map((comment) => {
+            if (comment.id === id) {
+              comment.text = text;
+            }
+            return comment;
+        });
+        setComments(newComments);
+        setEdit(false)
+    };
+
+    console.log(data)
+
     return (
       <>
         <CommentForm md="9" UID={UID} addCmt={addCmt}></CommentForm>

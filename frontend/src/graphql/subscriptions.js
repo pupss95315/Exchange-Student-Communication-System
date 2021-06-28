@@ -21,15 +21,24 @@ export const REPLY_SUBSCRIPTION = gql`
 export const COMMENT_SUBSCRIPTION = gql`
     subscription comment{
         comment{
+            mutation
             data {
-                id,
                 author{
-                    id
-                },
-                content,
+                    user_id
+                }
+                id
+                content
+                replies{
+                  id
+                  author{
+                    user_id
+                  }
+                  content
+                }
                 followers{
-                    id
-                },
+                  user_id
+                }
+                datetime
             }
         }
     }
