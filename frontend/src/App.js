@@ -19,12 +19,10 @@ function App() {
             {
               location.pathname ==='/' ? null:<Header id={id}/>
             }
-            {/* <Header/> */}
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
                 <Route path="/mainPage/:id" component={MainPage}/>
                 <Route path="/infoPage/:group/:id" component={InfoPage}/>
-                {/* <Route path="/groupBulletin" component={GroupBulletin}/> */}
             </Switch>
         </>
     )

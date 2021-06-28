@@ -10,26 +10,19 @@ import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import { Accordion, Card, Button, Form } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import {
-    CREATE_COMMENT_MUTATION,
     DELETE_COMMENT_MUTATION,
     UPDATE_COMMENT_MUTATION,
-    CREATE_REPLY_MUTATION,
-    UPDATE_REPLY_MUTATION,
     COMMENT_QUERY,
     REPLY_SUBSCRIPTION
 } from '../graphql';
 
 const Comment = ({key, UID, comment, setShow, setMsg}) => {
-    //const [input, setInput] = useState(props.comment.text);
-    //const { loading, error, data, subscribeToMore } = useQuery(CHATBOX_QUERY, {variables: {query: } });
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: {CID: comment.id} });
     const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
     const [isReplied, setIsReplied] = useState(false);
     const [cmtEdit, setCmtEdit] = useState(false);
     const [cmtValue, setCmtValue] = useState("");
-    
-    // Mutation functions
 
     useEffect(() => {
         try {
@@ -68,17 +61,15 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                     }
                                 ]
                             }
-                        case "UPDATED":
-                            console.log(true)
-                            console.log(subscriptionData.data.reply)
-                            var newComment = subscriptionData.data.comment.data;
-                            var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
-                            var newComments = [...prev.comments]
-                            newComments.splice(index, 1, newComment)
-                            console.log(newComments)
-                            return {
-                                comments: newComments
-                            }
+                        // case "UPDATED":
+                        //     var newReply = subscriptionData.data.comment.data;
+                        //     var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
+                        //     var newComments = [...prev.comments]
+                        //     newComments.splice(index, 1, newComment)
+                        //     console.log(newComments)
+                        //     return {
+                        //         comments: newComments
+                        //     }
                         default :
                             break;
                     }
@@ -90,38 +81,25 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
     const handleDeleteCmt = async (id) => {
         console.log(id)
         const res = await deleteCmt({ variables: { CID: id } })
-        // if(res.deleteCmt === "success")
-        console.log(res)
-        setMsg("留言刪除成功")
-        setShow(true)
-      }
+        if(res.data.deleteComment === "success"){
+            console.log(res)
+            setMsg("留言刪除成功")
+            setShow(true)
+        }
+    }
 
-      const handleUpdateCmt = async (CID, type, data) => {
+    const handleUpdateCmt = async (CID, type, data) => {
         console.log(CID)
         const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
         if(res.data.updateComment === "success"){
-          if(type === "EDIT"){
+            if(type === "EDIT"){
             setCmtEdit(false)
             setMsg("留言更新成功")
             setShow(true)
-          }
+            }
         }
-      }
-    
-    
-    // const updateReply = (id, text) => {
-    //     console.log(text)
-    //     let newReplies = replies.map((Reply) => {
-    //         if (Reply.id === id) {
-    //           Reply.text = text;
-    //         }
-    //         return Reply;
-    //     });
-    //     setReplies(newReplies);
-    //     setReplyEdit(false)
-    // };
-    // console.log(UID)
-    // console.log(comment.followers.some(user => user.user_id === UID))
+    }
+
     return (
         <div className="mb-4">
             <div className="mt-2 d-flex justify-content-between button">
@@ -170,10 +148,6 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                 key={index}
                                 UID={UID}
                                 reply={reply}
-                                //removeReply={removeReply}
-                                // editReply={editReply}
-                                // updateReply={updateReply}
-                                //isEdit={isReplyEdit}
                                 setShow={setShow}
                                 setMsg={setMsg}
                             />
@@ -183,7 +157,6 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
             </Accordion>
             <div className="mt-4 mr-3 d-flex justify-content-end align-items-center">
                     {
-                        //&& comment.followers.user_id.includes(UID)
                         comment.followers && comment.followers.length && comment.followers.some(user => user.user_id === UID) ? 
                         <FavoriteIcon style={{color: "red"}} onClick={() => handleUpdateCmt(comment.id, "FOLLOW", UID)}></FavoriteIcon > :
                         <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={() => handleUpdateCmt(comment.id, "FOLLOW", UID)}></FavoriteBorderOutlinedIcon>
@@ -192,7 +165,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                     <ModeCommentOutlinedIcon style={{color: "grey"}} >回覆</ModeCommentOutlinedIcon>
                     <span className='mr-3 ml-3'>{comment.replies.length}</span> 
                     <ReplyOutlinedIcon color={isReplied?"disabled":"grey"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
-                    {isReplied ? <ReplyForm UID={UID} CID={comment.id} />:null}
+                    {isReplied ? <ReplyForm UID={UID} CID={comment.id} setShow={setShow} setMsg={setMsg} />:null}
             </div>
         </div>
     )

@@ -1,4 +1,5 @@
-import { Accordion, Card, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Accordion, Card, Button, Form } from 'react-bootstrap';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 import { useMutation } from '@apollo/client';
@@ -18,11 +19,13 @@ const Reply = ({
 
     const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
     const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
+    const [replyEdit, setReplyEdit] = useState(false);
+    const [replyValue, setReplyValue] = useState("");
 
     const handleDeleteReply = async () => {
         const res = await deleteReply({ variables: { RID: reply.id } })
-        if(res.deleteReply === "success"){
-            setMsg("回覆新增成功")
+        if(res.data.deleteReply === "success"){
+            setMsg("回覆刪除成功")
             setShow(true)
         }
       }
@@ -32,12 +35,22 @@ const Reply = ({
             <Card.Body className="d-flex align-items-center justify-content-between">
                 <div>    
                     <AccountCircleIcon className="mr-2" style={{ fontSize:"45", color:"#E0E0E0" }}></AccountCircleIcon>
-                    <span style={{fontSize:"18px"}}>{reply.content}</span>
+                    {
+                        replyEdit ? 
+                        (<Form.Control 
+                            type="text" 
+                            placeholder="留言..." 
+                            value={replyValue} 
+                            onChange={(e) => setReplyValue(e.target.value)} 
+                            //onKeyPress={e => e.key === "Enter" && handleUpdateReply()}
+                        />) :
+                        (<span style={{fontSize:"18px"}}>{reply.content}</span>)
+                    }
                 </div>
                 {
                     reply.author.user_id === UID? 
                     (<div>
-                        <Button variant="outline-secondary" size="sm" onClick={() => editReply(UID)}>編輯</Button>
+                        {/* <Button variant="outline-secondary" size="sm" onClick={() => setReplyEdit(!replyEdit)}>編輯</Button> */}
                         <a className='ml-3' style={{color: "grey"}} variant="light" onClick={()=>handleDeleteReply()}>
                             <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
                         </a>

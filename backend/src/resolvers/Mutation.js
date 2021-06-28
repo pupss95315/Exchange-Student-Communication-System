@@ -22,6 +22,7 @@ const Mutation = {
     return "success";
   },
   async createComment(parent, args, { db, pubsub }, info) {
+    console.log("Create comment")
     const user = await db.users.findOne({ user_id: args.UID });
     if (!user) {
       throw new Error ('User not exist');
@@ -30,7 +31,7 @@ const Mutation = {
       throw new Error ('User cannot leave comment in the other groups');
     }
     var currenttime = new Date();
-    console.log("current time: ", currenttime);
+    //console.log("current time: ", currenttime);
     var comment = new db.comments({ author: mongodb.ObjectId(user._id), datetime: currenttime, ...args });
     console.log("comment: ", comment);
     comment.save();
@@ -46,7 +47,7 @@ const Mutation = {
   },
   async updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
     console.log("update comment")
-    //console.log(CID)
+    console.log(CID)
     var comment = await db.comments.findOne({_id: CID});
     // console.log(comment);
     if (!comment) {
@@ -71,7 +72,7 @@ const Mutation = {
     }
     comment = await db.comments.findOne({_id: CID});
     
-    //console.log(comment)
+    console.log(comment)
     pubsub.publish('comment', {
       comment: {
         mutation: 'UPDATED',

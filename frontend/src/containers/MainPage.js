@@ -13,7 +13,6 @@ import { USER_QUERY } from '../graphql';
 const MainPage = props => {
     const [section, setSection] = useState("全體留言板")
     const [viewType, setViewType] = useState("ALL")
-    const [sort, setSort] = useState("最新");
     const [search, setSearch] = useState("");
     const { match } = props;
     const [show, setShow] = useState(false);
@@ -23,11 +22,12 @@ const MainPage = props => {
     console.log(id)
     // Query the user's group
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
-    while (loading) {
-        // do nothing, just wait for loading
-    }
+    // while (loading) {
+    //     // do nothing, just wait for loading
+    // }
     if (!loading)
         console.log("user's group: ", data.users[0].group)
+    
     const showAlert = (
         <Modal
             size="sm"
@@ -69,29 +69,28 @@ const MainPage = props => {
                             {/* <Card.Header style={{ width: '100%' }}as="h5"> */}
                             {/* </Card.Header> */}
                             <Card.Body style={{ width: '100%' }}>
-                                <Row className="justify-content-between align-items-center pr-3 pb-5">
-                                    <Nav md="5" defaultActiveKey="/mainPage" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
+                                <Row className="justify-content-between align-items-center pr-3 pb-3">
+                                    <Nav md="2" defaultActiveKey="/mainPage" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
                                             <Nav.Item className=" pr-3 pl-3">
-                                                <Nav.Link className="nav-link" eventKey="ALL" style={{ fontSize: "22px" }}>全部</Nav.Link>
+                                                <Nav.Link  className="nav-link" eventKey="ALL" style={{ fontSize: "22px", color: "grey"}}>全部</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
-                                                <Nav.Link className="nav-link" eventKey="FOLLOW" style={{ fontSize: "22px" }}>關注</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="FOLLOW" style={{ fontSize: "22px", color: "grey" }}>關注</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
-                                                <Nav.Link className="nav-link" eventKey="SELF" style={{ fontSize: "22px" }}>我的留言</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="SELF" style={{ fontSize: "22px", color: "grey" }}>我的留言</Nav.Link>
                                             </Nav.Item>
                                     </Nav>
-                                    <div className="d-flex align-items-center">
-                                        <Sort sort={sort} setSort={setSort}></Sort>
+                                    <div md="5" className="d-flex align-items-center">
+                                        {(viewType === "ALL" || viewType === "SEARCH")?
+                                            <Form.Row className=" align-items-center justify-content-center" >
+                                                <Col className="d-flex" >
+                                                    <Form.Control placeholder="搜尋" onChange={(e) => {setSearch(e.target.value); setViewType("SEARCH");}} />
+                                                    <Button type="submit" variant="secondary" size="sm" ><SearchIcon></SearchIcon></Button>    
+                                                </Col>
+                                            </Form.Row>:null
+                                        }
                                     </div>
-                                    {(viewType === "ALL" || viewType === "SEARCH")?
-                                        <Form.Row className=" align-items-center justify-content-center" >
-                                            <Col className="d-flex" >
-                                                <Form.Control placeholder="搜尋" onChange={(e) => {setSearch(e.target.value); setViewType("SEARCH");}} />
-                                                <Button type="submit" variant="secondary" size="sm" ><SearchIcon></SearchIcon></Button>    
-                                            </Col>
-                                        </Form.Row>:null
-                                    }
                                 </Row>
                                 <Bulletin 
                                     UID={id}

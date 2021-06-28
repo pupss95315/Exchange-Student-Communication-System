@@ -176,7 +176,6 @@ const LoginPage = () => {
                         style={{borderRadius: "30px"}}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {/* <Form.Control.Feedback type="invalid"></Form.Control.Feedback> */}
                 </Form.Group>
                 <Button style={{ borderRadius: "30px", margin: "5px" }} variant="secondary" block size="lg" type="submit"> 登入 </Button>
                 <div className="d-flex justify-content-center mt-3">
@@ -199,7 +198,6 @@ const LoginPage = () => {
                         onChange={(e) => setRegisUID(e.target.value)}
                         className="form-control"
                     />
-                    {/* <Form.Control.Feedback>Looks good!</Form.Control.Feedback> */}
                 </Form.Group>
                 <Form.Group size="lg" controlId="password">
                     <Form.Control
@@ -210,24 +208,8 @@ const LoginPage = () => {
                         style={{borderRadius: "30px"}}
                         onChange={(e) => setRegisPassword(e.target.value)}
                     />
-                    {/* <Form.Control.Feedback type="invalid">
-                      Please choose a username.
-                    </Form.Control.Feedback> */}
                 </Form.Group>
-                {/* <OverlayTrigger placement="top" overlay={renderTooltip}> */}
                 <Button variant="secondary" style={{borderRadius: "30px"}} block size="lg" type="submit"> 註冊 </Button>
-                {/* </OverlayTrigger> */}
-                {/* <OverlayTrigger
-                  key="top"
-                  placement="top"
-                  overlay={
-                    <Tooltip id={`tooltip-top`}>
-                      Tooltip on <strong>top</strong>.
-                    </Tooltip>
-                  }
-                >
-                <Button variant="secondary">Tooltip on top</Button>
-                </OverlayTrigger> */}
                 <div className="d-flex justify-content-center mt-3">
                     返回 <Card.Link href="#" className="ml-2" onClick={(e) => setPage("login")}>登入</Card.Link>
                 </div>
@@ -239,11 +221,6 @@ const LoginPage = () => {
     return (
         <Container className="center d-flex justify-content-center">
             {showAlert}
-                {/* <Card bg="white" style={{width:"40%"}}> */}
-                    {/* <Card.Header style={{fontSize: "18px"}} className="d-flex justify-content-center"> */}
-                    {/* </Card.Header> */}
-                    {/* <Row>
-                        <Card.Body> */}
             <Card style={{width: "50%", borderRadius: "30px"}}>
                 <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
                     <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
@@ -252,9 +229,6 @@ const LoginPage = () => {
                     { page === "login" ? login : register }
                 </div>
             </Card>
-                        {/* </Card.Body>
-                    </Row>
-                </Card> */}
         </Container>
     )
 };
