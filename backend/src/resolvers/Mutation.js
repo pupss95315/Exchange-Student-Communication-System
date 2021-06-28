@@ -69,10 +69,8 @@ const Mutation = {
     }
 
     // delete all replies under the comment
-    console.log(comment.replies)
-    for (var i = 0; i < comment.replies.length; i++) {
-      await db.replies.deleteOne({ _id: comment.replies[i]._id });
-    }
+    await db.replies.deleteMany({ comment: CID });
+
     // delete the comment itself
     await db.comments.deleteOne({ _id: CID });
 
@@ -109,7 +107,7 @@ const Mutation = {
     if (!reply) {
       throw new Error ('Reply not exist');
     }
-    await db.comments.deleteOne({ _id: RID });
+    await db.replies.deleteOne({ _id: RID });
 
     pubsub.publish(`reply ${reply.comment._id}`, {
       comment: {
