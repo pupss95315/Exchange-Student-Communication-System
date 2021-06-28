@@ -13,7 +13,6 @@ import {
 } from '../graphql';
 
 const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
-    console.log(group);
     const [comments, setComments] = useState([]);
     const [isEdit, setEdit] = useState(false);
 
@@ -23,8 +22,12 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
 
     // Query functions
-    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group } });
-    console.log(data)
+    console.log("group: ", group)
+    const { loading, error, data } = useQuery(COMMENT_QUERY);
+    const { loadingG, errorG, dataG } = useQuery(COMMENT_QUERY, { variables: { group: group } });
+    console.log("comment data: ", data)
+    console.log("group comment data: ", dataG)
+    const showdata = group? dataG: data;
 
     const handleDeleteCmt = async (id) => {
       console.log(id)
@@ -119,7 +122,7 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
               {/* <Sort sort={sort} setSort={setSort}></Sort> */}
           </Col>
         </Row>
-        { data?data.comments.map((comment, index) => (
+        { showdata? showdata.comments.map((comment, index) => (
           <Comment
               key={index}
               UID={UID}

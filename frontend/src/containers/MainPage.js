@@ -22,7 +22,11 @@ const MainPage = props => {
     console.log(id)
     // Query the user's group
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
-
+    // console.log("loading: ", loading)
+    if (loading === false) {
+        // console.log("data: ", data)
+        console.log("user's group: ", data.users[0].group)
+    }    
     const showAlert = (
         <Modal
             size="sm"
@@ -85,7 +89,7 @@ const MainPage = props => {
                                     setShow={setShow}
                                     msg={msg}
                                     setMsg={setMsg}
-                                    group={(section === "全體留言板")? null: data.group}
+                                    group={(data && section === "分組留言板")? data.users[0].group: null}
                                 ></Bulletin>
                             </Card.Body>
                         </Card>

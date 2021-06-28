@@ -1,6 +1,6 @@
 type Query {
   users(UID: String, group: GroupType): [User]
-  comments(CID: String, group: GroupType, type: QueryType, data: String): [Comment]
+  comments(CID: ID, group: GroupType, type: QueryType, data: String): [Comment]
 }
 
 type Mutation {

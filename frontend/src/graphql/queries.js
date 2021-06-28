@@ -19,8 +19,8 @@ export const USER_QUERY = gql`
 `;
 
 export const COMMENT_QUERY = gql`
-  query ($group: GroupType, $type: QueryType, $data: String) {
-    comments {
+  query ($CID: ID, $group: GroupType, $type: QueryType, $data: String) {
+    comments (CID: $CID, group: $group, type: $type, data: $data) {
         author {
             user_id
         }
