@@ -18,7 +18,7 @@ type Mutation {
 
 type Subscription {
   comment: CommentSubscriptionPayload!
-  reply: ReplySubscriptionPayload!
+  reply(CID: ID!): ReplySubscriptionPayload!
 }
 
 input UpdateUserInput {

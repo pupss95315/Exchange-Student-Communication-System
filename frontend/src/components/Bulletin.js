@@ -9,7 +9,9 @@ import {
     DELETE_COMMENT_MUTATION,
     UPDATE_COMMENT_MUTATION,
     COMMENT_QUERY,
-    COMMENT_SUBSCRIPTION
+    COMMENT_SUBSCRIPTION,
+    DELETE_REPLY_MUTATION,
+
 } from '../graphql';
 import InputGroupWithExtras from 'react-bootstrap/esm/InputGroup';
 
@@ -21,6 +23,7 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
     const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
     const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
+    const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
 
     // Query functions
     console.log("group: ", group)
@@ -48,6 +51,17 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
       // if(res.updateCmt === "success"){
       //}
     }
+
+    const handleDeleteReply = async (RID) => {
+      console.log(RID)
+      const res = await deleteReply({ variables: { RID: RID } })
+      console.log(res)
+      if(res.deleteReply === "success"){
+          setMsg("回覆新增成功")
+          setShow(true)
+      }
+    }
+
     useEffect(() => {
         try {
             subscribeToMore({
@@ -58,33 +72,47 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
                     const mutation = subscriptionData.data.comment.mutation
                     switch(mutation){
                       case "CREATED":
-                        const newComment = subscriptionData.data.comment.data;
-                        // console.log(prev.comments)
-                        // console.log([newComment, ...prev.comments])
-                        // console.log({
-                        //   comments: [newComment, ...prev.comments]
-                        // })
-                        console.log([newComment, ...prev.comments])
+                        var newComment = subscriptionData.data.comment.data;
                         return {
-                          comments: [newComment, ...prev.comments]
+                          comments: [newComment, ...prev.comments],
                         }
                       case "DELETED":
-                        break;
+                        var newComment = subscriptionData.data.comment.data;
+                        //const deletedComment = subscriptionData.data.comment.data;
+                        var newComments = prev.comments.filter(cmt => cmt.id !== newComment.id)
+                        //console.log(newComments)
+                        return {
+                          comments: newComments
+                        }
                       case "UPDATED":
+                        console.log(true)
+                        console.log(subscriptionData.data.reply)
+                        if(subscriptionData.data.comment){
+                          var newComment = subscriptionData.data.comment.data;
+                          var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
+                          var newComments = [...prev.comments]
+                          newComments.splice(index, 1, newComment)
+                          console.log(newComments)
+                          return {
+                            comments: newComments
+                          }
+                        }
+                        else if(subscriptionData.data.reply){
+                          
+                        }
+                      default :
                         break;
-                      default:
-                        throw new Error ("Unexpected mutation type");
                     }
                   },
                 });
             } catch (e) {}
     }, [subscribeToMore]);
 
-    const addComment = (group, text) => {
-      const newComments = [...comments, text, group];
-      setComments(newComments);
-      setShow(true);
-    };
+    // const addComment = text => {
+    //   const newComments = [...comments, text];
+    //   setComments(newComments);
+    //   setShow(true);
+    // };
 
     // const addCmt = text => {
     //   const newComments = [...comments, text];
@@ -92,29 +120,29 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
     //   //setShow(true);
     // };
 
-    const removeComment = id => {
-        const newComments = [...comments];
-        newComments.splice(id, 1);
-        setComments(newComments);
-    };
+    // const removeComment = id => {
+    //     const newComments = [...comments];
+    //     newComments.splice(id, 1);
+    //     setComments(newComments);
+    // };
   
     const editCmt = (id) => {
         setEdit(true);
     };
     
-    const updateComment = (id, text) => {
-        console.log(text)
-        let newComments = comments.map((comment) => {
-            if (comment.id === id) {
-              comment.text = text;
-            }
-            return comment;
-        });
-        setComments(newComments);
-        setEdit(false)
-    };
+    // const updateComment = (id, text) => {
+    //     console.log(text)
+    //     let newComments = comments.map((comment) => {
+    //         if (comment.id === id) {
+    //           comment.text = text;
+    //         }
+    //         return comment;
+    //     });
+    //     setComments(newComments);
+    //     setEdit(false)
+    // };
 
-    console.log(data)
+    // console.log(data)
 
     return (
       <>
@@ -132,6 +160,7 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
               isEdit={isEdit}
               handleDeleteCmt={handleDeleteCmt}
               handleFollow={handleFollow}
+              handleDeleteReply={handleDeleteReply}
               editComment={editCmt}
           />
         )): null

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Reply from "./Reply";
 import ReplyForm from "./ReplyForm";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -11,14 +11,17 @@ import { Accordion, Card, Button } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import {
     CREATE_REPLY_MUTATION,
-    DELETE_REPLY_MUTATION,
     UPDATE_REPLY_MUTATION,
-    REPLY_QUERY
+    COMMENT_QUERY,
+    REPLY_SUBSCRIPTION
 } from '../graphql';
 
-const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, editCmt}) => {
+const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDeleteReply, updateCmt, editCmt}) => {
     //const [input, setInput] = useState(props.comment.text);
     //const { loading, error, data, subscribeToMore } = useQuery(CHATBOX_QUERY, {variables: {query: } });
+    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: {CID: comment.id} });
+    // if(data)
+    //     console.log(data.comments[0].replies)
 
     const [replies, setReplies] = useState([]);
     const [isReplyEdit, setReplyEdit] = useState(false);
@@ -30,33 +33,83 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     
     // Mutation functions
     const [addReply] = useMutation(CREATE_REPLY_MUTATION);
-    const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
     const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
 
-    // useEffect(() => {
-    //     try {
-    //         var a = subscribeToMore({
-    //             document: REPLY_SUBSCRIPTION,
-    //             updateQuery: (prev, { subscriptionData }) => {
-    //                 // console.log(prev)
-    //                 // console.log(subscriptionData)
-    //                 if (!subscriptionData.data) return prev;
-    //                 const newReply = subscriptionData.data.messages.data;
-    //                 var newData = Object.assign({}, prev, {
-    //                     comments: {
-    //                         __typename:　prev.chatBoxes.__typename,
-    //                         id: prev.chatBoxes.id,
-    //                         name:prev.chatBoxes.name,
-    //                         users:prev.chatBoxes.users,
-    //                         messages: [...prev.chatBoxes.messages, newMessage]
-    //                     }
-    //                 })
-    //                 handleReply(newData, name)
-    //                 return newData
-    //             },
-    //         });
-    //     } catch (e) {}
-    // }, [subscribeToMore]);
+    useEffect(() => {
+        try {
+            subscribeToMore({
+                document: REPLY_SUBSCRIPTION,
+                variables: { CID: comment.id },
+                updateQuery: (prev, { subscriptionData }) => {
+                    console.log(subscriptionData.data.reply.mutation)
+                    const mutation = subscriptionData.data.reply.mutation
+                    switch(mutation){
+                        case "CREATED":
+                            var newReply = subscriptionData.data.reply.data;
+                            var newReplies = [...prev.comments[0].replies]
+                            return {
+                                comments: [
+                                    {
+                                        __typename:　prev.comments[0].__typename,
+                                        author: prev.comments[0].author,
+                                        id: prev.comments[0].id,
+                                        content: prev.comments[0].content,
+                                        replies: [newReply, ...newReplies],
+                                    }
+                                ]
+                            }
+                        case "DELETED":
+                            var newReply = subscriptionData.data.reply.data;
+                            var newReplies = prev.comments[0].replies.filter(reply => reply.id !== newReply.id)
+                            return {
+                                comments: [
+                                    {
+                                        __typename:　prev.comments[0].__typename,
+                                        author: prev.comments[0].author,
+                                        id: prev.comments[0].id,
+                                        content: prev.comments[0].content,
+                                        replies: newReplies,
+                                    }
+                                ]
+                            }
+                        // case "UPDATED":
+                        //     console.log(true)
+                        //     console.log(subscriptionData.data.reply)
+                        //     if(subscriptionData.data.comment){
+                        //         var newComment = subscriptionData.data.comment.data;
+                        //         var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
+                        //         var newComments = [...prev.comments]
+                        //         newComments.splice(index, 1, newComment)
+                        //         console.log(newComments)
+                        //         return {
+                        //         comments: newComments
+                        //         }
+                        //     }
+                        //     else if(subscriptionData.data.reply){
+                                
+                        //     }
+                        // default :
+                        //     break;
+                    // console.log(prev)
+                    // console.log(subscriptionData)
+                    // if (!subscriptionData.data) return prev;
+                    // const newReply = subscriptionData.data.messages.data;
+                    // var newData = Object.assign({}, prev, {
+                    //     comments: {
+                    //         __typename:　prev.chatBoxes.__typename,
+                    //         id: prev.chatBoxes.id,
+                    //         name:prev.chatBoxes.name,
+                    //         users:prev.chatBoxes.users,
+                    //         messages: [...prev.chatBoxes.messages, newMessage]
+                    //     }
+                    // })
+                    // handleReply(newData, name)
+                    // return newData
+                    }
+                },
+            });
+        } catch (e) {}
+    }, [subscribeToMore]);
     
     // const addReply = (UID, text) => {
     //     const newReplies = [...replies, text];
@@ -69,15 +122,6 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     //     newReplies.splice(id, 1);
     //     setReplies(newReplies);
     // };
-
-    const handleDeleteReply = async (RID) => {
-        const res = await deleteReply({ variables: { RID: RID } })
-        console.log(res)
-        // if(res.deleteReply === "success"){
-        //     set
-        //     setShow(true)
-        // }
-    }
 
     const editReply = (id) => {
         setReplyEdit(true);
@@ -121,13 +165,13 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
                         {/* <span className="font-weight-bold mr-3">{id}</span> */}
                         <span style={{fontSize:"18px"}}>{comment.content}</span>
                     </Accordion.Toggle>
-                    {comment.replies.length === 0 ? 
+                    {data? (data.comments[0].replies.length === 0? 
                         (<Accordion.Collapse eventKey="0">
                             <Card.Body style={{fontSize:"18px"}}>
                                 目前尚無回覆
                             </Card.Body>
                         </Accordion.Collapse>) :
-                        (comment.replies.map((reply, index) => (
+                        (data.comments[0].replies.map((reply, index) => (
                             <Reply
                                 key={index}
                                 UID={UID}
@@ -138,7 +182,7 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
                                 // updateReply={updateReply}
                                 isEdit={isReplyEdit}
                             />
-                        )))
+                        )))):null
                     }
                 </Card>
             </Accordion>

@@ -90,7 +90,7 @@ const Mutation = {
     
     pubsub.publish('comment', {
       comment: {
-        mutation: 'DELETE',
+        mutation: 'DELETED',
         data: comment,
       },
     });
@@ -110,13 +110,13 @@ const Mutation = {
     var currenttime = new Date();
     console.log("current time: ", currenttime);
     var reply = new db.replies({ author: user._id, comment: CID, content: content, datetime: currenttime });
-    console.log(reply);
+    //console.log(reply);
     reply.save();
 
-    pubsub.publish(`comment`, {
-      comment: {
-        mutation: 'UPDATED',
-        data: comment
+    pubsub.publish(`reply ${CID}`, {
+      reply: {
+        mutation: 'CREATED',
+        data: reply
       }
     })
 
@@ -126,17 +126,20 @@ const Mutation = {
   },
   async deleteReply(parent, { RID }, { db, pubsub }, info) {
     const reply = await db.replies.findOne({ _id: RID });
+    console.log(reply)
+    const CID = reply.comment
     if (!reply) {
       throw new Error ('Reply not exist');
     }
     await db.replies.deleteOne({ _id: RID });
 
-    pubsub.publish(`comment`, {
-      comment: {
-        mutation: 'UPDATED',
-        data: comment
+    pubsub.publish(`reply ${CID}`, {
+      reply: {
+        mutation: 'DELETED',
+        data: reply
       }
     })
+
     var msg = "success";
     console.log(msg);
     return msg;
@@ -149,10 +152,10 @@ const Mutation = {
     }
     await db.replies.updateOne({ _id: RID }, { $set: { content: content } })
 
-    pubsub.publish(`comment`, {
-      comment: {
+    pubsub.publish(`reply ${CID}`, {
+      reply: {
         mutation: 'UPDATED',
-        data: comment
+        data: reply
       }
     })
 

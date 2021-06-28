@@ -12,9 +12,11 @@ const Query = {
     return db.users;  
   },
   async comments(parent, args, { db }, info) {
+    console.log(true)
     if (args.CID) {
-      const ret = await db.comments.findOne({ _id: CID });
-      return ret;
+      const ret = await db.comments.findOne({ _id: args.CID });
+      console.log(ret)
+      return [ret];
     }
     var comments = db.comments;
     if (args.group) {
