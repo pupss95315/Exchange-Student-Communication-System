@@ -1,4 +1,3 @@
-// import uuidv4 from 'uuid/v4.js';
 import mongodb from 'mongodb'
 
 const Mutation = {
@@ -23,7 +22,7 @@ const Mutation = {
     return "success";
   },
   async createComment(parent, args, { db, pubsub }, info) {
-    const user = await db.users.findOne({user_id: args.UID});
+    const user = await db.users.findOne({ user_id: args.UID });
     if (!user) {
       throw new Error ('User not exist');
     } 

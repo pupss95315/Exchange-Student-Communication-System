@@ -1,3 +1,5 @@
+import mongodb from 'mongodb'
+
 const Query = {
   async users(parent, args, { db }, info) {
     if (args.UID) {
@@ -12,11 +14,18 @@ const Query = {
     return db.users;  
   },
   async comments(parent, args, { db }, info) {
+    if (args.CID) {
+      const ret = await db.comments.findOne({ _id: mongodb.ObjectId(CID) });
+      return ret;
+    }
     var comments = db.comments;
     if (args.group) {
       comments = await db.comments.find({ group: args.group });
     } else { // if group is not specified, return comments in the main chat
       comments = await db.comments.find({ group: null });
+    }
+    if (!args.type) {
+      return comments;
     }
     // return comments posted by a specified user
     if (args.type === 'SELF') {
@@ -34,7 +43,6 @@ const Query = {
       const ret = await comments.find({ followers: args.data });
       return ret;
     }
-    return comments;
   },
 };
 
