@@ -17,7 +17,7 @@ const Query = {
     console.log(true)
     if (args.CID) {
       const ret = await db.comments.findOne({ _id: args.CID });
-      console.log(ret)
+      //console.log(ret)
       return [ret];
     }
     if (!args.type) {

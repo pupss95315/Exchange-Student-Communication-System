@@ -5,12 +5,11 @@ import CommentForm from "./CommentForm";
 import { Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import {
-    CREATE_COMMENT_MUTATION,
-    DELETE_COMMENT_MUTATION,
-    UPDATE_COMMENT_MUTATION,
     COMMENT_QUERY,
     COMMENT_SUBSCRIPTION,
+    DELETE_COMMENT_MUTATION,
     DELETE_REPLY_MUTATION,
+    UPDATE_COMMENT_MUTATION
 
 } from '../graphql';
 // import InputGroupWithExtras from 'react-bootstrap/esm/InputGroup';
@@ -57,15 +56,16 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
       //}
     }
 
-    const handleDeleteReply = async (RID) => {
-      console.log(RID)
-      const res = await deleteReply({ variables: { RID: RID } })
-      console.log(res)
-      if(res.deleteReply === "success"){
-          setMsg("回覆新增成功")
-          setShow(true)
-      }
-    }
+    // const handleUpdateCmt = async (CID, type, data) => {
+    //   console.log(CID)
+    //   const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
+    //   if(res.data.updateComment === "success"){
+    //     if(type === "EDIT"){
+    //       setMsg("留言更新成功")
+    //       setShow(true)
+    //     }
+    //   }
+    // }
 
     useEffect(() => {
         try {
@@ -91,19 +91,14 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
                         }
                       case "UPDATED":
                         console.log(true)
-                        console.log(subscriptionData.data.reply)
-                        if(subscriptionData.data.comment){
-                          var newComment = subscriptionData.data.comment.data;
-                          var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
-                          var newComments = [...prev.comments]
-                          newComments.splice(index, 1, newComment)
-                          console.log(newComments)
-                          return {
-                            comments: newComments
-                          }
-                        }
-                        else if(subscriptionData.data.reply){
-                          
+                        var newComment = subscriptionData.data.comment.data;
+                        console.log(newComment.followers)
+                        var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
+                        var newComments = [...prev.comments]
+                        newComments.splice(index, 1, newComment)
+                        console.log(newComments)
+                        return {
+                          comments: newComments
                         }
                       default :
                         break;
@@ -113,45 +108,9 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
             } catch (e) {}
     }, [subscribeToMore]);
 
-    // const addComment = text => {
-    //   const newComments = [...comments, text];
-    //   setComments(newComments);
-    //   setShow(true);
-    // };
-
-    // const addCmt = text => {
-    //   const newComments = [...comments, text];
-    //   setComments(newComments);
-    //   //setShow(true);
-    // };
-
-    // const removeComment = id => {
-    //     const newComments = [...comments];
-    //     newComments.splice(id, 1);
-    //     setComments(newComments);
-    // };
-  
-    const editCmt = (id) => {
-        setEdit(true);
-    };
-    
-    // const updateComment = (id, text) => {
-    //     console.log(text)
-    //     let newComments = comments.map((comment) => {
-    //         if (comment.id === id) {
-    //           comment.text = text;
-    //         }
-    //         return comment;
-    //     });
-    //     setComments(newComments);
-    //     setEdit(false)
-    // };
-
-    // console.log(data)
-
     return (
       <>
-        <CommentForm md="9" UID={UID} addCmt={addCmt} group={group} ></CommentForm>
+        <CommentForm md="9" UID={UID} group={group} ></CommentForm>
         <Row md="9" className="mt-4 align-items-cneter justify-content-between">
           <Col md="4">
               {/* <Sort sort={sort} setSort={setSort}></Sort> */}
@@ -162,11 +121,9 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
               key={index}
               UID={UID}
               comment={comment}
-              isEdit={isEdit}
-              handleDeleteCmt={handleDeleteCmt}
-              handleFollow={handleFollow}
-              handleDeleteReply={handleDeleteReply}
-              editComment={editCmt}
+              setShow={setShow}
+              setMsg={setMsg}
+              //handleUpdateCmt={handleUpdateCmt}
           />
         )): null
         }

@@ -7,19 +7,24 @@ import FavoriteBorderOutlinedIcon from '@material-ui/icons/FavoriteBorderOutline
 import ModeCommentOutlinedIcon from '@material-ui/icons/ModeCommentOutlined';
 import ReplyOutlinedIcon from '@material-ui/icons/ReplyOutlined';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
-import { Accordion, Card, Button } from 'react-bootstrap';
+import { Accordion, Card, Button, Form } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import {
+    CREATE_COMMENT_MUTATION,
+    DELETE_COMMENT_MUTATION,
+    UPDATE_COMMENT_MUTATION,
     CREATE_REPLY_MUTATION,
     UPDATE_REPLY_MUTATION,
     COMMENT_QUERY,
     REPLY_SUBSCRIPTION
 } from '../graphql';
 
-const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDeleteReply, updateCmt, editCmt}) => {
+const Comment = ({key, UID, comment, setShow, setMsg}) => {
     //const [input, setInput] = useState(props.comment.text);
     //const { loading, error, data, subscribeToMore } = useQuery(CHATBOX_QUERY, {variables: {query: } });
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: {CID: comment.id} });
+    const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
+    const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
     // if(data)
     //     console.log(data.comments[0].replies)
 
@@ -30,10 +35,12 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
     // const [focusNum, setFocusNum] = useState(0);
     // const [isFocus, setIsFocus] = useState(false);
     // const [time, setTime] = useState(Date().toLocaleString());
+    const [cmtEdit, setCmtEdit] = useState(false);
+    const [cmtValue, setCmtValue] = useState("");
+    //const [isReplyEdit, setReplyEdit] = useState(false);
+    const [isReplied, setIsReplied] = useState(false)
     
     // Mutation functions
-    const [addReply] = useMutation(CREATE_REPLY_MUTATION);
-    const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
 
     useEffect(() => {
         try {
@@ -72,61 +79,47 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
                                     }
                                 ]
                             }
-                        // case "UPDATED":
-                        //     console.log(true)
-                        //     console.log(subscriptionData.data.reply)
-                        //     if(subscriptionData.data.comment){
-                        //         var newComment = subscriptionData.data.comment.data;
-                        //         var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
-                        //         var newComments = [...prev.comments]
-                        //         newComments.splice(index, 1, newComment)
-                        //         console.log(newComments)
-                        //         return {
-                        //         comments: newComments
-                        //         }
-                        //     }
-                        //     else if(subscriptionData.data.reply){
-                                
-                        //     }
-                        // default :
-                        //     break;
-                    // console.log(prev)
-                    // console.log(subscriptionData)
-                    // if (!subscriptionData.data) return prev;
-                    // const newReply = subscriptionData.data.messages.data;
-                    // var newData = Object.assign({}, prev, {
-                    //     comments: {
-                    //         __typename:　prev.chatBoxes.__typename,
-                    //         id: prev.chatBoxes.id,
-                    //         name:prev.chatBoxes.name,
-                    //         users:prev.chatBoxes.users,
-                    //         messages: [...prev.chatBoxes.messages, newMessage]
-                    //     }
-                    // })
-                    // handleReply(newData, name)
-                    // return newData
+                        case "UPDATED":
+                            console.log(true)
+                            console.log(subscriptionData.data.reply)
+                            var newComment = subscriptionData.data.comment.data;
+                            var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
+                            var newComments = [...prev.comments]
+                            newComments.splice(index, 1, newComment)
+                            console.log(newComments)
+                            return {
+                                comments: newComments
+                            }
+                        default :
+                            break;
                     }
                 },
             });
         } catch (e) {}
     }, [subscribeToMore]);
+
+    const handleDeleteCmt = async (id) => {
+        console.log(id)
+        const res = await deleteCmt({ variables: { CID: id } })
+        // if(res.deleteCmt === "success")
+        console.log(res)
+        setMsg("留言刪除成功")
+        setShow(true)
+      }
+
+      const handleUpdateCmt = async (CID, type, data) => {
+        console.log(CID)
+        const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
+        if(res.data.updateComment === "success"){
+          if(type === "EDIT"){
+            setCmtEdit(false)
+            setMsg("留言更新成功")
+            setShow(true)
+          }
+        }
+      }
     
-    // const addReply = (UID, text) => {
-    //     const newReplies = [...replies, text];
-    //     setReplies(newReplies);
-    //     setReplyNum(replyNum + 1)
-    // };
-
-    // const removeReply = id => {
-    //     const newReplies = [...replies];
-    //     newReplies.splice(id, 1);
-    //     setReplies(newReplies);
-    // };
-
-    const editReply = (id) => {
-        setReplyEdit(true);
-        //setEdit(false);
-    };
+    
     // const updateReply = (id, text) => {
     //     console.log(text)
     //     let newReplies = replies.map((Reply) => {
@@ -138,6 +131,8 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
     //     setReplies(newReplies);
     //     setReplyEdit(false)
     // };
+    // console.log(UID)
+    // console.log(comment.followers.some(user => user.user_id === UID))
     return (
         <div className="mb-4">
             <div className="mt-2 d-flex justify-content-between button">
@@ -151,7 +146,7 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
                 {
                     comment.author.user_id === UID ? 
                     (<div className="d-flex align-items-center">
-                        {/* <Button variant="outline-secondary" size="sm" onClick={() => editCmt(id)}>編輯</Button> */}
+                        <Button variant="outline-secondary" size="sm" onClick={() => setCmtEdit(! cmtEdit)}>編輯</Button>
                         <a className='ml-3' style={{color: "grey"}}variant="light" onClick={()=>handleDeleteCmt(comment.id)}>
                             <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
                         </a>
@@ -163,7 +158,17 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
                 <Card>
                     <Accordion.Toggle md="8" style={{ backgroundColor: "white"}}as={Card.Header} eventKey="0" className="d-flex pl-2">
                         {/* <span className="font-weight-bold mr-3">{id}</span> */}
-                        <span style={{fontSize:"18px"}}>{comment.content}</span>
+                        {
+                            cmtEdit ? 
+                            (<Form.Control 
+                                type="text" 
+                                placeholder="留言..." 
+                                value={cmtValue} 
+                                onChange={(e) => setCmtValue(e.target.value)} 
+                                onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
+                            />) :
+                            (<span style={{fontSize:"18px"}}>{comment.content}</span>)
+                        }
                     </Accordion.Toggle>
                     {data? (data.comments[0].replies.length === 0? 
                         (<Accordion.Collapse eventKey="0">
@@ -176,11 +181,12 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
                                 key={index}
                                 UID={UID}
                                 reply={reply}
-                                handleDeleteReply={handleDeleteReply}
                                 //removeReply={removeReply}
                                 // editReply={editReply}
                                 // updateReply={updateReply}
-                                isEdit={isReplyEdit}
+                                //isEdit={isReplyEdit}
+                                setShow={setShow}
+                                setMsg={setMsg}
                             />
                         )))):null
                     }
@@ -188,17 +194,16 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, handleDelete
             </Accordion>
             <div className="mt-4 mr-3 d-flex justify-content-end align-items-center">
                     {
-                        
                         //&& comment.followers.user_id.includes(UID)
                         comment.followers && comment.followers.length && comment.followers.some(user => user.user_id === UID) ? 
-                        <FavoriteIcon style={{color: "red"}} onClick={() => handleFollow(comment.id, "FOLLOW", UID)}></FavoriteIcon > :
-                        <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={() => handleFollow(comment.id, "FOLLOW", UID)}></FavoriteBorderOutlinedIcon>
+                        <FavoriteIcon style={{color: "red"}} onClick={() => handleUpdateCmt(comment.id, "FOLLOW", UID)}></FavoriteIcon > :
+                        <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={() => handleUpdateCmt(comment.id, "FOLLOW", UID)}></FavoriteBorderOutlinedIcon>
                     }
                     <span className='mr-3 ml-3'>{comment.followers.length}</span>
                     <ModeCommentOutlinedIcon style={{color: "grey"}} >回覆</ModeCommentOutlinedIcon>
                     <span className='mr-3 ml-3'>{comment.replies.length}</span> 
                     <ReplyOutlinedIcon color={isReplied?"disabled":"grey"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
-                    {isReplied ? <ReplyForm UID={UID} CID={comment.id} addReply={addReply} />:null}
+                    {isReplied ? <ReplyForm UID={UID} CID={comment.id} />:null}
             </div>
         </div>
     )
