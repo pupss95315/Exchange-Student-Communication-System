@@ -7,7 +7,7 @@ const Mutation = {
       throw new Error ('User already exist');
     } 
     var user = new db.users({user_id: UID, GPA: GPA, group: group});
-    console.log(user);
+    //console.log(user);
     user.save();
 
     return user;
@@ -46,11 +46,13 @@ const Mutation = {
   },
   async updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
     console.log("update comment")
-    const comment = await db.comments.findOne({_id: CID});
+    //console.log(CID)
+    var comment = await db.comments.findOne({_id: CID});
     // console.log(comment);
     if (!comment) {
       throw new Error ('Comment not exist');
     } 
+    //console.log(type)
     switch (type) {
       case "EDIT":
         await db.comments.updateOne({ _id: CID }, { $set: { content: data } })
@@ -67,10 +69,12 @@ const Mutation = {
       default:
         break;
     }
-
+    comment = await db.comments.findOne({_id: CID});
+    
+    //console.log(comment)
     pubsub.publish('comment', {
       comment: {
-        mutation: 'UPDATE',
+        mutation: 'UPDATED',
         data: comment,
       },
     });

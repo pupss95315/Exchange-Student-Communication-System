@@ -96,7 +96,6 @@ const MainPage = props => {
                                 <Bulletin 
                                     UID={id}
                                     setShow={setShow}
-                                    msg={msg}
                                     setMsg={setMsg}
                                     group={(data && section === "分組留言板")? data.users[0].group: null}
                                     type={viewType}

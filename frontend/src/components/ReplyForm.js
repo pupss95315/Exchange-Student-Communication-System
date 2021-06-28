@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Col, Button, Row } from 'react-bootstrap';
+import { useMutation } from '@apollo/client';
+import {
+    CREATE_REPLY_MUTATION
+} from '../graphql';
 
-const ReplyForm = ({UID, CID, addReply}) => {
+const ReplyForm = ({UID, CID}) => {
     const [replyValue, setReplyValue] = useState("");
+    const [addReply] = useMutation(CREATE_REPLY_MUTATION);
+
     const handleSubmit = e => {
         e.preventDefault();
         if (!replyValue) return;

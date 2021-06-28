@@ -2,15 +2,19 @@ import React, { useState } from 'react';
 import { Form, Col, Button, Modal } from 'react-bootstrap';
 // import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
+import { useMutation } from '@apollo/client';
+import {
+    CREATE_COMMENT_MUTATION
+} from '../graphql';
 
-const CommentForm = ({ UID, addCmt, group }) => {
+const CommentForm = ({ UID, group }) => {
     const [value, setValue] = useState("");
     const [show, setShow] = useState(false);
+    const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
 
     const handleSubmit = e => {
         e.preventDefault();
         if (!value) return;
-        console.log()
         addCmt({ variables: { UID: UID, content: value, group: group }})
         setValue("");
         setShow(false)
