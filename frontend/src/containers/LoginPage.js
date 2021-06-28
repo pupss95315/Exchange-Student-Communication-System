@@ -178,7 +178,7 @@ const LoginPage = () => {
                     />
                     {/* <Form.Control.Feedback type="invalid"></Form.Control.Feedback> */}
                 </Form.Group>
-                <Button style={{borderRadius: "30px"}}variant="secondary" block size="lg" type="submit"> 登入 </Button>
+                <Button style={{ borderRadius: "30px", margin: "5px" }} variant="secondary" block size="lg" type="submit"> 登入 </Button>
                 <div className="d-flex justify-content-center mt-3">
                 還沒有帳號嗎? <Card.Link href="#" className="ml-2" onClick={(e) => setPage("register")}>註冊</Card.Link>
             </div>

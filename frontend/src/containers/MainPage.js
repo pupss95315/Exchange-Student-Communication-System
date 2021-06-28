@@ -3,7 +3,8 @@ import Bulletin from "../components/Bulletin";
 import Sort from "../components/Sort";
 import InfoPage from "./InfoPage";
 import '../App.css';
-import { Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
+import { Form, Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
+import SearchIcon from '@material-ui/icons/Search';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { useQuery } from '@apollo/client';
@@ -13,6 +14,7 @@ const MainPage = props => {
     const [section, setSection] = useState("全體留言板")
     const [viewType, setViewType] = useState("ALL")
     const [sort, setSort] = useState("最新");
+    const [search, setSearch] = useState("");
     const { match } = props;
     const [show, setShow] = useState(false);
     const [msg, setMsg] = useState("")
@@ -24,7 +26,8 @@ const MainPage = props => {
     while (loading) {
         // do nothing, just wait for loading
     }
-    console.log("user's group: ", data.users[0].group)
+    if (!loading)
+        console.log("user's group: ", data.users[0].group)
     const showAlert = (
         <Modal
             size="sm"
@@ -81,6 +84,14 @@ const MainPage = props => {
                                     <div className="d-flex align-items-center">
                                         <Sort sort={sort} setSort={setSort}></Sort>
                                     </div>
+                                    {(viewType === "ALL" || viewType === "SEARCH")?
+                                        <Form.Row className=" align-items-center justify-content-center" >
+                                            <Col className="d-flex" >
+                                                <Form.Control placeholder="搜尋" onChange={(e) => {setSearch(e.target.value); setViewType("SEARCH");}} />
+                                                <Button type="submit" variant="secondary" size="sm" ><SearchIcon></SearchIcon></Button>    
+                                            </Col>
+                                        </Form.Row>:null
+                                    }
                                 </Row>
                                 <Bulletin 
                                     UID={id}
@@ -89,6 +100,7 @@ const MainPage = props => {
                                     setMsg={setMsg}
                                     group={(data && section === "分組留言板")? data.users[0].group: null}
                                     type={viewType}
+                                    search={search}
                                 ></Bulletin>
                             </Card.Body>
                         </Card>
