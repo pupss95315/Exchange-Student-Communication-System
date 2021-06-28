@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Comment from "./Comment";
-import Sort from "./Sort";
+// import Sort from "./Sort";
 import CommentForm from "./CommentForm";
 import { Row, Col, Card, Container, Nav, Form, Button, Alert, Modal } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
@@ -23,11 +23,8 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
 
     // Query functions
     console.log("group: ", group)
-    const { loading, error, data } = useQuery(COMMENT_QUERY);
-    const { loadingG, errorG, dataG } = useQuery(COMMENT_QUERY, { variables: { group: group } });
+    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group } });
     console.log("comment data: ", data)
-    console.log("group comment data: ", dataG)
-    const showdata = group? dataG: data;
 
     const handleDeleteCmt = async (id) => {
       console.log(id)
@@ -72,8 +69,10 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
                         }
                       // case "DELETED":
                       // case "UPDATED":
+                      default:
+                        throw new Error ("Unexpected mutation type");
                     }
-                    },
+                  },
                 });
             } catch (e) {}
     }, [subscribeToMore]);
@@ -122,7 +121,7 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
               {/* <Sort sort={sort} setSort={setSort}></Sort> */}
           </Col>
         </Row>
-        { showdata? showdata.comments.map((comment, index) => (
+        { data? data.comments.map((comment, index) => (
           <Comment
               key={index}
               UID={UID}
