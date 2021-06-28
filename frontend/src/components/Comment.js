@@ -20,13 +20,13 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     //const [input, setInput] = useState(props.comment.text);
     //const { loading, error, data, subscribeToMore } = useQuery(CHATBOX_QUERY, {variables: {query: } });
 
-    const [replies, setReplies] = useState([]);
+    // const [replies, setReplies] = useState([]);
     const [isReplyEdit, setReplyEdit] = useState(false);
     const [isReplied, setIsReplied] = useState(false);
-    const [replyNum, setReplyNum] = useState(0);
-    const [focusNum, setFocusNum] = useState(0);
-    const [isFocus, setIsFocus] = useState(false);
-    const [time, setTime] = useState(Date().toLocaleString());
+    // const [replyNum, setReplyNum] = useState(0);
+    // const [focusNum, setFocusNum] = useState(0);
+    // const [isFocus, setIsFocus] = useState(false);
+    // const [time, setTime] = useState(Date().toLocaleString());
     
     // Mutation functions
     const [addReply] = useMutation(CREATE_REPLY_MUTATION);

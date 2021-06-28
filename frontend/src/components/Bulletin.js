@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Comment from "./Comment";
 // import Sort from "./Sort";
 import CommentForm from "./CommentForm";
-import { Row, Col, Card, Container, Nav, Form, Button, Alert, Modal } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { useQuery, useMutation } from '@apollo/client';
 import {
     CREATE_COMMENT_MUTATION,
@@ -11,9 +11,10 @@ import {
     COMMENT_QUERY,
     COMMENT_SUBSCRIPTION
 } from '../graphql';
-import InputGroupWithExtras from 'react-bootstrap/esm/InputGroup';
+// import InputGroupWithExtras from 'react-bootstrap/esm/InputGroup';
+// import { UniqueFieldDefinitionNamesRule } from 'graphql';
 
-const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
+const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
     const [comments, setComments] = useState([]);
     const [isEdit, setEdit] = useState(false);
 
@@ -23,8 +24,12 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
 
     // Query functions
-    console.log("group: ", group)
-    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group } });
+    console.log("group, type: ", group, type)
+    const queryData = (type === null)? null: UID;
+    if (type === "ALL")
+      type = null;
+    console.log("queryData: ", queryData)
+    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } });
     console.log("comment data: ", data)
 
     const handleDeleteCmt = async (id) => {

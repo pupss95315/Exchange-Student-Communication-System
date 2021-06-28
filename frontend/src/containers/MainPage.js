@@ -1,19 +1,17 @@
 import { useState } from 'react';
 import Bulletin from "../components/Bulletin";
-import CommentForm from "../components/CommentForm";
 import Sort from "../components/Sort";
 import InfoPage from "./InfoPage";
 import '../App.css';
 import { Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-// import GradeIcon from '@material-ui/icons/Grade';
 import { useQuery } from '@apollo/client';
 import { USER_QUERY } from '../graphql';
 
 const MainPage = props => {
     const [section, setSection] = useState("全體留言板")
-    const [type, setType] = useState("全部")
+    const [viewType, setViewType] = useState("ALL")
     const [sort, setSort] = useState("最新");
     const { match } = props;
     const [show, setShow] = useState(false);
@@ -23,11 +21,10 @@ const MainPage = props => {
     console.log(id)
     // Query the user's group
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
-    // console.log("loading: ", loading)
-    if (loading === false) {
-        // console.log("data: ", data)
-        console.log("user's group: ", data.users[0].group)
-    }    
+    while (loading) {
+        // do nothing, just wait for loading
+    }
+    console.log("user's group: ", data.users[0].group)
     const showAlert = (
         <Modal
             size="sm"
@@ -70,15 +67,15 @@ const MainPage = props => {
                             {/* </Card.Header> */}
                             <Card.Body style={{ width: '100%' }}>
                                 <Row className="justify-content-between align-items-center pr-3 pb-5">
-                                    <Nav md="5" defaultActiveKey="/mainPage" style={{ borderBottom: "10px"}}>
+                                    <Nav md="5" defaultActiveKey="/mainPage" style={{ borderBottom: "10px"}} onSelect={(selectedKey) => setViewType(selectedKey)}>
                                             <Nav.Item className=" pr-3 pl-3">
-                                                <Nav.Link className="nav-link" href={"/mainPage".concat("/", id)} style={{ color: "black", fontSize: "22px"}}>全部</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="ALL" style={{ color: "black", fontSize: "22px"}}>全部</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
-                                                <Nav.Link eventKey="focus" style={{ color: "grey", fontSize: "22px" }}>關注</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="FOLLOW" style={{ color: "grey", fontSize: "22px" }}>關注</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
-                                                <Nav.Link eventKey="reply" style={{ color: "grey", fontSize: "22px" }}>回覆</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="SELF" style={{ color: "grey", fontSize: "22px" }}>我的留言</Nav.Link>
                                             </Nav.Item>
                                     </Nav>
                                     <div className="d-flex align-items-center">
@@ -91,6 +88,7 @@ const MainPage = props => {
                                     msg={msg}
                                     setMsg={setMsg}
                                     group={(data && section === "分組留言板")? data.users[0].group: null}
+                                    type={viewType}
                                 ></Bulletin>
                             </Card.Body>
                         </Card>
