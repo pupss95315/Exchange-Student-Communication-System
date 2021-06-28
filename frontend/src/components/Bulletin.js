@@ -20,7 +20,7 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
     const [isEdit, setEdit] = useState(false);
 
     // Mutation functions
-    const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
+    //const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
     const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
     const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);

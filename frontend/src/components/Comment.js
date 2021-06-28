@@ -25,20 +25,9 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: {CID: comment.id} });
     const [deleteCmt] = useMutation(DELETE_COMMENT_MUTATION);
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
-    // if(data)
-    //     console.log(data.comments[0].replies)
-
-    // const [replies, setReplies] = useState([]);
-    const [isReplyEdit, setReplyEdit] = useState(false);
     const [isReplied, setIsReplied] = useState(false);
-    // const [replyNum, setReplyNum] = useState(0);
-    // const [focusNum, setFocusNum] = useState(0);
-    // const [isFocus, setIsFocus] = useState(false);
-    // const [time, setTime] = useState(Date().toLocaleString());
     const [cmtEdit, setCmtEdit] = useState(false);
     const [cmtValue, setCmtValue] = useState("");
-    //const [isReplyEdit, setReplyEdit] = useState(false);
-    const [isReplied, setIsReplied] = useState(false)
     
     // Mutation functions
 
