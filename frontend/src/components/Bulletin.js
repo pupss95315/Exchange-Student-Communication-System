@@ -15,8 +15,7 @@ import {
 // import InputGroupWithExtras from 'react-bootstrap/esm/InputGroup';
 // import { UniqueFieldDefinitionNamesRule } from 'graphql';
 
-const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
-    const [comments, setComments] = useState([]);
+const Bulletin = ({ UID, setShow, msg, setMsg, group, type, search }) => {
     const [isEdit, setEdit] = useState(false);
 
     // Mutation functions
@@ -29,7 +28,9 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
     console.log("group, type: ", group, type)
     if (type === "ALL")
       type = null;
-    const queryData = (type === null)? null: UID;
+    var queryData = (type === null)? null: UID;
+    if (type === "SEARCH")
+      queryData = search;
     console.log("queryData: ", queryData)
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } });
     console.log("comment data: ", data)

@@ -1,6 +1,5 @@
 import React from "react";
 import { Container, Navbar, Nav, NavDropdown, Row, Col, Accordion, Card, Button,Form} from 'react-bootstrap';
-import SearchBar from "./SearchBar";
 // console.log(localStorage.getItem("id"))
 let UID = localStorage.getItem("id")
 let group = localStorage.getItem("group")
@@ -10,7 +9,6 @@ export default (props) => (
         <Navbar.Brand>
             <h2 style={{fontsize:"80px"}}>110 級交換學生搓湯圓系統</h2>
         </Navbar.Brand>
-        <SearchBar></SearchBar>
         <Navbar.Collapse className="justify-content-end">
             {/* <Nav>  
                 <Nav.Item id="navbarItem">
