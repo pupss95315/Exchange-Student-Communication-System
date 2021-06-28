@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const USER_QUERY = gql`
-  query($UID: String, $group: GroupType){
-    users(UID: $UID, group: $group){
+  query ($UID: String, $group: GroupType) {
+    users (UID: $UID, group: $group) {
       id,
       user_id,
       password,
@@ -19,9 +19,9 @@ export const USER_QUERY = gql`
 `;
 
 export const COMMENT_QUERY = gql`
-  query{
-    comments{
-        author{
+  query ($group: GroupType, $type: QueryType, $data: String) {
+    comments {
+        author {
             user_id
         }
         id
@@ -34,14 +34,6 @@ export const COMMENT_QUERY = gql`
           user_id
         }
         datetime
-    }
-  }
-`;
-
-export const ME_QUERY = gql`
-  query{
-    me{
-        id
     }
   }
 `;

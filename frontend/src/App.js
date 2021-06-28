@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Header from "./components/Header";
 import MainPage from "./containers/MainPage";
 import InfoPage from "./containers/InfoPage";
-import GroupBulletin from "./components/GroupBulletin";
 import LoginPage from "./containers/LoginPage";
 import './App.css';
 import { Container } from 'react-bootstrap';

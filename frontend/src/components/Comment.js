@@ -31,8 +31,8 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     
     // Mutation functions
     const [addReply] = useMutation(CREATE_REPLY_MUTATION);
-    // const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
-    // const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
+    const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
+    const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
 
     // useEffect(() => {
     //     try {
@@ -59,7 +59,7 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     //     } catch (e) {}
     // }, [subscribeToMore]);
     
-    // const addReply = text => {
+    // const addReply = (UID, text) => {
     //     const newReplies = [...replies, text];
     //     setReplies(newReplies);
     //     setReplyNum(replyNum + 1)

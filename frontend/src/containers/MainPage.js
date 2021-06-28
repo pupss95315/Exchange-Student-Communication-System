@@ -7,10 +7,11 @@ import '../App.css';
 import { Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
-import GradeIcon from '@material-ui/icons/Grade';
+// import GradeIcon from '@material-ui/icons/Grade';
+import { useQuery } from '@apollo/client';
+import { USER_QUERY } from '../graphql';
 
 const MainPage = props => {
-    const [me, setMe] = useState("")
     const [section, setSection] = useState("全體留言板")
     const [sort, setSort] = useState("最新");
     const { match } = props;
@@ -19,109 +20,8 @@ const MainPage = props => {
 
     let {id} = match.params;
     console.log(id)
-    // API functions
-    // const getAllCmts = async () => {
-    //     const {
-    //         data: { allComments },
-    //     } = await axios.get('/api/getCmt');
-    //     setComments(allComments);
-    // };
-    
-    // const addCmt = async (text) => {
-    //     const {
-    //         data: { msg },
-    //     } = await axios.post('/api/addCmt', {
-    //         text, 
-    //         UID
-    //     });
-    
-    //     if(msg === "success"){
-    //         // show sucess msg
-    //     }
-    // };
-    
-    // const deleteCmt = async (id) => {
-    //     const {
-    //         data: { msg },
-    //     } = await axios.delete('/api/deleteCmt', {
-    //         id
-    //     });
-    
-    //     if(msg === "success"){
-    //         // show sucess msg
-    //     }
-    // };
-    
-    // const updateCmt = async (id, text) => {
-    //     const {
-    //         data: { msg },
-    //     } = await axios.post('/api/deleteCmt', {
-    //         id,
-    //         text
-    //     });
-    
-    //     if(msg === "success"){
-    //         // show sucess msg
-    //     }
-    // };
-    
-    // const makeCmtQuery = async () => {
-    //     const {
-    //         data: { queryComments },
-    //     } = await axios.get('/api/makeCmtQuery', {
-    //         queryType, 
-    //         queryValue
-    //     });
-    //     setComments(queryComments)
-    // };
-
-    // const removeComment = id => {
-    //     const newComments = [...comments];
-    //     newComments.splice(id, 1);
-    //     setComments(newComments);
-    // };
-
-    // const editComment = (id) => {
-    //     setEdit(true);
-    // };
-    
-    // const updateComment = (id, text) => {
-    //     console.log(text)
-    //     let newComments = comments.map((comment) => {
-    //         if (comment.id === id) {
-    //           comment.text = text;
-    //         }
-    //         return comment;
-    //     });
-    //     setComments(newComments);
-    //     setEdit(false)
-    // };
-
-    // const handleSubmit = e => {
-    //     e.preventDefault();
-    //     if (!value) return;
-    //     addComment(value);
-    //     setValue("");
-    // };
-    // const handleSort = (e) => {
-    //    setSort(e.target.value)
-    //    switch(e.target.value) {
-    //     case '最多人回覆':
-    //         comments.sort(function(a, b){
-    //             if (a[replyNum] < b[replyNum])
-    //                 return -1 
-    //             if (a[replyNum] > b[replyNum])
-    //                 return 1
-    //             return 0
-    //         })
-  
-    //     case '最受歡迎':
-  
-    //       return 'You are a Manager.';
-  
-    //     default:
-    //   }
-    // };
+    // Query the user's group
+    const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
 
     const showAlert = (
         <Modal
@@ -181,13 +81,11 @@ const MainPage = props => {
                                     </div>
                                 </Row>
                                 <Bulletin 
-                                    me={me}
                                     UID={id}
-                                    show={show}
                                     setShow={setShow}
-                                    showAlert={showAlert}
                                     msg={msg}
                                     setMsg={setMsg}
+                                    group={(section === "全體留言板")? null: data.group}
                                 ></Bulletin>
                             </Card.Body>
                         </Card>

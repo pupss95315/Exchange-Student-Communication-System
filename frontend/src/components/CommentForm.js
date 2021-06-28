@@ -1,22 +1,17 @@
 import React, { useState } from 'react';
 import { Form, Col, Button, Modal } from 'react-bootstrap';
-import AddIcon from '@material-ui/icons/Add';
+// import AddIcon from '@material-ui/icons/Add';
 import CreateIcon from '@material-ui/icons/Create';
 
-const CommentForm = ({UID, addCmt}) => {
+const CommentForm = ({ UID, addCmt }) => {
     const [value, setValue] = useState("");
     const [show, setShow] = useState(false);
 
     const handleSubmit = e => {
         e.preventDefault();
         if (!value) return;
-        // addCmt({ variables: {
-        //         author: author,
-        //         content: value,
-        //     }
-        // });
         console.log()
-        addCmt({ variables: {UID: UID, content: value}})
+        addCmt({ variables: { UID: UID, content: value }})
         setValue("");
         setShow(false)
     };

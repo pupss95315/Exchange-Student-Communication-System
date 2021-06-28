@@ -12,7 +12,6 @@ export {
 export { 
     USER_QUERY,
     COMMENT_QUERY,
-    ME_QUERY
 } from './queries';
 
 export { 

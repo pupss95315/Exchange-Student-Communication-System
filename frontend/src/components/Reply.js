@@ -19,7 +19,7 @@ const Reply = ({
                 </div>
                 <div>
                     <Button variant="outline-secondary" size="sm" onClick={() => editReply(id)}>編輯</Button>
-                    <a className='ml-3' style={{color: "grey"}}variant="light" onClick={() => deleteReply(id)}>
+                    <a className='ml-3' style={{color: "grey"}} variant="light" onClick={() => deleteReply(id)}>
                         <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
                     </a>
                 </div>

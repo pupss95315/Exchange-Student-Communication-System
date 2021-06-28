@@ -11,11 +11,10 @@ import {
     COMMENT_QUERY
 } from '../graphql';
 
-const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
+const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
+    console.log(group);
     const [comments, setComments] = useState([]);
     const [isEdit, setEdit] = useState(false);
-    const [section, setSection] = useState("全體留言板");
-    const [isAlert, setIsAlert] = useState(false);
 
     // Mutation functions
     const [addCmt] = useMutation(CREATE_COMMENT_MUTATION);
@@ -23,8 +22,7 @@ const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
 
     // Query functions
-    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY);
-    // console.log(id)
+    const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group } });
     console.log(data)
 
     const handleDeleteCmt = async (id) => {
@@ -48,56 +46,11 @@ const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
       // if(res.updateCmt === "success"){
       //}
     }
-    // useEffect(() => {
-    //     try {
-    //         subscribeToMore({
-    //             document: COMMENT_SUBSCRIPTION,
-    //             updateQuery: (prev, { subscriptionData }) => {
-    //                 if (!subscriptionData.data) return prev;
-    //                     const newComment = subscriptionData.data.comment.data;
-    //                     return {
-    //                         ...prev,
-    //                         comments: [newComment, ...prev.comments],
-    //                     };
-    //                 },
-    //             });
-    //         } catch (e) {}
-    // }, [subscribeToMore]);
-
-    // const addComment = text => {
-    //   const newComments = [...comments, text];
-    //   setComments(newComments);
-    //   setShow(true);
-    // };
-
-    // const addCmt = text => {
-    //   const newComments = [...comments, text];
-    //   setComments(newComments);
-    //   //setShow(true);
-    // };
-
-    const removeComment = id => {
-        const newComments = [...comments];
-        newComments.splice(id, 1);
-        setComments(newComments);
-    };
   
     const editCmt = (id) => {
         setEdit(true);
     };
     
-    const updateComment = (id, text) => {
-        console.log(text)
-        let newComments = comments.map((comment) => {
-            if (comment.id === id) {
-              comment.text = text;
-            }
-            return comment;
-        });
-        setComments(newComments);
-        setEdit(false)
-    };
-
     return (
       <>
         <CommentForm md="9" UID={UID} addCmt={addCmt}></CommentForm>
@@ -111,13 +64,9 @@ const Bulletin = ({me, UID, show, setShow, showAlert, msg, setMsg}) => {
               key={index}
               UID={UID}
               comment={comment}
-            //   removeComment={removeComment}
-            //   editComment={editComment}
-            //   updateComment={updateComment}
               isEdit={isEdit}
               handleDeleteCmt={handleDeleteCmt}
               handleFollow={handleFollow}
-            //   updateCmt={updateCmt}
               editComment={editCmt}
           />
         )): null
