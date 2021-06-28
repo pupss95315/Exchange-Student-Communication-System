@@ -4,9 +4,9 @@ import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
 
 const Reply = ({
     key,
-    id,
+    UID,
     reply,
-    deleteReply,
+    handleDeleteReply,
     editReply,
     updateReply,
     isEdit}) => {
@@ -17,12 +17,16 @@ const Reply = ({
                     <AccountCircleIcon className="mr-2" style={{ fontSize:"45", color:"#E0E0E0" }}></AccountCircleIcon>
                     <span style={{fontSize:"18px"}}>{reply.content}</span>
                 </div>
-                <div>
-                    <Button variant="outline-secondary" size="sm" onClick={() => editReply(id)}>編輯</Button>
-                    <a className='ml-3' style={{color: "grey"}} variant="light" onClick={() => deleteReply(id)}>
-                        <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
-                    </a>
-                </div>
+                {
+                    reply.author.user_id === UID? 
+                    (<div>
+                        <Button variant="outline-secondary" size="sm" onClick={() => editReply(UID)}>編輯</Button>
+                        <a className='ml-3' style={{color: "grey"}} variant="light" onClick={()=>handleDeleteReply(reply.id)}>
+                            <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
+                        </a>
+                    </div>):
+                    null
+                }
             </Card.Body>
         </Accordion.Collapse>
     )

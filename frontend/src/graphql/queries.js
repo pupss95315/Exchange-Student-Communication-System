@@ -28,6 +28,9 @@ export const COMMENT_QUERY = gql`
         content
         replies{
           id
+          author{
+            user_id
+          }
           content
         }
         followers{

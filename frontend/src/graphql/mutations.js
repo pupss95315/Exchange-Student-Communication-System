@@ -45,18 +45,12 @@ export const CREATE_REPLY_MUTATION = gql`
 
 export const DELETE_REPLY_MUTATION = gql`
   mutation deleteReply($RID: ID!) {
-    deleteReply(RID: $RID){
-            id,
-            content
-        }
-    }
+    deleteReply(RID: $RID)
+  }
 `;
 
 export const UPDATE_REPLY_MUTATION = gql`
   mutation updateReply($id: ID!, $data: UpdateReplyInput!) {
-    updateReply(id: $id, data: $data){
-            id,
-            content
-        }
+    updateReply(id: $id, data: $data)
     }
 `;
