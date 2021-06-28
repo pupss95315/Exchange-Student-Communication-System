@@ -46,6 +46,7 @@ const Mutation = {
     return comment;
   },
   async updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
+    console.log("update comment")
     const comment = await db.comments.findOne({_id: CID});
     // console.log(comment);
     if (!comment) {
@@ -57,7 +58,9 @@ const Mutation = {
         //return "success";
       case "FOLLOW":
         const follower = await db.users.findOne({ user_id: data });
-        if (await db.comments.findOne({ replies: { $in: follower._id } })) {
+        const isFollow = await db.comments.findOne({ followers: follower._id })
+        if (isFollow) {
+          console.log(true)
           await db.comments.updateOne({ _id: CID }, { $pull: { followers: follower._id } })
         } else {
           await db.comments.updateOne({ _id: CID }, { $push: { followers: follower._id } })
@@ -127,7 +130,6 @@ const Mutation = {
   },
   async deleteReply(parent, { RID }, { db, pubsub }, info) {
     const reply = await db.replies.findOne({ _id: RID });
-    console.log(reply);
     if (!reply) {
       throw new Error ('Reply not exist');
     }

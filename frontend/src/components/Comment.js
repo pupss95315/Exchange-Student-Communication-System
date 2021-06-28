@@ -25,13 +25,10 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     const [focusNum, setFocusNum] = useState(0);
     const [isFocus, setIsFocus] = useState(false);
     const [time, setTime] = useState(Date().toLocaleString());
-    console.log(UID)
-    console.log(comment)
-    //const { loading, error, data, subscribeToMore } = useQuery(REPLY_QUERY, {variables: {query: id} });
     
     // Mutation functions
     const [addReply] = useMutation(CREATE_REPLY_MUTATION);
-    // const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
+    const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
     // const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
 
     // useEffect(() => {
@@ -71,10 +68,19 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     //     setReplies(newReplies);
     // };
 
-    // const editReply = (id) => {
-    //     setReplyEdit(true);
-    //     //setEdit(false);
-    // };
+    const handleDeleteReply = async (RID) => {
+        const res = await deleteReply({ variables: { RID: RID } })
+        console.log(res)
+        // if(res.deleteReply === "success"){
+        //     set
+        //     setShow(true)
+        // }
+    }
+
+    const editReply = (id) => {
+        setReplyEdit(true);
+        //setEdit(false);
+    };
     // const updateReply = (id, text) => {
     //     console.log(text)
     //     let newReplies = replies.map((Reply) => {
@@ -86,60 +92,8 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     //     setReplies(newReplies);
     //     setReplyEdit(false)
     // };
-
-    /* API function*/
-    // const getReply = async () => {
-    //     const {
-    //         data: { allReplies },
-    //     } = await axios.get('/api/getReply');
-    //     setReplies(allReplies);
-    // };
     
-    // const addReply = async (text) => {
-    //     const {
-    //         data: { msg },
-    //     } = await axios.post('/api/addReply', {
-    //         CID,
-    //         text, 
-    //         UID
-    //     });
-    
-    //     if(msg === "success"){
-    //         // show sucess msg
-    //        setReplyNum(replyNum + 1)
-    //     }
-    // };
-    
-    // const deleteReply = async (id) => {
-    //     const {
-    //         data: { msg },
-    //     } = await axios.delete('/api/deleteReply', {
-    //         CID,
-    //         id
-    //     });
-    
-    //     if(msg === "success"){
-    //         // show sucess msg
-    //         setReplyNum(replyNum - 1)
-    //     }
-    // };
-    
-    // const updateReply = async (id, text) => {
-    //     const {
-    //         data: { msg },
-    //     } = await axios.post('/api/updateReply', {
-    //         RID, CID, UID, Content
-    //     });
-    
-    //     if(msg === "success"){
-    //         // show sucess msg
-    //        setReplyEdit(false)
-    //     }
-    // };
-    
-
-    //const id = props.index > 8 ? (props.index +1) : "0" + (props.index +1)
-
+    console.log(comment.followers)
     return (
         <div className="mb-4">
             <div className="mt-2 d-flex justify-content-between button">
@@ -178,7 +132,7 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
                                 key={index}
                                 UID={UID}
                                 reply={reply}
-                                //deleteReply={deleteReply}
+                                handleDeleteReply={handleDeleteReply}
                                 //removeReply={removeReply}
                                 // editReply={editReply}
                                 // updateReply={updateReply}
@@ -190,7 +144,9 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
             </Accordion>
             <div className="mt-4 mr-3 d-flex justify-content-end align-items-center">
                     {
-                        comment.followers && comment.followers.length && comment.followers.user_id.includes(UID) ? 
+                        
+                        //&& comment.followers.user_id.includes(UID)
+                        comment.followers && comment.followers.length && comment.followers.some(user => user.user_id === UID) ? 
                         <FavoriteIcon style={{color: "red"}} onClick={() => handleFollow(comment.id, "FOLLOW", UID)}></FavoriteIcon > :
                         <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={() => handleFollow(comment.id, "FOLLOW", UID)}></FavoriteBorderOutlinedIcon>
                     }
