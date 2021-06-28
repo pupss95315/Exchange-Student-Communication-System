@@ -84,15 +84,15 @@ const dataInit = async () => {
     await db.users.insertMany(userdata)
   
   // await db.comments.deleteMany({})
-  checkData = await db.comments.find()
-  if (!checkData.length) 
-    await db.comments.insertMany(commentdata)
-  // await db.comments.updateOne({ content: 'Introduce yourself!' }, { $set: { "replies": ["60d699e039fafb1de405c40a", "60d699e039fafb1de405c40b"]} })
+  // // checkData = await db.comments.find()
+  // // if (!checkData.length) 
+  // //   await db.comments.insertMany(commentdata)
+  // // // await db.comments.updateOne({ content: 'Introduce yourself!' }, { $set: { "replies": ["60d699e039fafb1de405c40a", "60d699e039fafb1de405c40b"]} })
 
   // await db.replies.deleteMany({})
-  checkData = await db.replies.find()
-  if (!checkData.length) 
-    await db.replies.insertMany(replydata)
+  // // checkData = await db.replies.find()
+  // if (!checkData.length) 
+  //   await db.replies.insertMany(replydata)
 }
 
 export default dataInit;

@@ -12,11 +12,12 @@ type Mutation {
   updateComment(CID: ID!, type: UpdateType!, data: String!): String!
   
   createReply(UID: String!, CID: ID!, content: String!): Reply!
-  deleteReply(RID: ID!): Reply!
+  deleteReply(RID: ID!): String!
   updateReply(RID: ID!, content: String!): String!
 }
 
 type Subscription {
+  comment: CommentSubscriptionPayload!
   reply: ReplySubscriptionPayload!
 }
 
@@ -106,6 +107,11 @@ enum CollegeType {
 type ReplySubscriptionPayload {
   mutation: MutationType!
   data: Reply!
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  data: Comment!
 }
 
 enum MutationType {
