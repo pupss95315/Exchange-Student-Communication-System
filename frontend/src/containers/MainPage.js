@@ -67,15 +67,15 @@ const MainPage = props => {
                             {/* </Card.Header> */}
                             <Card.Body style={{ width: '100%' }}>
                                 <Row className="justify-content-between align-items-center pr-3 pb-5">
-                                    <Nav md="5" defaultActiveKey="/mainPage" style={{ borderBottom: "10px"}} onSelect={(selectedKey) => setViewType(selectedKey)}>
+                                    <Nav md="5" defaultActiveKey="/mainPage" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
                                             <Nav.Item className=" pr-3 pl-3">
-                                                <Nav.Link className="nav-link" eventKey="ALL" style={{ color: "black", fontSize: "22px"}}>全部</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="ALL" style={{ fontSize: "22px" }}>全部</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
-                                                <Nav.Link className="nav-link" eventKey="FOLLOW" style={{ color: "grey", fontSize: "22px" }}>關注</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="FOLLOW" style={{ fontSize: "22px" }}>關注</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
-                                                <Nav.Link className="nav-link" eventKey="SELF" style={{ color: "grey", fontSize: "22px" }}>我的留言</Nav.Link>
+                                                <Nav.Link className="nav-link" eventKey="SELF" style={{ fontSize: "22px" }}>我的留言</Nav.Link>
                                             </Nav.Item>
                                     </Nav>
                                     <div className="d-flex align-items-center">

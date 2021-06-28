@@ -28,9 +28,9 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group, type }) => {
 
     // Query functions
     console.log("group, type: ", group, type)
-    const queryData = (type === null)? null: UID;
     if (type === "ALL")
       type = null;
+    const queryData = (type === null)? null: UID;
     console.log("queryData: ", queryData)
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } });
     console.log("comment data: ", data)
