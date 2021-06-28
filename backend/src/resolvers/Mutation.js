@@ -54,6 +54,7 @@ const Mutation = {
     switch (type) {
       case "EDIT":
         await db.comments.updateOne({ _id: CID }, { $set: { content: data } })
+        break;
       case "FOLLOW":
         const follower = await db.users.findOne({ user_id: data });
         const isFollow = await db.comments.findOne({ followers: follower._id })
@@ -62,6 +63,7 @@ const Mutation = {
         } else {
           await db.comments.updateOne({ _id: CID }, { $push: { followers: follower._id } })
         } 
+        break;
       default:
         break;
     }

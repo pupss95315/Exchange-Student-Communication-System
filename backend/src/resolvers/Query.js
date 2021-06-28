@@ -1,3 +1,5 @@
+import mongodb from 'mongodb'
+
 const Query = {
   async users(parent, args, { db }, info) {
     if (args.UID) {
@@ -16,29 +18,25 @@ const Query = {
       const ret = await db.comments.findOne({ _id: CID });
       return ret;
     }
-    var comments = db.comments;
-    if (args.group) {
-      comments = await db.comments.find({ group: args.group });
-    } else { // if group is not specified, return comments in the main chat
-      comments = await db.comments.find({ group: null });
-    }
     if (!args.type) {
-      return comments;
+      return db.comments.find({ group: args.group });
     }
     // return comments posted by a specified user
     if (args.type === 'SELF') {
-      const ret = await comments.find({ author: args.data });
+      const user = await db.users.findOne({ user_id: args.data });
+      const ret = await db.comments.find({ group: args.group, author: user._id });
       return ret;
     }
     // return comments containing specified keyword
     if (args.type === 'SEARCH') {
       const prefix = ".*";
-      const ret = await comments.find({ content: { $regex: prefix.concat("", args.data).concat("", prefix) } });
+      const ret = await db.comments.find({ group: args.group, content: { $regex: prefix.concat("", args.data).concat("", prefix) } });
       return ret;
     }
     // return comments followed by a specified user
     if (args.type === 'FOLLOW') {  
-      const ret = await comments.find({ followers: args.data });
+      const user = await db.users.findOne({ user_id: args.data });
+      const ret = await db.comments.find({ group: args.group, followers: user._id });
       return ret;
     }
   },
