@@ -18,6 +18,8 @@ import {
 
 const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, editCmt}) => {
     //const [input, setInput] = useState(props.comment.text);
+    const { loading, error, data, subscribeToMore } = useQuery(CHATBOX_QUERY, {variables: {query: } });
+
     const [replies, setReplies] = useState([]);
     const [isReplyEdit, setReplyEdit] = useState(false);
     const [isReplied, setIsReplied] = useState(false);
@@ -31,30 +33,30 @@ const Comment = ({key, UID, comment, handleDeleteCmt, handleFollow, updateCmt, e
     const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
     // const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
 
-    // useEffect(() => {
-    //     try {
-    //         var a = subscribeToMore({
-    //             document: REPLY_SUBSCRIPTION,
-    //             updateQuery: (prev, { subscriptionData }) => {
-    //                 // console.log(prev)
-    //                 // console.log(subscriptionData)
-    //                 if (!subscriptionData.data) return prev;
-    //                 const newReply = subscriptionData.data.messages.data;
-    //                 var newData = Object.assign({}, prev, {
-    //                     comments: {
-    //                         __typename:　prev.chatBoxes.__typename,
-    //                         id: prev.chatBoxes.id,
-    //                         name:prev.chatBoxes.name,
-    //                         users:prev.chatBoxes.users,
-    //                         messages: [...prev.chatBoxes.messages, newMessage]
-    //                     }
-    //                 })
-    //                 handleReply(newData, name)
-    //                 return newData
-    //             },
-    //         });
-    //     } catch (e) {}
-    // }, [subscribeToMore]);
+    useEffect(() => {
+        try {
+            var a = subscribeToMore({
+                document: REPLY_SUBSCRIPTION,
+                updateQuery: (prev, { subscriptionData }) => {
+                    // console.log(prev)
+                    // console.log(subscriptionData)
+                    if (!subscriptionData.data) return prev;
+                    const newReply = subscriptionData.data.messages.data;
+                    var newData = Object.assign({}, prev, {
+                        comments: {
+                            __typename:　prev.chatBoxes.__typename,
+                            id: prev.chatBoxes.id,
+                            name:prev.chatBoxes.name,
+                            users:prev.chatBoxes.users,
+                            messages: [...prev.chatBoxes.messages, newMessage]
+                        }
+                    })
+                    handleReply(newData, name)
+                    return newData
+                },
+            });
+        } catch (e) {}
+    }, [subscribeToMore]);
     
     // const addReply = text => {
     //     const newReplies = [...replies, text];

@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
 
 export const REPLY_SUBSCRIPTION = gql`
-    subscription reply($cid: ID!) {
-        reply(cid: cid) {
+    subscription reply{
+        reply{
+            mutation
             data {
                 id,
                 author{
-                    id
+                    user_id
                 },
                 comment{
                     id
