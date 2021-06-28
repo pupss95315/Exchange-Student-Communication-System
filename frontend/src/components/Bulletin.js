@@ -11,6 +11,7 @@ import {
     COMMENT_QUERY,
     COMMENT_SUBSCRIPTION
 } from '../graphql';
+import InputGroupWithExtras from 'react-bootstrap/esm/InputGroup';
 
 const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
     const [comments, setComments] = useState([]);
@@ -67,8 +68,10 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
                         return {
                           comments: [newComment, ...prev.comments]
                         }
-                      // case "DELETED":
-                      // case "UPDATED":
+                      case "DELETED":
+                        break;
+                      case "UPDATED":
+                        break;
                       default:
                         throw new Error ("Unexpected mutation type");
                     }
@@ -77,8 +80,8 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
             } catch (e) {}
     }, [subscribeToMore]);
 
-    const addComment = text => {
-      const newComments = [...comments, text];
+    const addComment = (group, text) => {
+      const newComments = [...comments, text, group];
       setComments(newComments);
       setShow(true);
     };
@@ -115,7 +118,7 @@ const Bulletin = ({ UID, setShow, msg, setMsg, group }) => {
 
     return (
       <>
-        <CommentForm md="9" UID={UID} addCmt={addCmt}></CommentForm>
+        <CommentForm md="9" UID={UID} addCmt={addCmt} group={group} ></CommentForm>
         <Row md="9" className="mt-4 align-items-cneter justify-content-between">
           <Col md="4">
               {/* <Sort sort={sort} setSort={setSort}></Sort> */}

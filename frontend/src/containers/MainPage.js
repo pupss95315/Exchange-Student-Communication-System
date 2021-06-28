@@ -13,6 +13,7 @@ import { USER_QUERY } from '../graphql';
 
 const MainPage = props => {
     const [section, setSection] = useState("全體留言板")
+    const [type, setType] = useState("全部")
     const [sort, setSort] = useState("最新");
     const { match } = props;
     const [show, setShow] = useState(false);
@@ -71,7 +72,7 @@ const MainPage = props => {
                                 <Row className="justify-content-between align-items-center pr-3 pb-5">
                                     <Nav md="5" defaultActiveKey="/mainPage" style={{ borderBottom: "10px"}}>
                                             <Nav.Item className=" pr-3 pl-3">
-                                                <Nav.Link className="nav-link" href="/mainPage" style={{ color: "black", fontSize: "22px"}}>全部</Nav.Link>
+                                                <Nav.Link className="nav-link" href={"/mainPage".concat("/", id)} style={{ color: "black", fontSize: "22px"}}>全部</Nav.Link>
                                             </Nav.Item>
                                             <Nav.Item className="pr-3 pl-3">
                                                 <Nav.Link eventKey="focus" style={{ color: "grey", fontSize: "22px" }}>關注</Nav.Link>
