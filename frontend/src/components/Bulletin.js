@@ -20,7 +20,8 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
     //console.log("queryData: ", queryData)
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } });
     const [sort, setSort] = useState("最新");
-    //console.log("comment data: ", data)
+    if (!loading)
+      console.log("comment data: ", data)
 
     useEffect(() => {
         try {
@@ -30,25 +31,26 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
                   console.log(subscriptionData.data.comment.mutation)
                     if (!subscriptionData.data) return prev;
                     const mutation = subscriptionData.data.comment.mutation
+                    var newComment, newComments;
                     switch(mutation){
                       case "CREATED":
-                        var newComment = subscriptionData.data.comment.data;
+                        newComment = subscriptionData.data.comment.data;
                         return {
                           comments: [newComment, ...prev.comments],
                         }
                       case "DELETED":
-                        var newComment = subscriptionData.data.comment.data;
+                        newComment = subscriptionData.data.comment.data;
                         //const deletedComment = subscriptionData.data.comment.data;
-                        var newComments = prev.comments.filter(cmt => cmt.id !== newComment.id)
+                        newComments = prev.comments.filter(cmt => cmt.id !== newComment.id)
                         //console.log(newComments)
                         return {
                           comments: newComments
                         }
                       case "UPDATED":
                         //console.log(true)
-                        var newComment = subscriptionData.data.comment.data;
+                        newComment = subscriptionData.data.comment.data;
                         var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
-                        var newComments = [...prev.comments]
+                        newComments = [...prev.comments]
                         newComments.splice(index, 1, newComment)
                         return {
                           comments: newComments

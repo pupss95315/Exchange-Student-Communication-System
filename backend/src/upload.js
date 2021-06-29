@@ -83,7 +83,7 @@ const dataInit = async () => {
   if (!checkData.length) 
     await db.users.insertMany(userdata)
   
-  await db.comments.deleteMany({})
+  // await db.comments.deleteMany({})
   // checkData = await db.comments.find()
   // if (!checkData.length) 
   //   await db.comments.insertMany(commentdata)

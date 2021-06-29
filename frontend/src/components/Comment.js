@@ -32,10 +32,11 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                 updateQuery: (prev, { subscriptionData }) => {
                     console.log(subscriptionData.data.reply.mutation)
                     const mutation = subscriptionData.data.reply.mutation
+                    var newReply, newReplies;
                     switch(mutation){
                         case "CREATED":
-                            var newReply = subscriptionData.data.reply.data;
-                            var newReplies = [...prev.comments[0].replies]
+                            newReply = subscriptionData.data.reply.data;
+                            newReplies = [...prev.comments[0].replies]
                             return {
                                 comments: [
                                     {
@@ -48,8 +49,8 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                 ]
                             }
                         case "DELETED":
-                            var newReply = subscriptionData.data.reply.data;
-                            var newReplies = prev.comments[0].replies.filter(reply => reply.id !== newReply.id)
+                            newReply = subscriptionData.data.reply.data;
+                            newReplies = prev.comments[0].replies.filter(reply => reply.id !== newReply.id)
                             return {
                                 comments: [
                                     {
@@ -114,7 +115,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                     comment.author.user_id === UID ? 
                     (<div className="d-flex align-items-center">
                         <Button variant="outline-secondary" size="sm" onClick={() => setCmtEdit(! cmtEdit)}>編輯</Button>
-                        <a className='ml-3' style={{color: "grey"}}variant="light" onClick={()=>handleDeleteCmt(comment.id)}>
+                        <a className='ml-3' style={{color: "grey"}} variant="light" onClick={() => handleDeleteCmt(comment.id)}>
                             <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
                         </a>
                     </div>):
