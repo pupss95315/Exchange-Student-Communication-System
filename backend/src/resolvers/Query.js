@@ -7,14 +7,13 @@ const Query = {
       return ret;
     }
     if (args.group) {
-      const ret = [await db.users.findOne({ group : args.group })];
+      const ret = await db.users.find({ group : args.group });
       return ret;
     }
     // if no filter, return all users
     return db.users;  
   },
   async comments(parent, args, { db }, info) {
-    console.log(true)
     if (args.CID) {
       const ret = await db.comments.findOne({ _id: args.CID });
       //console.log(ret)
