@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Comment from "./Comment";
 import Sort from "./Sort";
 import CommentForm from "./CommentForm";
-import { Row, Col } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import { useQuery } from '@apollo/client';
 import {
     COMMENT_QUERY,
@@ -20,8 +20,25 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
     //console.log("queryData: ", queryData)
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } });
     const [sort, setSort] = useState("最新");
-    if (!loading)
+    var comments
+    if (!loading) {
       console.log("comment data: ", data)
+      comments = data.comments;
+    }
+    console.log("comments: ", comments);
+    switch(sort) {
+      case "最新":
+        // sort comments;
+        break;
+      case "關注":
+        // sort comments;
+        break;
+      case "回覆":
+        // sort comments;
+        break;
+      default:
+        break;
+    }
 
     useEffect(() => {
         try {
@@ -66,10 +83,10 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
     return (
       <>
         <Row md="9" className="m-1 pb-5 align-items-cneter justify-content-between">
-          <CommentForm md="9" UID={UID} group={group} ></CommentForm>
+          { (type === null)? <CommentForm md="9" UID={UID} group={group} ></CommentForm>: null }
           <Sort sort={sort} setSort={setSort}></Sort>
         </Row>
-        { data? data.comments.map((comment, index) => (
+        { data? comments.map((comment, index) => (
           <Comment
               key={index}
               UID={UID}
@@ -77,8 +94,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
               setShow={setShow}
               setMsg={setMsg}
           />
-        )): null
-        }
+        )): null }
     </>
   )
 }

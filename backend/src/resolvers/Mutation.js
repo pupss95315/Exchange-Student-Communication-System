@@ -30,8 +30,14 @@ const Mutation = {
       throw new Error ('User cannot leave comment in the other groups');
     }
     var currenttime = new Date();
-    //console.log("current time: ", currenttime);
-    var comment = new db.comments({ author: mongodb.ObjectId(user._id), datetime: currenttime, ...args });
+    // console.log("current time: ", currenttime);
+    // console.log("date string: ", String(currenttime).substr(0, 21));
+    var comment = new db.comments({ 
+      author: mongodb.ObjectId(user._id), 
+      // datetime: { $dateToString: { format: "%Y-%m-%d %H:%M", date: currenttime } }, 
+      datetime: String(currenttime).substr(0, 21),
+      ...args 
+    });
     console.log("comment: ", comment);
     comment.save();
 

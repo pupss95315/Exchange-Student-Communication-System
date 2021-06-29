@@ -108,7 +108,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                     <AccountCircleIcon color="action" className="mr-2" style={{ fontSize:"45" }}></AccountCircleIcon>
                     <div>
                         <h6 className="mb-0">{comment.author.user_id}</h6>
-                        <span style={{ fontSize:"small" }}>發布於 {comment.datetime}</span>
+                        <span style={{ fontSize:"small" }}>Posted at {comment.datetime}</span>
                     </div>
                 </div>
                 {

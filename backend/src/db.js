@@ -21,7 +21,7 @@ const commentSchema = new Schema({
   followers: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
   replies: [{ type: mongoose.Types.ObjectId, ref: 'replies' }],
   group: String,
-  datetime: { type: Date, required: true },
+  datetime: { type: String, required: true },
 });
 
 const replySchema = new Schema({
