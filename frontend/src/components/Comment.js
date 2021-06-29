@@ -166,7 +166,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                     <ModeCommentOutlinedIcon style={{color: "grey"}} >回覆</ModeCommentOutlinedIcon>
                     <span className='mr-3 ml-3'>{comment.replies.length}</span> 
                     <ReplyOutlinedIcon color={isReplied?"disabled":"grey"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
-                    {isReplied ? <ReplyForm UID={UID} CID={comment.id} setShow={setShow} setMsg={setMsg} />:null}
+                    {isReplied ? <ReplyForm setIsReplied={setIsReplied} UID={UID} CID={comment.id} setShow={setShow} setMsg={setMsg} />:null}
             </div>
         </div>
     )

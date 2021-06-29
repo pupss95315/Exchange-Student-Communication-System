@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Header from "./components/Header";
+// import Footer from "./components/Footer";
 import MainPage from "./containers/MainPage";
 import InfoPage from "./containers/InfoPage";
 import LoginPage from "./containers/LoginPage";
@@ -13,17 +14,17 @@ function App() {
     const [isLogin, setIsLogin] = useState(false)
     const [id, setId] = useState("")
     
-    //console.log(history.location.pathname)
     return(
         <>
             {
-              location.pathname ==='/' ? null:<Header id={id}/>
+                location.pathname ==='/' ? null:<Header id={id}/>
             }
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
                 <Route path="/mainPage/:id" component={MainPage}/>
                 <Route path="/infoPage/:group/:id" component={InfoPage}/>
             </Switch>
+            {/* <Footer></Footer> */}
         </>
     )
 }

@@ -48,11 +48,9 @@ const LoginPage = () => {
                 setMsg("密碼錯誤")
                 setShow(true)
             }
-            else{
+            else if(password === data.users[0].password){
                 setValidated(true)
                 window.localStorage.setItem("id", UID)
-                // console.log(data.users[0].group)
-                // console.log(typeof(data.users[0].group))
                 window.localStorage.setItem("group", data.users[0].group)
                 history.push(`/mainPage/${UID}`)
             }

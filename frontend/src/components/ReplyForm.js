@@ -5,7 +5,7 @@ import {
     CREATE_REPLY_MUTATION
 } from '../graphql';
 
-const ReplyForm = ({UID, CID, setShow, setMsg}) => {
+const ReplyForm = ({UID, CID, setIsReplied, setShow, setMsg}) => {
     const [replyValue, setReplyValue] = useState("");
     const [addReply] = useMutation(CREATE_REPLY_MUTATION);
 
@@ -16,6 +16,7 @@ const ReplyForm = ({UID, CID, setShow, setMsg}) => {
         //addReply({ variables: {}}replyValue);
         setReplyValue("")
         setMsg("回覆新增成功")
+        setIsReplied(false)
         setShow(true)
     };
 

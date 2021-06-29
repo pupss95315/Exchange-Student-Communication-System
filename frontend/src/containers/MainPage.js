@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import Bulletin from "../components/Bulletin";
-import Sort from "../components/Sort";
-import InfoPage from "./InfoPage";
 import '../App.css';
 import { Form, Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
@@ -65,7 +63,7 @@ const MainPage = props => {
                         </Nav>
                     </Col>
                     <Col md="9">
-                        <Card className="align-items-start" style={{ height: '200rem', borderRadius: "30px" }}>
+                        <Card className="align-items-start mb-5" style={{borderRadius: "30px" }}>
                             {/* <Card.Header style={{ width: '100%' }}as="h5"> */}
                             {/* </Card.Header> */}
                             <Card.Body style={{ width: '100%' }}>
