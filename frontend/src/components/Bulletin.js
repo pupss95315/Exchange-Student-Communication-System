@@ -10,7 +10,7 @@ import {
 } from '../graphql';
 
 const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
-    console.log("group, type: ", group, type)
+    //console.log("group, type: ", group, type)
     if (type === "ALL")
       type = null;
     var queryData = (type === null)? null: UID;
@@ -20,8 +20,27 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
     //console.log("queryData: ", queryData)
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } });
     const [sort, setSort] = useState("最新");
-    var comments
-    if (!loading) {
+    // const handleSort = (attribute) => {
+    //   console.log(attribute)
+    //   // if(data){
+    //   //   switch(attribute){
+    //   //     case "datetime":
+    //   //       console.log(true)
+    //   //       data.comments.sort(function(a, b){
+    //   //         return b[attribute]-a[attribute]
+    //   //       })
+    //   //     case "關注":
+    //   //       console.log(true)
+    //   //       var temp = data.comments.sort(function(a, b){
+    //   //         return b.followers.length-a.followers.length
+    //   //       })
+    //   //       console.log(temp)
+    //   //   }
+    //   // }
+    // }
+    //console.log("comment data: ", data)
+    var comments;
+    if (!loading)
       console.log("comment data: ", data)
       comments = data.comments;
     }

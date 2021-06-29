@@ -5,7 +5,7 @@ let UID = localStorage.getItem("id")
 let group = localStorage.getItem("group")
 
 export default (props) => (
-    <Navbar bg="light" className="mb-5 py-4 pr-5 pl-5 align-items-center" expand="xl">
+    <Navbar style={{backgroundColor: "#F4F3EE"}} className="mb-5 py-4 pr-5 pl-5 align-items-center" expand="xl">
         <Navbar.Brand>
             <h2 style={{fontsize:"80px"}}>110 級交換學生搓湯圓系統</h2>
         </Navbar.Brand>

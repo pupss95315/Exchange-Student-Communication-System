@@ -20,7 +20,7 @@ const InfoPage = props => {
     let {group, id} = match.params;
 
     // Mutation function
-    // const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     const collegeMapping = {
       "C1": "文學院",
       "C2": "理學院",
@@ -34,20 +34,49 @@ const InfoPage = props => {
       "CA": "法學院",
       "C8": "生科院"
     }
+
+    const isRegistedMapping = {
+      true: "報到",
+      false: "放棄"
+    }
+
+    const groupMapping = {
+      "GENERAL": "一般組",
+      "FRENCH": "法文組",
+      "JAPANESE": "日文組",
+      "SPANISH": "西文組",
+      "KOREAN": "韓文組",
+      "GERMAN": "德文組",
+      "CHINESE": "中文組"
+    }
     
     const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: group}});
     useEffect(() => {
       if(data){
-        console.log(data)
-        setInfoList(data.users)
+        var users = [...data.users]
+        var curList = users.map(function(user){
+          var newUser = user
+          console.log(user.isRegistered)
+          newUser = {
+            ...user, 
+            college: collegeMapping[user.college], 
+            isRegistered: isRegistedMapping[user.isRegistered]}
+          return newUser
+        });
+        setInfoList(curList)
       }
     }, [data])
     // infoList = data;
     
     const [show, setShow] = useState(false);
 
-    const onAfterSaveCell = (oldValue, newValue, row, cellName) => {
-        //updateUserInfo(UID, cellName, newValue);
+    const onAfterSaveCell = async (oldValue, newValue, row, cellName) => {
+        console.log(cellName.dataField)
+        console.log(newValue)
+        var cellName = cellName.dataField
+        if(cellName.dataField === "GPA"){
+          await updateUser({ variables: {UID: id, data: {GPA: newValue}} });
+        }
         setShow(true)
     }
 
@@ -64,28 +93,6 @@ const InfoPage = props => {
         //beforeSaveCell: onBeforeSaveCell, // a hook for before saving cell
         afterSaveCell: onAfterSaveCell  // a hook for after saving cell
     });
-    
-    
-
-    /* API functions*/
-    /*
-    const getUserInfo = async () => {
-      const {
-        data: { userInfo },
-      } = await axios.get('/api/getUserInfo');
-      setInfoList(userInfo);
-    };
-
-    const updateUserInfo = async (UID, updateType, updateValue) => {
-      const {
-        data: { msg },
-      } = await axios.post('/api/updateUserInfo', {
-        UID, 
-        updateType, 
-        updateValue
-      });
-    };
-    */
 
     const showAlert = (
       <Modal
@@ -98,21 +105,32 @@ const InfoPage = props => {
       </Modal>
     )
 
-
     const columns = [{
         dataField: 'user_id',
         text: '序號',
-        active: false
+        active: false,
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }, {
         dataField: 'GPA',
-        text: '成績'
+        text: '成績',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }, {
         dataField: 'GPA2',
-        text: '複查成績'
+        text: '複查成績',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }, 
       {
         dataField: 'college',
         text: '學院',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns',
         editor: {
             type: Type.SELECT,
             options: [{
@@ -140,10 +158,16 @@ const InfoPage = props => {
         }
       }, {
         dataField: 'school',
-        text: '錄取學校'
+        text: '錄取學校',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }, {
         dataField: 'isRegistered',
         text: '報到/放棄',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns',
         editor: {
             type: Type.SELECT,
             options: [{
@@ -157,6 +181,9 @@ const InfoPage = props => {
       },{
         dataField: 'duration',
         text: '預計交換期間',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns',
         editor: {
             type: Type.SELECT,
             options: [{
@@ -172,29 +199,40 @@ const InfoPage = props => {
         }
       }, {
         dataField: 'languageExam',
-        text: '語言檢定'
+        text: '語言檢定',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }, {
         dataField: 'isCollegeExchange',
-        text: '院級交換'
+        text: '院級交換',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }, {
         dataField: 'application',
-        text: '預計志願'
+        text: '預計志願',
+        headerAlign: 'center',
+        align: 'center',
+        classes: 'table__columns'
       }];
     return(
       <>
         <Container>
           {showAlert}
           <div>
-              <h3 style={{fontWeight: "bold"}} className="mb-3">法文組志願表</h3>
-              <h6 style={{color:"grey", fontWeight: "lighter"}} className="mb-4">祝大家都可以申請到喜歡的學校！</h6>
+              <h3 style={{fontWeight: "bold"}} className="mb-3">{groupMapping[group]}志願表</h3>
+              <h6 style={{color:"#463F3A", fontWeight: "lighter"}} className="mb-4">祝大家都可以申請到喜歡的學校！</h6>
           </div>
           <BootstrapTable 
               keyField="user_id" 
               data={infoList} 
               columns={columns}
               cellEdit={cellEdit}
-              className="align-items-center justify-content-center"
-              headerAlign='center'
+              headerClasses="table__header"
+              hover
+              striped
+              bordered={ false }
           >
           </BootstrapTable >
         </Container>
