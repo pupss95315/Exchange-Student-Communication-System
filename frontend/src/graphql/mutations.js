@@ -4,10 +4,7 @@ export const UPDATE_USER_MUTATION = gql`
   mutation updateUser(
     $UID: String!, 
     $data: UpdateUserInput!){
-        updateUser(
-          UID: $UID, 
-          data: $data
-        )
+        updateUser(UID: $UID, data: $data)
     }
 `;
 

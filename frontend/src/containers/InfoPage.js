@@ -53,6 +53,7 @@ const InfoPage = props => {
     const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: group}});
     useEffect(() => {
       if(data){
+        console.log(data.users)
         var users = [...data.users]
         var curList = users.map(function(user){
           var newUser = user
@@ -71,11 +72,29 @@ const InfoPage = props => {
     const [show, setShow] = useState(false);
 
     const onAfterSaveCell = async (oldValue, newValue, row, cellName) => {
-        console.log(cellName.dataField)
-        console.log(newValue)
         var cellName = cellName.dataField
-        if(cellName.dataField === "GPA"){
-          await updateUser({ variables: {UID: id, data: {GPA: newValue}} });
+        if(cellName === 'GPA'){
+          await updateUser({ variables: {UID: id, data: {GPA: Number(newValue)}} });
+        }
+        else if(cellName === 'college'){
+          var update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
+          await updateUser({ variables: {UID: id, data: {college: update}} });
+        }
+        else if(cellName === 'school'){
+          await updateUser({ variables: {UID: id, data: {school: newValue}} });
+        }
+        else if(cellName === 'duration'){
+          await updateUser({ variables: {UID: id, data: {duration: newValue}} });
+        }
+        else if(cellName === 'isRegistered'){
+          var update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
+          await updateUser({ variables: {UID: id, data: {isRegistered: update}} });
+        }
+        else if(cellName === 'languageExam'){
+          await updateUser({ variables: {UID: id, data: {languageExam: newValue}} });
+        }
+        else if(cellName === 'apply_list'){
+          await updateUser({ variables: {UID: id, data: {application: newValue}} });
         }
         setShow(true)
     }
@@ -83,7 +102,7 @@ const InfoPage = props => {
     const nonEditableRows = () => {
       return infoList && infoList.filter((title) => {
         return title.user_id !== id;})
-        .map(title => title.UID)
+      .map(title => title.user_id)
     }
 
     const cellEdit = cellEditFactory( {
@@ -134,26 +153,38 @@ const InfoPage = props => {
         editor: {
             type: Type.SELECT,
             options: [{
+              value: '文學院',
+              label: '文學院'
+            }, {
               value: '理學院',
               label: '理學院'
-            }, {
-              value: '生物',
-              label: '生物'
             }, {
               value: '醫學院',
               label: '醫學院'
             }, {
+              value: '社科院',
+              label: '社科院'
+            }, {
               value: '工學院',
               label: '工學院'
             }, {
-              value: '電資學院',
-              label: '電資學院'
-            }, {
-                value: '社科院',
-                label: '社科院'
+                value: '生農學院',
+                label: '生農學院'
             }, {
                 value: '管理學院',
                 label: '管理學院'
+            },{
+              value: '公衛學院',
+              label: '公衛學院'
+            },{
+              value: '電資學院',
+              label: '電資學院'
+            },{
+              value: '法學院',
+              label: '法學院'
+            },{
+              value: '生科院',
+              label: '生科院'
             }]
         }
       }, {
@@ -203,14 +234,16 @@ const InfoPage = props => {
         headerAlign: 'center',
         align: 'center',
         classes: 'table__columns'
-      }, {
-        dataField: 'isCollegeExchange',
-        text: '院級交換',
-        headerAlign: 'center',
-        align: 'center',
-        classes: 'table__columns'
-      }, {
-        dataField: 'application',
+      }, 
+      // {
+      //   dataField: 'isCollegeExchange',
+      //   text: '院級交換',
+      //   headerAlign: 'center',
+      //   align: 'center',
+      //   classes: 'table__columns'
+      // }, 
+      {
+        dataField: 'apply_list',
         text: '預計志願',
         headerAlign: 'center',
         align: 'center',

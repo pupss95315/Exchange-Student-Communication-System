@@ -7,7 +7,7 @@ const Query = {
       return ret;
     }
     if (args.group) {
-      const ret = [await db.users.findOne({ group : args.group })];
+      const ret = await db.users.find({ group : args.group });
       return ret;
     }
     // if no filter, return all users

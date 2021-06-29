@@ -51,8 +51,7 @@ const Mutation = {
     return comment;
   },
   async updateComment(parent, { CID, type, data }, { db, pubsub }, info) {
-    console.log("update comment")
-    console.log(CID)
+    console.log("Update comment")
     var comment = await db.comments.findOne({_id: CID});
     // console.log(comment);
     if (!comment) {
@@ -77,7 +76,7 @@ const Mutation = {
     }
     comment = await db.comments.findOne({_id: CID});
     
-    console.log(comment)
+    console.log("comment: ", comment);
     pubsub.publish('comment', {
       comment: {
         mutation: 'UPDATED',
@@ -120,7 +119,7 @@ const Mutation = {
     }
     // if both author and parent comment are found, create a reply and return it
     var currenttime = new Date();
-    console.log("current time: ", currenttime);
+    //console.log("current time: ", currenttime);
     var reply = new db.replies({ author: user._id, comment: CID, content: content, datetime: currenttime });
     //console.log(reply);
     reply.save();
@@ -138,7 +137,6 @@ const Mutation = {
   },
   async deleteReply(parent, { RID }, { db, pubsub }, info) {
     const reply = await db.replies.findOne({ _id: RID });
-    console.log(reply)
     const CID = reply.comment
     if (!reply) {
       throw new Error ('Reply not exist');
@@ -153,12 +151,10 @@ const Mutation = {
     })
 
     var msg = "success";
-    console.log(msg);
     return msg;
   },
   async updateReply(parent, { RID, content }, { db, pubsub }, info) {
     const reply = await db.replies.findOne({ _id: RID });
-    console.log(reply);
     if (!reply) {
       throw new Error ('Reply not exist');
     }
