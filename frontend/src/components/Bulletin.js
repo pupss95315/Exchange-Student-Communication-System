@@ -39,7 +39,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
       // }
     }
     var comments;
-    if (!loading)
+    if (!loading) {
       console.log("comment data: ", data)
       comments = data.comments;
     }
