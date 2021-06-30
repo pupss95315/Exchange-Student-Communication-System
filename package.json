@@ -4,6 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": "14.x",
+    "npm": "7.x", 
+    "yarn": "1.x"
+  },
   "scripts": {
     "start": "cd backend && node server.js",
     "build": "cd frontend && yarn build",
