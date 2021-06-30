@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "cd backend && node server.js",
-    "build": "cd frontend && yarn build",
+    "build": "(cd frontend && npm install && npm build) && (cd backend && npm install)",
     "start_react": "cd frontend && yarn start"
   }
 }
