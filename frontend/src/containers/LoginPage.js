@@ -1,5 +1,5 @@
 import { Button,Form, Card, Container, Modal, Row, InputGroup } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom'
+import { useHistory, Redirect } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { useMutation, useLazyQuery } from '@apollo/client';
@@ -20,6 +20,7 @@ const LoginPage = () => {
     const [page, setPage] = useState("login");
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(false)
     const history = useHistory();
 
     useEffect(() => {
@@ -48,7 +49,8 @@ const LoginPage = () => {
                 window.localStorage.setItem("id", UID)
                 window.localStorage.setItem("group", data.users[0].group)
                 window.localStorage.setItem("isLogin", true)
-                history.push(`/mainPage/${UID}`)
+                // history.push(`/mainPage/${UID}`)
+                setLoggedIn(true)
             }
         }
         else{
@@ -187,17 +189,20 @@ const LoginPage = () => {
 
     return (
         <>
-            <Container className="center d-flex justify-content-center">
-                {showAlert}
-                <Card style={{width: "50%", borderRadius: "30px"}}>
-                    <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
-                        <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
-                    </Card.Title>
-                    <div className="d-flex justify-content-center mb-4">
-                        { page === "login" ? login : register }
-                    </div>
-                </Card>
-            </Container>
+            {
+                loggedIn? <Redirect push to="/mainPage/${UID}"/>:
+                (<Container className="center d-flex justify-content-center">
+                    {showAlert}
+                    <Card style={{width: "50%", borderRadius: "30px"}}>
+                        <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
+                            <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
+                        </Card.Title>
+                        <div className="d-flex justify-content-center mb-4">
+                            { page === "login" ? login : register }
+                        </div>
+                    </Card>
+                </Container>)
+            }
         </>
     )
 };
