@@ -22,7 +22,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
     const [isReplied, setIsReplied] = useState(false);
     const [cmtEdit, setCmtEdit] = useState(false);
-    const [cmtValue, setCmtValue] = useState("");
+    const [cmtValue, setCmtValue] = useState(comment.content);
 
     useEffect(() => {
         try {

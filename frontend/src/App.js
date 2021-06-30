@@ -6,22 +6,29 @@ import InfoPage from "./containers/InfoPage";
 import LoginPage from "./containers/LoginPage";
 import './App.css';
 import { Container } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Link, useLocation } from 'react-router-dom';
+import { Route, Redirect, useLocation } from 'react-router-dom';
 import { BrowserRouter, Switch } from 'react-router-dom';
 
 function App() {
     const location = useLocation();
-    const [isLogin, setIsLogin] = useState(false)
-    const [id, setId] = useState("")
+    //const [isLogin, setIsLogin] = useState(false)
+    //const [id, setId] = useState("")
+    let isLogin = localStorage.getItem("isLogin")
     
     return(
         <>
             {
-                location.pathname ==='/' ? null:<Header id={id}/>
+                location.pathname ==='/' ? null:<Header/>
             }
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
-                <Route path="/mainPage/:id" component={MainPage}/>
+                {
+                    isLogin?
+                    (
+                        <Route path="/mainPage/:id" component={MainPage}/>
+                    ):
+                    (<Redirect to={{ pathname: '/', state: { msg: "msg" }}}/>)
+                }
                 <Route path="/infoPage/:group/:id" component={InfoPage}/>
             </Switch>
             {/* <Footer></Footer> */}
