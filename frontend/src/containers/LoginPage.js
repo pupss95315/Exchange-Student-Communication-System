@@ -1,6 +1,6 @@
-import { Button,Form, Card, Container, Modal, Row, InputGroup } from 'react-bootstrap';
+import { Button,Form, Card, Container, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../App.css';
 import { useMutation, useLazyQuery } from '@apollo/client';
 import {
@@ -20,15 +20,10 @@ const LoginPage = () => {
     const [page, setPage] = useState("login");
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
-    const [loggedIn, setLoggedIn] = useState(false)
+    //const [loggedIn, setLoggedIn] = useState(false)
     //const history = useHistory();
 
-    useEffect(() => {
-        if (data && !loading) {
-            console.log(data)
-            handleAfterQuery()
-        }
-    }, [data, loading]);
+    
     
     const handleAfterQuery = async () => {
         if(page === "login"){
@@ -49,7 +44,7 @@ const LoginPage = () => {
                 window.localStorage.setItem("id", UID)
                 window.localStorage.setItem("group", data.users[0].group)
                 window.localStorage.setItem("isLogin", true)
-                setLoggedIn(true)
+                //setLoggedIn(true)
             }
         }
         else{
@@ -120,6 +115,13 @@ const LoginPage = () => {
             <Modal.Header closeButton>{msg}</Modal.Header>
         </Modal>
     )
+
+    useEffect(() => {
+        if (data && !loading) {
+            console.log(data)
+            handleAfterQuery()
+        }
+    }, [data, loading]);
 
     const login = (
         <>

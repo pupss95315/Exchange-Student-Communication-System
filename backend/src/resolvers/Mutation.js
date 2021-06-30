@@ -158,13 +158,15 @@ const Mutation = {
     return msg;
   },
   async updateReply(parent, { RID, content }, { db, pubsub }, info) {
-    const reply = await db.replies.findOne({ _id: RID });
+    var reply = await db.replies.findOne({ _id: RID });
     if (!reply) {
       throw new Error ('Reply not exist');
     }
     await db.replies.updateOne({ _id: RID }, { $set: { content: content } })
+    reply = await db.replies.findOne({ _id: RID });
+    console.log(reply)
 
-    pubsub.publish(`reply ${CID}`, {
+    pubsub.publish(`reply ${reply.comment}`, {
       reply: {
         mutation: 'UPDATED',
         data: reply

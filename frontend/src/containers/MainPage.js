@@ -19,8 +19,8 @@ const MainPage = props => {
 
     let id = localStorage.getItem("id")
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
-    if (!loading)
-        console.log("user's group: ", data.users[0].group)
+    //if (!loading)
+    //    console.log("user's group: ", data.users[0].group)
     
     const showAlert = (
         <Modal

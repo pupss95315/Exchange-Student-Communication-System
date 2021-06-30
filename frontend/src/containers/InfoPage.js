@@ -28,7 +28,7 @@ const InfoPage = props => {
       "C8": "公衛學院",
       "C9": "電資學院",
       "CA": "法學院",
-      "C8": "生科院"
+      "CB": "生科院"
     }
 
     const isRegisteredMapping = {
@@ -47,7 +47,7 @@ const InfoPage = props => {
     }
     
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
-    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: group}});
+    const { loading, error, data } = useQuery(USER_QUERY, { variables: {group: group}});
 
     useEffect(() => {
       if(data){
@@ -80,6 +80,7 @@ const InfoPage = props => {
 
     const onAfterSaveCell = async (oldValue, newValue, row, cellName) => {
         var cellName = cellName.dataField
+        var update
         var msg = ""
         if(cellName === 'GPA'){
           msg = await updateUser({ variables: {UID: id, data: {GPA: Number(newValue)}} });
@@ -88,7 +89,7 @@ const InfoPage = props => {
         //   await updateUser({ variables: {UID: id, data: {GPA: Number(newValue)}} });
         // }
         else if(cellName === 'college'){
-          var update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
+          update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
           msg = await updateUser({ variables: {UID: id, data: {college: update}} });
         }
         else if(cellName === 'school'){
@@ -98,7 +99,7 @@ const InfoPage = props => {
           msg = await updateUser({ variables: {UID: id, data: {duration: newValue}} });
         }
         else if(cellName === 'isRegistered'){
-          var update = Object.keys(isRegisteredMapping).find(key => isRegisteredMapping[key] === newValue);
+          update = Object.keys(isRegisteredMapping).find(key => isRegisteredMapping[key] === newValue);
           msg = await updateUser({ variables: {UID: id, data: {isRegistered: update === "true"}} });
         }
         else if(cellName === 'languageExam'){

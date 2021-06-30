@@ -7,7 +7,7 @@ import './App.css';
 import { Route, Redirect, Switch, useLocation } from 'react-router-dom';
 
 function App() {
-    // const location = useLocation();
+    const location = useLocation();
     //const [isLogin, setIsLogin] = useState(false)
     //const [id, setId] = useState("")
     let isLogin = localStorage.getItem("isLogin")
@@ -15,7 +15,7 @@ function App() {
     
     return(
         <>
-            { isLogin? <Header/>: null }
+            { location.pathname === "/" ? null : <Header/> }
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
                 {
