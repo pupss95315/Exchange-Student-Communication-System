@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';

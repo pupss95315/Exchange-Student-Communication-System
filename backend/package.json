@@ -8,6 +8,7 @@
     "server": "nodemon src/index.js --ext js,graphql --exec babel-node"
   },
   "dependencies": {
+    "apollo-server-express": "^2.25.2",
     "dotenv-defaults": "^2.0.2",
     "graphql-yoga": "^1.18.3",
     "mongoose": "^5.12.14"

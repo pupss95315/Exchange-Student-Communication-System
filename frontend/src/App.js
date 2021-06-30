@@ -5,9 +5,18 @@ import MainPage from "./containers/MainPage";
 import InfoPage from "./containers/InfoPage";
 import LoginPage from "./containers/LoginPage";
 import './App.css';
-import { Container } from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Link, useLocation } from 'react-router-dom';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
+// import urlEncrypt from 'url-encrypt';
+
+// const encryptor = urlEncrypt({/* secretKey: .. .. another options */});
+// encryptor.config({
+//     secretKey: 'some-secret-key',
+//     prefix: 'psx_',
+//     expiredAfterSeconds: 900,
+//     algorithm: 'sha256',
+//     oversight: 30
+// });
 
 function App() {
     const location = useLocation();
@@ -16,13 +25,11 @@ function App() {
     
     return(
         <>
-            {
-                location.pathname ==='/' ? null:<Header id={id}/>
-            }
+            { location.pathname ==='/' ? null: <Header id={id}/> }
             <Switch>      
-                <Route exact path="/" component={LoginPage}/>
-                <Route path="/mainPage/:id" component={MainPage}/>
-                <Route path="/infoPage/:group/:id" component={InfoPage}/>
+                <Route exact path="/" component={LoginPage} />
+                <Route path="/mainPage/:id" component={MainPage} />
+                <Route path="/infoPage/group?=:group/id?=:id" component={InfoPage} />
             </Switch>
             {/* <Footer></Footer> */}
         </>

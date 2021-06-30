@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "scripts": {
-    "start": "cd frontend && yarn start",
-    "server": "cd backend && yarn server"
+    "start": "cd backend && node server.js",
+    "build": "cd frontend && yarn build",
+    "start_react": "cd frontend && yarn start"
   }
 }

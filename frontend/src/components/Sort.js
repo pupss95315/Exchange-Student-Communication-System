@@ -1,3 +1,4 @@
+import React from 'react';
 import { Form } from 'react-bootstrap';
 
 const Sort = ({sort, setSort}) => {
