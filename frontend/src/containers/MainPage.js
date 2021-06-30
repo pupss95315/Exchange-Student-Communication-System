@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState } from 'react';
 import Bulletin from "../components/Bulletin";
 import '../App.css';

@@ -1,13 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Header from "./components/Header";
-// import Footer from "./components/Footer";
 import MainPage from "./containers/MainPage";
 import InfoPage from "./containers/InfoPage";
 import LoginPage from "./containers/LoginPage";
 import './App.css';
-import { Container } from 'react-bootstrap';
-import { Route, Redirect, useLocation } from 'react-router-dom';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { Route, Redirect, useLocation, Switch } from 'react-router-dom';
 
 function App() {
     const location = useLocation();
