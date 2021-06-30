@@ -12,7 +12,7 @@ function App() {
     //const [id, setId] = useState("")
     let isLogin = localStorage.getItem("isLogin")
     // console.log(location)
-    console.log("isLogin: ", isLogin)
+    
     return(
         <>
             { isLogin? <Header/>: null }
