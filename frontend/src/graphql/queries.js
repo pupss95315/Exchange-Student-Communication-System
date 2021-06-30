@@ -13,6 +13,7 @@ export const USER_QUERY = gql`
       isRegistered,
       duration,
       languageExam,
+      apply_list,
       password
     }
   }

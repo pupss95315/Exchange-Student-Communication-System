@@ -18,6 +18,7 @@ const Mutation = {
       throw new Error ('User not exist');
     }
     await db.users.updateOne({ user_id: UID }, { $set: data });
+    console.log(user)
     return "success";
   },
   async createComment(parent, args, { db, pubsub }, info) {

@@ -79,9 +79,9 @@ const replydata = [
 
 const dataInit = async () => {
   // await db.users.deleteMany({})
-  var checkData = await db.users.find()
-  if (!checkData.length) 
-    await db.users.insertMany(userdata)
+  // var checkData = await db.users.find()
+  // if (!checkData.length) 
+  //   await db.users.insertMany(userdata)
   
   //await db.comments.deleteMany({})
   // checkData = await db.comments.find()
