@@ -17,13 +17,10 @@ const MainPage = props => {
     const [show, setShow] = useState(false);
     const [msg, setMsg] = useState("")
 
-    let {id} = match.params;
-    console.log(id)
-    // Query the user's group
+    // let {id} = match.params;
+    // console.log(id)
+    let id = localStorage.getItem("id")
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
-    // while (loading) {
-    //     // do nothing, just wait for loading
-    // }
     if (!loading)
         console.log("user's group: ", data.users[0].group)
     
@@ -43,7 +40,7 @@ const MainPage = props => {
             <Container>
                 {showAlert}
                 <div>
-                    <h6 style={{fontSize:"60px", textAlign: "center", fontWeight: "bold"}} className="mb-4">交換學生搓湯圓平台</h6>
+                    <h6 style={{fontSize:"50px", textAlign: "center", fontWeight: "bold"}} className="mb-4">交換學生搓湯圓平台</h6>
                     <h1 style={{fontSize:"24px", textAlign: "center", color:"grey", fontWeight: "lighter"}} className="mb-5">一個讓大家搓湯圓的地方</h1>
                 </div>
                 <Row className="justify-content-center">

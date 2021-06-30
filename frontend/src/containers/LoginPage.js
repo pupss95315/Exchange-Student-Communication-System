@@ -34,7 +34,6 @@ const LoginPage = () => {
     }, [data, loading]);
     
     const handleAfterQuery = async () => {
-        console.log(data.users[0].password)
         if(page === "login"){
             if(! data.users[0]){
                 setMsg("序號不存在")
@@ -52,6 +51,7 @@ const LoginPage = () => {
                 setValidated(true)
                 window.localStorage.setItem("id", UID)
                 window.localStorage.setItem("group", data.users[0].group)
+                window.localStorage.setItem("isLogin", true)
                 history.push(`/mainPage/${UID}`)
             }
         }
@@ -75,30 +75,6 @@ const LoginPage = () => {
             }
         }
     }
-    // const validateForm = () => {
-    //     return UID.length > 0 && password.length > 0;
-    // }
-    // const validatePassword = () => {
-    //     console.log(password)
-    //     //queryUser({ variables: { query: UID } });
-    //     if(password === "123") 
-    //         return true;
-    //     //setShow(true)
-    //     console.log(true)
-    // }
-    // const validateRegisForm = () => {
-    //     return regisUID.length > 0 && regisPassword.length > 0;
-    // }
-    const showAlert = (
-        <Modal
-            size="sm"
-            show={show}
-            onHide={() => setShow(false)}
-            aria-labelledby="example-modal-sizes-title-sm"
-        >
-            <Modal.Header closeButton>{msg}</Modal.Header>
-        </Modal>
-    )
 
     const handleLogin = (e) => {
         e.preventDefault()
@@ -139,35 +115,35 @@ const LoginPage = () => {
         }
     };
 
+    const showAlert = (
+        <Modal
+            size="sm"
+            show={show}
+            onHide={() => setShow(false)}
+            aria-labelledby="example-modal-sizes-title-sm"
+        >
+            <Modal.Header closeButton>{msg}</Modal.Header>
+        </Modal>
+    )
+
     const login = (
         <>
             <Form noValidate validated={validated} onSubmit={handleLogin} style={{width: "60%"}}>
                 <Form.Group controlId="UID" className="mb-4">
-                    {/* <Form.Label>交換學生序號</Form.Label> */}
-                    {/* <InputGroup.Text>@</InputGroup.Text> */}
                     <Form.Control
                         autoFocus
                         required
-                        //isInvalid = {UID.length === 0}
                         type="text"
                         value={UID}
                         onChange={(e) => setUID(e.target.value)}
                         className="form-control"
                         placeholder="交換學生序號"
                         style={{borderRadius: "30px"}}
-                        // startAdornment={
-                        //     <InputAdornment position='start'>
-                        //       <AccountCircleOutlinedIcon />
-                        //     </InputAdornment>
-                        // }
                     />
-                    {/* <Form.Control.Feedback type="invalid"></Form.Control.Feedback> */}
                 </Form.Group>
                 <Form.Group controlId="password">
-                    {/* <Form.Label>密碼</Form.Label> */}
                     <Form.Control
                         required 
-                        //isInvalid={password.length === 0}
                         type="password"
                         value={password}
                         placeholder="密碼"
@@ -175,9 +151,9 @@ const LoginPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button style={{ borderRadius: "30px", margin: "5px" }} variant="secondary" block size="lg" type="submit"> 登入 </Button>
+                <Button style={{ borderRadius: "30px", margin: "5px"}} variant="secondary" block size="lg" type="submit"> 登入 </Button>
                 <div className="d-flex justify-content-center mt-3">
-                還沒有帳號嗎? <Card.Link href="#" className="ml-2" onClick={(e) => setPage("register")}>註冊</Card.Link>
+                還沒有帳號嗎? <Card.Link style={{ color: "#B5838D" }} className="ml-2" onClick={(e) => setPage("register")}>註冊</Card.Link>
             </div>
             </Form>
         </>
@@ -207,9 +183,9 @@ const LoginPage = () => {
                         onChange={(e) => setRegisPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button variant="secondary" style={{borderRadius: "30px"}} block size="lg" type="submit"> 註冊 </Button>
+                <Button variant="secondary" style={{borderRadius: "30px", margin: "5px"}} block size="lg" type="submit"> 註冊 </Button>
                 <div className="d-flex justify-content-center mt-3">
-                    返回 <Card.Link href="#" className="ml-2" onClick={(e) => setPage("login")}>登入</Card.Link>
+                    返回 <Card.Link style={{ color: "#B5838D" }} className="ml-2" onClick={(e) => setPage("login")}>登入</Card.Link>
                 </div>
             </Form>
         </>
@@ -217,17 +193,32 @@ const LoginPage = () => {
     // if (loading) return <p>ERROR</p>;
     // if (error) return <p>ERROR</p>;
     return (
-        <Container className="center d-flex justify-content-center">
-            {showAlert}
-            <Card style={{width: "50%", borderRadius: "30px"}}>
-                <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
-                    <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
-                </Card.Title>
-                <div className="d-flex justify-content-center mb-4">
-                    { page === "login" ? login : register }
-                </div>
-            </Card>
-        </Container>
+        <>
+            <style type="text/css">
+                {`
+                .btn-flat {
+                  background-color: purple;
+                  color: white;
+                }
+            
+                .btn-xxl {
+                  padding: 1rem 1.5rem;
+                  font-size: 1.5rem;
+                }
+                `}
+            </style>
+            <Container className="center d-flex justify-content-center">
+                {showAlert}
+                <Card style={{width: "50%", borderRadius: "30px"}}>
+                    <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
+                        <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
+                    </Card.Title>
+                    <div className="d-flex justify-content-center mb-4">
+                        { page === "login" ? login : register }
+                    </div>
+                </Card>
+            </Container>
+        </>
     )
 };
 
