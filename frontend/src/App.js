@@ -15,7 +15,7 @@ function App() {
     
     return(
         <>
-            { isLogin ? null:<Header/> }
+            { isLogin? <Header/>: null }
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
                 {
