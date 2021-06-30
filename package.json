@@ -5,8 +5,7 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "start": "cd backend && node server.js",
-    "build": "cd frontend && yarn build",
-    "start_react": "cd frontend && yarn start"
+    "start": "cd frontend && yarn start",
+    "server": "cd backend && yarn server"
   }
 }
