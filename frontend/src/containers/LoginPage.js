@@ -21,7 +21,6 @@ const LoginPage = () => {
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
-    
     useEffect(() => {
         if (data && !loading) {
             console.log(data)
@@ -48,8 +47,7 @@ const LoginPage = () => {
                 window.localStorage.setItem("id", UID)
                 window.localStorage.setItem("group", data.users[0].group)
                 window.localStorage.setItem("isLogin", true)
-                if (!loggedIn)
-                    setLoggedIn(true)
+                setLoggedIn(true)
             }
         }
         else{
