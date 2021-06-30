@@ -65,7 +65,9 @@ const Mutation = {
       case "FOLLOW":
         const follower = await db.users.findOne({ user_id: data });
         const isFollow = await db.comments.findOne({ followers: follower._id })
-        if (isFollow) {
+        // console.log(follower)
+        //console.log("isFollow: ", comment.followers.includes(follower._id))
+        if (comment.followers.includes(follower._id)) {
           await db.comments.updateOne({ _id: CID }, { $pull: { followers: follower._id } })
         } else {
           await db.comments.updateOne({ _id: CID }, { $push: { followers: follower._id } })
@@ -75,6 +77,7 @@ const Mutation = {
         break;
     }
     comment = await db.comments.findOne({_id: CID});
+    
     
     console.log("comment: ", comment);
     pubsub.publish('comment', {

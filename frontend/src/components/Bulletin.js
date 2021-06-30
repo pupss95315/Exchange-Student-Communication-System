@@ -11,9 +11,6 @@ import {
 import { Pagination } from '@material-ui/lab'
 
 const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
-    //console.log("group, type: ", group, type)
-    //console.log("queryData: ", queryData)
-
     if (type === "ALL")
       type = null;
     var queryData = (type === null)? null: UID;
@@ -24,6 +21,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
     const [sort, setSort] = useState("最新");
     const [pageNum, setPageNum] = useState(0)
     const [page, setPage] = useState(1)
+
     const { loading, error, data, subscribeToMore } = useQuery(COMMENT_QUERY, { variables: { group: group, type: type, data: queryData } },
       {
         onCompleted: data => {
@@ -41,6 +39,14 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
       if(data){
         var temp = [...data.comments]
         setComments(temp.reverse())
+        setSort("最新")
+        console.log(temp.length)
+        if(temp.length % 10 === 0){
+          setPageNum(parseInt(temp.length / 10) - 1)
+        }
+        else{
+          setPageNum(parseInt(temp.length / 10))
+        }
       }
     }, [data])
     
@@ -71,13 +77,11 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
       }
     }, [sort])
   
-
     useEffect(() => {
         try {
             subscribeToMore({
                 document: COMMENT_SUBSCRIPTION,
                 updateQuery: (prev, { subscriptionData }) => {
-                  //console.log(subscriptionData.data.comment.mutation)
                     if (!subscriptionData.data) return prev;
                     const mutation = subscriptionData.data.comment.mutation
                     var newComment, newComments;
@@ -99,6 +103,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
                         var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
                         newComments = [...prev.comments]
                         newComments.splice(index, 1, newComment)
+                        console.log(newComment)
                         return {
                           comments: newComments
                         }
@@ -110,18 +115,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
             } catch (e) {}
     }, [subscribeToMore]);
 
-    useEffect (() => { 
-      if(data){
-        if(data.comments.length % 10 === 0){
-          setPageNum(parseInt(data.comments.length / 10) - 1)
-          if(parseInt(data.comments.length / 10) > 0) setPage(page - 1)
-        }
-        else{
-          setPageNum(parseInt(data.comments.length / 10))
-        }
-      }
-    }, [data])
-
+    console.log(page)
     return (
       <>
         <Row md="9" className="m-1 pb-5 align-items-cneter justify-content-between">

@@ -98,6 +98,9 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
             setMsg("留言更新成功")
             setShow(true)
             }
+            else{
+                console.log(true)
+            }
         }
     }
 
@@ -125,7 +128,6 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
             <Accordion className='mt-4'defaultActiveKey="1">
                 <Card>
                     <Accordion.Toggle md="8" style={{ backgroundColor: "white"}}as={Card.Header} eventKey="0" className="d-flex pl-2">
-                        {/* <span className="font-weight-bold mr-3">{id}</span> */}
                         {
                             cmtEdit ? 
                             (<Form.Control 

@@ -13,7 +13,6 @@ const ReplyForm = ({UID, CID, setIsReplied, setShow, setMsg}) => {
         e.preventDefault();
         if (!replyValue) return;
         addReply({ variables: { UID: UID, CID: CID, content: replyValue} });
-        //addReply({ variables: {}}replyValue);
         setReplyValue("")
         setMsg("回覆新增成功")
         setIsReplied(false)

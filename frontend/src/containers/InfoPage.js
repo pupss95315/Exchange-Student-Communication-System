@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
@@ -9,18 +8,14 @@ import {
     UPDATE_USER_MUTATION
 } from '../graphql';
 
-// const infoList = [
-//     { UID: "G10", GPA: 3.5, School: "", College: "管理學院", Duration:"上學期"}
-// ];
-
 const InfoPage = props => {
-    
-    const [infoList, setInfoList] = useState([]);
     const { match } = props;
     let {group, id} = match.params;
+    
+    const [infoList, setInfoList] = useState([]);
+    const [show, setShow] = useState(false);
 
-    // Mutation function
-    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
+    // Mapping DB data
     const collegeMapping = {
       "C1": "文學院",
       "C2": "理學院",
@@ -50,7 +45,9 @@ const InfoPage = props => {
       "CHINESE": "中文組"
     }
     
+    const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: group}});
+
     useEffect(() => {
       if(data){
         console.log(data.users)
@@ -67,9 +64,6 @@ const InfoPage = props => {
         setInfoList(curList)
       }
     }, [data])
-    // infoList = data;
-    
-    const [show, setShow] = useState(false);
 
     const onAfterSaveCell = async (oldValue, newValue, row, cellName) => {
         var cellName = cellName.dataField
@@ -109,8 +103,7 @@ const InfoPage = props => {
         mode: 'click',
         blurToSave: true,
         nonEditableRows: nonEditableRows,
-        //beforeSaveCell: onBeforeSaveCell, // a hook for before saving cell
-        afterSaveCell: onAfterSaveCell  // a hook for after saving cell
+        afterSaveCell: onAfterSaveCell  
     });
 
     const showAlert = (
@@ -235,20 +228,15 @@ const InfoPage = props => {
         align: 'center',
         classes: 'table__columns'
       }, 
-      // {
-      //   dataField: 'isCollegeExchange',
-      //   text: '院級交換',
-      //   headerAlign: 'center',
-      //   align: 'center',
-      //   classes: 'table__columns'
-      // }, 
       {
         dataField: 'apply_list',
         text: '預計志願',
         headerAlign: 'center',
         align: 'center',
         classes: 'table__columns'
-      }];
+      }
+    ];
+    
     return(
       <>
         <Container>

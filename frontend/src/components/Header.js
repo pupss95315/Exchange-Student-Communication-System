@@ -4,11 +4,13 @@ import { Navbar, Nav } from 'react-bootstrap';
 const Header = (props) => {
     let UID = localStorage.getItem("id")
     let group = localStorage.getItem("group")
+
     const handleClear = () => {
         localStorage.removeItem("id")
         localStorage.removeItem("group")
         localStorage.removeItem("isLogin")
     }
+    
     return(
         <Navbar style={{backgroundColor: "#F4F3EE"}} className="mb-5 py-2 pr-5 pl-5 align-items-center">
             <Navbar.Brand>

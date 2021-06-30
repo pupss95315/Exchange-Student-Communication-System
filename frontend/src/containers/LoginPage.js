@@ -7,25 +7,21 @@ import {
     UPDATE_USER_MUTATION,
     USER_QUERY
 } from '../graphql';
-import AccountCircleOutlinedIcon from '@material-ui/icons/AccountCircleOutlined';
-import InputAdornment from "@material-ui/core/InputAdornment";
 
 const LoginPage = () => {
-    const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY);
-    //const [addUser] = useMutation(CREATE_USER_MUTATION)
+    const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY)
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     
     const [UID, setUID] = useState("");
     const [password, setPassword] = useState("");
     const [regisUID, setRegisUID] = useState("");
     const [regisPassword, setRegisPassword] = useState("");
-    const [page, setPage] = useState("login")
-    const [show, setShow] = useState(false)
-    const [msg, setMsg] = useState("")
+    const [msg, setMsg] = useState("");
+    const [page, setPage] = useState("login");
+    const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
-    //const [isCorrectPsw, setIsCorrectPsw] = useState(false)
     const history = useHistory();
-    // const location = useLocation();
+
     useEffect(() => {
         if (data && !loading) {
             console.log(data)
@@ -79,7 +75,6 @@ const LoginPage = () => {
     const handleLogin = (e) => {
         e.preventDefault()
         if(e.currentTarget.checkValidity()){
-            //console.log(true)
             queryUser({ variables: { UID: UID }})
         }
         else{
@@ -97,7 +92,6 @@ const LoginPage = () => {
     };
 
     const handleRegister = (e) => {
-        //console.log(e.currentTarget.checkValidity())
         if(e.currentTarget.checkValidity()){
             queryUser({ variables: { UID: regisUID }})
         }
@@ -190,23 +184,9 @@ const LoginPage = () => {
             </Form>
         </>
     )
-    // if (loading) return <p>ERROR</p>;
-    // if (error) return <p>ERROR</p>;
+
     return (
         <>
-            <style type="text/css">
-                {`
-                .btn-flat {
-                  background-color: purple;
-                  color: white;
-                }
-            
-                .btn-xxl {
-                  padding: 1rem 1.5rem;
-                  font-size: 1.5rem;
-                }
-                `}
-            </style>
             <Container className="center d-flex justify-content-center">
                 {showAlert}
                 <Card style={{width: "50%", borderRadius: "30px"}}>

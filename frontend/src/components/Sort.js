@@ -1,7 +1,6 @@
 import { Form } from 'react-bootstrap';
 
 const Sort = ({sort, setSort}) => {
-    //console.log(sort)
     return(
         <div md="7" className="ml-3 d-flex align-items-center justify-content-end"> 
             <h5 style={{ width: '80%', fontSize: "18px", color:"grey", fontWeight: "lighter"}}>排序依</h5>

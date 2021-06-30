@@ -16,8 +16,6 @@ const MainPage = props => {
     const [show, setShow] = useState(false);
     const [msg, setMsg] = useState("")
 
-    // let {id} = match.params;
-    // console.log(id)
     let id = localStorage.getItem("id")
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
     if (!loading)
@@ -53,19 +51,13 @@ const MainPage = props => {
                                 <PeopleAltIcon className="mr-2"></PeopleAltIcon>
                                 <h5>分組留言板</h5>
                             </Button>
-                          {/* <Button style={{borderRadius: "30px"}} className="d-flex justify-content-center pt-3" variant= {section === "分組志願表" ? "secondary" : null} eventKey="disabled" onClick={e => setSection("分組志願表")}>
-                              <GradeIcon className="mr-2"></GradeIcon>
-                              <h5>分組志願表</h5>
-                            </Button> */}
                         </Nav>
                     </Col>
                     <Col md="9">
                         <Card className="align-items-start mb-5" style={{borderRadius: "30px" }}>
-                            {/* <Card.Header style={{ width: '100%' }}as="h5"> */}
-                            {/* </Card.Header> */}
                             <Card.Body style={{ width: '100%' }}>
                                 <Row className="justify-content-between align-items-center pr-3 pb-3">
-                                    <Nav md="2" defaultActiveKey="/mainPage" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
+                                    <Nav md="2" defaultActiveKey="ALL" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
                                             <Nav.Item className=" pr-3 pl-3">
                                                 <Nav.Link  className="nav-link" eventKey="ALL" style={{ fontSize: "22px", color: "grey"}}>全部</Nav.Link>
                                             </Nav.Item>

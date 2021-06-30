@@ -12,13 +12,11 @@ const Reply = ({
     key,
     UID,
     reply,
-    editReply,
-    isEdit,
     setShow,
     setMsg}) => {
 
     const [deleteReply] = useMutation(DELETE_REPLY_MUTATION);
-    const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
+    //const [updateReply] = useMutation(UPDATE_REPLY_MUTATION);
     const [replyEdit, setReplyEdit] = useState(false);
     const [replyValue, setReplyValue] = useState("");
 
