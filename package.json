@@ -14,7 +14,4 @@
     "build": "(cd frontend && npm install && npm build) && (cd backend && npm install)",
     "start_react": "cd frontend && yarn start"
   },
-  "dependencies": {
-    "react-scripts": "^4.0.3"
-  }
 }
