@@ -11,7 +11,7 @@ function App() {
     //const [isLogin, setIsLogin] = useState(false)
     //const [id, setId] = useState("")
     let isLogin = localStorage.getItem("isLogin")
-    
+    console.log(location)
     return(
         <>
             {

@@ -12,7 +12,7 @@ const Header = (props) => {
     }
     
     return(
-        <Navbar style={{backgroundColor: "#F4F3EE"}} className="mb-5 py-2 pr-5 pl-5 align-items-center">
+        <Navbar style={{backgroundColor: "#F4F3EE"}} className="mb-5 py-2 px-5 ps-5 align-items-center">
             <Navbar.Brand>
                 <h4>交換學生搓湯圓平台</h4>
             </Navbar.Brand>

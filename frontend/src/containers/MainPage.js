@@ -58,22 +58,22 @@ const MainPage = props => {
                         <Card className="align-items-start mb-5" style={{borderRadius: "30px" }}>
                             <Card.Body style={{ width: '100%' }}>
                                 <Row className="justify-content-between align-items-center pr-3 pb-3">
-                                    <Nav md="2" defaultActiveKey="ALL" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
-                                            <Nav.Item className=" pr-3 pl-3">
+                                    <Nav className="col-md-5" defaultActiveKey="ALL" variant="tabs" style={{ margin: "10px" }} onSelect={(selectedKey) => setViewType(selectedKey)}>
+                                            <Nav.Item className=" pr-3 ps-3">
                                                 <Nav.Link  className="nav-link" eventKey="ALL" style={{ fontSize: "22px", color: "grey"}}>全部</Nav.Link>
                                             </Nav.Item>
-                                            <Nav.Item className="pr-3 pl-3">
+                                            <Nav.Item className="pr-3 ps-3">
                                                 <Nav.Link className="nav-link" eventKey="FOLLOW" style={{ fontSize: "22px", color: "grey" }}>關注</Nav.Link>
                                             </Nav.Item>
-                                            <Nav.Item className="pr-3 pl-3">
+                                            <Nav.Item className="pr-3 ps-3">
                                                 <Nav.Link className="nav-link" eventKey="SELF" style={{ fontSize: "22px", color: "grey" }}>我的留言</Nav.Link>
                                             </Nav.Item>
                                     </Nav>
-                                    <div md="5" className="d-flex align-items-center">
+                                    <div className="col-md-4 d-flex align-items-center">
                                         {(viewType === "ALL" || viewType === "SEARCH")?
                                             <Form.Row className=" align-items-center justify-content-center" >
                                                 <Col className="d-flex" >
-                                                    <Form.Control placeholder="搜尋" onChange={(e) => {setSearch(e.target.value); setViewType("SEARCH");}} />
+                                                    <Form.Control psaceholder="搜尋" onChange={(e) => {setSearch(e.target.value); setViewType("SEARCH");}} />
                                                     <Button type="submit" variant="secondary" size="sm" ><SearchIcon></SearchIcon></Button>    
                                                 </Col>
                                             </Form.Row>:null

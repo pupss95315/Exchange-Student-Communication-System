@@ -118,9 +118,9 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
     console.log(page)
     return (
       <>
-        <Row md="9" className="m-1 pb-5 align-items-cneter justify-content-between">
+        <Row md="9" className="m-1 pb-5 d-flex align-items-cneter justify-content-between">
           <Sort sort={sort} setSort={setSort}></Sort>
-          { (type === null)? <CommentForm md="9" UID={UID} group={group} ></CommentForm>: null }
+          { (type === null)? <CommentForm UID={UID} group={group} ></CommentForm>: null }
         </Row>
         { data? comments.map((comment, index) => (
           ( index < (page)*10 && index >= (page-1)*10) ? 
