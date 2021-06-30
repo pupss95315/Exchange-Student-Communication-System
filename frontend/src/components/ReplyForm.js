@@ -20,15 +20,15 @@ const ReplyForm = ({UID, CID, setIsReplied, setShow, setMsg}) => {
     };
 
     return (
-        <Row className="ml-1">
-            <Col className="p-0">
-                <Form.Control  
-                    value={replyValue} 
-                    onChange={ e => setReplyValue(e.target.value)} 
-                    placeholder="回覆..." />
-            </Col>
-            <Button onClick={ e => handleSubmit(e) } type="submit"  variant="secondary">送出</Button>
-        </Row>
+        <Col className="d-flex col-md-4">
+            <Form.Control  
+                value={replyValue} 
+                
+                onChange={ e => setReplyValue(e.target.value)} 
+                placeholder="回覆..." 
+            />
+            <Button style={{width: "30%"}}onClick={ e => handleSubmit(e) } type="submit"  variant="secondary">送出</Button>
+        </Col>
     )
 }
 

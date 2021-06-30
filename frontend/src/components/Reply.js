@@ -32,7 +32,7 @@ const Reply = ({
         <Accordion.Collapse eventKey="0">
             <Card.Body className="d-flex align-items-center justify-content-between">
                 <div>    
-                    <AccountCircleIcon className="mr-2" style={{ fontSize:"45", color:"#E0E0E0" }}></AccountCircleIcon>
+                    <AccountCircleIcon className="me-2" style={{ fontSize:"45", color:"#E0E0E0" }}></AccountCircleIcon>
                     {
                         replyEdit ? 
                         (<Form.Control 
@@ -49,7 +49,7 @@ const Reply = ({
                     reply.author.user_id === UID? 
                     (<div>
                         {/* <Button variant="outline-secondary" size="sm" onClick={() => setReplyEdit(!replyEdit)}>編輯</Button> */}
-                        <a className='ml-3' style={{color: "grey"}} variant="light" onClick={()=>handleDeleteReply()}>
+                        <a className='ms-3' style={{color: "grey"}} variant="light" onClick={()=>handleDeleteReply()}>
                             <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
                         </a>
                     </div>):

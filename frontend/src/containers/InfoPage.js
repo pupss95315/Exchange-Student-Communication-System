@@ -243,8 +243,8 @@ const InfoPage = props => {
         <Container>
           {showAlert}
           <div>
-              <h3 style={{fontWeight: "bold"}} className="mb-3">{groupMapping[group]}志願表</h3>
-              <h6 style={{color:"#463F3A", fontWeight: "lighter"}} className="mb-4">點選自己的資料可以進行修改，祝大家都可以申請到喜歡的學校！</h6>
+              <h1 style={{fontWeight: "bold"}} className="mb-3">{groupMapping[group]}志願表</h1>
+              <h6 style={{color:"#463F3A"}} className="mb-4">點選自己的資料可以進行修改，祝大家都可以申請到喜歡的學校！</h6>
           </div>
           <BootstrapTable 
               keyField="user_id" 
