@@ -135,7 +135,7 @@ const LoginPage = () => {
                         style={{borderRadius: "30px"}}
                     />
                 </Form.Group>
-                <Form.Group controlId="password">
+                <Form.Group controlId="password" className="mb-4">
                     <Form.Control
                         required 
                         type="password"
@@ -145,9 +145,9 @@ const LoginPage = () => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button style={{ borderRadius: "30px", margin: "5px"}} variant="secondary" block size="lg" type="submit"> 登入 </Button>
+                <Button style={{ borderRadius: "30px", width: "100%"}} variant="secondary" type="submit"> 登入 </Button>
                 <div className="d-flex justify-content-center mt-3">
-                還沒有帳號嗎? <Card.Link style={{ color: "#B5838D" }} className="ml-2" onClick={(e) => setPage("register")}>註冊</Card.Link>
+                還沒有帳號嗎? <Card.Link style={{ color: "#B5838D" }} className="ms-2" onClick={(e) => setPage("register")}>註冊</Card.Link>
             </div>
             </Form>
         </>
@@ -167,7 +167,7 @@ const LoginPage = () => {
                         className="form-control"
                     />
                 </Form.Group>
-                <Form.Group size="lg" controlId="password">
+                <Form.Group size="lg" controlId="password" className="mb-4">
                     <Form.Control
                         required
                         type="password"
@@ -177,9 +177,9 @@ const LoginPage = () => {
                         onChange={(e) => setRegisPassword(e.target.value)}
                     />
                 </Form.Group>
-                <Button variant="secondary" style={{borderRadius: "30px", margin: "5px"}} block size="lg" type="submit"> 註冊 </Button>
+                <Button variant="secondary" style={{borderRadius: "30px", width: "100%"}} type="submit"> 註冊 </Button>
                 <div className="d-flex justify-content-center mt-3">
-                    返回 <Card.Link style={{ color: "#B5838D" }} className="ml-2" onClick={(e) => setPage("login")}>登入</Card.Link>
+                    返回 <Card.Link style={{ color: "#B5838D" }} className="ms-2" onClick={(e) => setPage("login")}>登入</Card.Link>
                 </div>
             </Form>
         </>

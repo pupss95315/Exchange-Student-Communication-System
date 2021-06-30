@@ -31,7 +31,7 @@ const CommentForm = ({ UID, group }) => {
                 style={{ borderRadius: "30px", fontSize: "18px"}} 
                 variant="outline-secondary" 
                 onClick={() => setShow(true)}
-                className="mb-2 d-flex align-items-center"
+                className="col-md-2 mb-2 d-flex align-items-center"
             >
                 <CreateIcon className="mr-2"></CreateIcon>新增留言
             </Button>

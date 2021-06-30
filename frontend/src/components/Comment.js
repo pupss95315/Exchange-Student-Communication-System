@@ -108,7 +108,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
         <div className="mb-4">
             <div className="mt-2 d-flex justify-content-between button">
                 <div className="mt-2 d-flex align-items-center justify-content-start button">
-                    <AccountCircleIcon color="action" className="mr-2" style={{ fontSize:"45" }}></AccountCircleIcon>
+                    <AccountCircleIcon color="action" className="me-2" style={{ fontSize:"45" }}></AccountCircleIcon>
                     <div>
                         <h6 className="mb-0">{comment.author.user_id}</h6>
                         <span style={{ fontSize:"small" }}>Posted at {comment.datetime}</span>
@@ -118,7 +118,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                     comment.author.user_id === UID ? 
                     (<div className="d-flex align-items-center">
                         <Button variant="outline-secondary" size="sm" onClick={() => setCmtEdit(! cmtEdit)}>編輯</Button>
-                        <a className='ml-3' style={{color: "grey"}} variant="light" onClick={() => handleDeleteCmt(comment.id)}>
+                        <a className='ms-3' style={{color: "grey"}} variant="light" onClick={() => handleDeleteCmt(comment.id)}>
                             <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>
                         </a>
                     </div>):
@@ -158,15 +158,15 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                     }
                 </Card>
             </Accordion>
-            <div className="mt-4 mr-3 d-flex justify-content-end align-items-center">
+            <div className="mt-4 me-3 d-flex justify-content-end align-items-center">
                     {
                         comment.followers && comment.followers.length && comment.followers.some(user => user.user_id === UID) ? 
                         <FavoriteIcon style={{color: "red"}} onClick={() => handleUpdateCmt(comment.id, "FOLLOW", UID)}></FavoriteIcon > :
                         <FavoriteBorderOutlinedIcon style={{color: "grey"}} onClick={() => handleUpdateCmt(comment.id, "FOLLOW", UID)}></FavoriteBorderOutlinedIcon>
                     }
-                    <span className='mr-3 ml-3'>{comment.followers.length}</span>
+                    <span className='me-3 ms-3'>{comment.followers.length}</span>
                     <ModeCommentOutlinedIcon style={{color: "grey"}} >回覆</ModeCommentOutlinedIcon>
-                    <span className='mr-3 ml-3'>{comment.replies.length}</span> 
+                    <span className='me-3 ms-3'>{comment.replies.length}</span> 
                     <ReplyOutlinedIcon color={isReplied?"disabled":"grey"}  size="md" onClick={() => setIsReplied(! isReplied)}>新增回覆</ReplyOutlinedIcon>
                     {isReplied ? <ReplyForm setIsReplied={setIsReplied} UID={UID} CID={comment.id} setShow={setShow} setMsg={setMsg} />:null}
             </div>
