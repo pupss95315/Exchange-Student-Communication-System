@@ -21,6 +21,8 @@ const LoginPage = () => {
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
+    //const history = useHistory();
+
     useEffect(() => {
         if (data && !loading) {
             console.log(data)
@@ -187,7 +189,7 @@ const LoginPage = () => {
     return (
         <>
             {
-                loggedIn? <Redirect push to="/mainPage/${UID}"/>:
+                localStorage.getItem("isLogin")? <Redirect push to="/mainPage/${UID}"/>:
                 (<Container className="center d-flex justify-content-center">
                     {showAlert}
                     <Card style={{width: "50%", borderRadius: "30px"}}>

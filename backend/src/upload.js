@@ -89,7 +89,7 @@ const dataInit = async () => {
   //   await db.comments.insertMany(commentdata)
   // await db.comments.updateOne({ content: 'Introduce yourself!' }, { $set: { "replies": ["60d699e039fafb1de405c40a", "60d699e039fafb1de405c40b"]} })
 
-  // await db.replies.deleteMany({})
+  //await db.replies.deleteMany({})
   // checkData = await db.replies.find()
   // if (!checkData.length) 
   //   await db.replies.insertMany(replydata)
