@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import Bulletin from "../components/Bulletin";
+import Header from "../components/Header";
 import '../App.css';
 import { Form, Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
@@ -19,8 +20,8 @@ const MainPage = props => {
 
     let id = localStorage.getItem("id")
     const { loading, error, data } = useQuery(USER_QUERY, { variables: { UID: id } });
-    if (!loading)
-        console.log("user's group: ", data.users[0].group)
+    //if (!loading)
+    //    console.log("user's group: ", data.users[0].group)
     
     const showAlert = (
         <Modal
@@ -35,6 +36,7 @@ const MainPage = props => {
 
     return( 
         <>
+            <Header />
             <Container>
                 {showAlert}
                 <div>

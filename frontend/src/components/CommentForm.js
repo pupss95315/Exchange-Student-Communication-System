@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, Col, Button, Modal } from 'react-bootstrap';
+import { Form, Button, Modal } from 'react-bootstrap';
 import CreateIcon from '@material-ui/icons/Create';
 import { useMutation } from '@apollo/client';
 import {

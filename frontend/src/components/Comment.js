@@ -62,15 +62,23 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                     }
                                 ]
                             }
-                        // case "UPDATED":
-                        //     var newReply = subscriptionData.data.comment.data;
-                        //     var index = prev.comments.findIndex(cmt => cmt.id === newComment.id)
-                        //     var newComments = [...prev.comments]
-                        //     newComments.splice(index, 1, newComment)
-                        //     console.log(newComments)
-                        //     return {
-                        //         comments: newComments
-                        //     }
+                        case "UPDATED":
+                            var newReply = subscriptionData.data.reply.data;
+                            var index = prev.comments.[0].replies.findIndex(reply => reply.id === newReply.id)
+                            var newReplies = [...prev.comments[0].replies]
+                            newReplies.splice(index, 1, newReply)
+                            //console.log(newReplies)
+                            return {
+                                comments: [
+                                    {
+                                        __typename:　prev.comments[0].__typename,
+                                        author: prev.comments[0].author,
+                                        id: prev.comments[0].id,
+                                        content: prev.comments[0].content,
+                                        replies: newReplies,
+                                    }
+                                ]
+                            }
                         default :
                             break;
                     }
@@ -133,7 +141,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                             (<Form.Control 
                                 type="text" 
                                 placeholder="留言..." 
-                                value={cmtValue} 
+                                value={cmtValue.length === 0?comment.content:cmtValue} 
                                 onChange={(e) => setCmtValue(e.target.value)} 
                                 onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
                             />) :

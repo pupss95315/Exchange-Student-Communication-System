@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import {
     ApolloClient,
     InMemoryCache,
@@ -17,7 +17,7 @@ const httpLink = new HttpLink({
     uri: 'http://localhost:5000/'
 })
 const wsLink = new WebSocketLink({
-    uri: `ws://localhost:5000/`,
+    uri: 'ws://localhost:5000/',
     options: { reconnect: true }
 })
 

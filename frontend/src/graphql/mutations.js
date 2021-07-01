@@ -52,7 +52,7 @@ export const DELETE_REPLY_MUTATION = gql`
 `;
 
 export const UPDATE_REPLY_MUTATION = gql`
-  mutation updateReply($id: ID!, $data: UpdateReplyInput!) {
-    updateReply(id: $id, data: $data)
+  mutation updateReply($RID: ID!, $content: String!) {
+    updateReply(RID: $RID, content: $content)
     }
 `;

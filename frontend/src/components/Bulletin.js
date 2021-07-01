@@ -40,7 +40,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
         var temp = [...data.comments]
         setComments(temp.reverse())
         setSort("最新")
-        console.log(temp.length)
+        //console.log(temp.length)
         if(temp.length % 10 === 0){
           setPageNum(parseInt(temp.length / 10) - 1)
         }
@@ -115,7 +115,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
             } catch (e) {}
     }, [subscribeToMore]);
 
-    console.log(page)
+    //console.log(page)
     return (
       <>
         <Row md="9" className="m-1 pb-5 d-flex align-items-cneter justify-content-between">

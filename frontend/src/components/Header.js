@@ -1,7 +1,7 @@
 import React from "react";
 import { Navbar, Nav } from 'react-bootstrap';
 
-const Header = (props) => {
+const Header = () => {
     let UID = localStorage.getItem("id")
     let group = localStorage.getItem("group")
 
@@ -14,7 +14,7 @@ const Header = (props) => {
     return(
         <Navbar style={{backgroundColor: "#F4F3EE"}} className="mb-5 py-2 px-5 ps-5 align-items-center">
             <Navbar.Brand>
-                <h4>交換學生搓湯圓平台</h4>
+                <h4>Swing NTU</h4>
             </Navbar.Brand>
             <Navbar.Collapse className="justify-content-end">
                 <Nav>  

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
@@ -28,10 +29,10 @@ const InfoPage = props => {
       "C8": "公衛學院",
       "C9": "電資學院",
       "CA": "法學院",
-      "C8": "生科院"
+      "CB": "生科院"
     }
 
-    const isRegistedMapping = {
+    const isRegisteredMapping = {
       true: "報到",
       false: "放棄"
     }
@@ -47,19 +48,31 @@ const InfoPage = props => {
     }
     
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
-    const { loading, error, data, subscribeToMore } = useQuery(USER_QUERY, { variables: {group: group}});
+    const { loading, error, data } = useQuery(USER_QUERY, { variables: {group: group}});
 
     useEffect(() => {
       if(data){
         console.log(data.users)
-        var users = [...data.users]
+        var users = JSON.parse(JSON.stringify(data.users))
         var curList = users.map(function(user){
           var newUser = user
-          console.log(user.isRegistered)
-          newUser = {
-            ...user, 
-            college: collegeMapping[user.college], 
-            isRegistered: isRegistedMapping[user.isRegistered]}
+          if(user.college){
+            newUser = {
+              ...user, 
+              college: collegeMapping[user.college]}
+          }
+          if(user.isRegistered){
+            newUser = {
+              ...user, 
+              isRegistered: isRegisteredMapping[user.isRegistered]}
+          }
+          if(user.college && user.isRegistered){
+            newUser = {
+              ...user, 
+              college: collegeMapping[user.college],
+              isRegistered: isRegisteredMapping[user.isRegistered]}
+          }
+          
           return newUser
         });
         setInfoList(curList)
@@ -68,30 +81,39 @@ const InfoPage = props => {
 
     const onAfterSaveCell = async (oldValue, newValue, row, cellName) => {
         var cellName = cellName.dataField
+        var update
+        var msg = ""
         if(cellName === 'GPA'){
-          await updateUser({ variables: {UID: id, data: {GPA: Number(newValue)}} });
+          msg = await updateUser({ variables: {UID: id, data: {GPA: Number(newValue)}} });
         }
+        // else if(cellName === 'GPA'){
+        //   await updateUser({ variables: {UID: id, data: {GPA: Number(newValue)}} });
+        // }
         else if(cellName === 'college'){
-          var update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
-          await updateUser({ variables: {UID: id, data: {college: update}} });
+          update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
+          msg = await updateUser({ variables: {UID: id, data: {college: update}} });
         }
         else if(cellName === 'school'){
-          await updateUser({ variables: {UID: id, data: {school: newValue}} });
+          msg = await updateUser({ variables: {UID: id, data: {school: newValue}} });
         }
         else if(cellName === 'duration'){
-          await updateUser({ variables: {UID: id, data: {duration: newValue}} });
+          msg = await updateUser({ variables: {UID: id, data: {duration: newValue}} });
         }
         else if(cellName === 'isRegistered'){
-          var update = Object.keys(collegeMapping).find(key => collegeMapping[key] === newValue);
-          await updateUser({ variables: {UID: id, data: {isRegistered: update}} });
+          update = Object.keys(isRegisteredMapping).find(key => isRegisteredMapping[key] === newValue);
+          msg = await updateUser({ variables: {UID: id, data: {isRegistered: update === "true"}} });
         }
         else if(cellName === 'languageExam'){
-          await updateUser({ variables: {UID: id, data: {languageExam: newValue}} });
+          msg = await updateUser({ variables: {UID: id, data: {languageExam: newValue}} });
         }
         else if(cellName === 'apply_list'){
-          await updateUser({ variables: {UID: id, data: {application: newValue}} });
+          msg = await updateUser({ variables: {UID: id, data: {apply_list: newValue}} });
         }
-        setShow(true)
+        console.log(msg)
+        if(msg.data.updateUser === "success"){
+          setShow(true)
+        }
+          
     }
 
     const nonEditableRows = () => {
@@ -131,13 +153,14 @@ const InfoPage = props => {
         headerAlign: 'center',
         align: 'center',
         classes: 'table__columns'
-      }, {
-        dataField: 'GPA2',
-        text: '複查成績',
-        headerAlign: 'center',
-        align: 'center',
-        classes: 'table__columns'
       }, 
+      // {
+      //   dataField: 'GPA2',
+      //   text: '複查成績',
+      //   headerAlign: 'center',
+      //   align: 'center',
+      //   classes: 'table__columns'
+      // }, 
       {
         dataField: 'college',
         text: '學院',
@@ -240,11 +263,12 @@ const InfoPage = props => {
     
     return(
       <>
+        <Header />
         <Container>
           {showAlert}
           <div>
-              <h3 style={{fontWeight: "bold"}} className="mb-3">{groupMapping[group]}志願表</h3>
-              <h6 style={{color:"#463F3A", fontWeight: "lighter"}} className="mb-4">點選自己的資料可以進行修改，祝大家都可以申請到喜歡的學校！</h6>
+              <h1 style={{fontWeight: "bold"}} className="mb-3">{groupMapping[group]}志願表</h1>
+              <h6 style={{color:"#463F3A"}} className="mb-4">點選自己的資料可以進行修改，祝大家都可以申請到喜歡的學校！</h6>
           </div>
           <BootstrapTable 
               keyField="user_id" 

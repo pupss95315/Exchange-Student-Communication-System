@@ -3,7 +3,7 @@ import db from './db.js';
 import Query from './resolvers/Query.js';
 import Mutation from './resolvers/Mutation.js';
 import Subscription from './resolvers/Subscription.js';
-import User from './resolvers/User.js';
+//import User from './resolvers/User.js';
 import Comment from './resolvers/Comment.js';
 import Reply from './resolvers/Reply.js';
 import mongo from './mongo.js'
@@ -18,7 +18,7 @@ const server = new GraphQLServer({
     Query,
     Mutation,
     Subscription,
-    User,
+    //User,
     Comment,
     Reply,
   },
