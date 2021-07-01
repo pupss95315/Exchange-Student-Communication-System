@@ -13,14 +13,8 @@ import { split } from "apollo-link";
 import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
-// const httpLink = new HttpLink({
-//     uri: '：https://swing-ntu.herokuapp.com/:5080/'
-// })
-// const wsLink = new WebSocketLink({
-//     uri: 'wss://localhost:5080/',
-//     options: { reconnect: true }
-// })
-const url = new URL("/graphql", window.location.href);
+// const url = new URL("/", window.location.href.replace("3000", "5080"));
+const url = new URL("/", window.location.href);
 
 // Create an http link:
 const httpLink = new HttpLink({
