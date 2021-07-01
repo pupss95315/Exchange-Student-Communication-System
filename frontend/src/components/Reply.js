@@ -51,7 +51,10 @@ const Reply = ({
                             onChange={(e) => setReplyValue(e.target.value)} 
                             onKeyPress={e => e.key === "Enter" && handleUpdateReply()}
                         />) :
-                        (<span style={{fontSize:"18px"}}>{reply.content}</span>)
+                        (<>
+                        <span className = "me-2" style={{fontWeight: "bold", fontSize:"18px"}}>{UID}</span>
+                        <span style={{fontSize:"18px"}}>{reply.content}</span>
+                        </>)
                     }
                 </Col>
                 {
