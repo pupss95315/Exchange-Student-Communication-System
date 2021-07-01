@@ -14,7 +14,7 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
 // const url = new URL("/", window.location.href.replace("3000", "5080"));
-const url = new URL("/", window.location.href);
+const url = new URL("/graphql", window.location.href);
 
 // Create an http link:
 const httpLink = new HttpLink({
