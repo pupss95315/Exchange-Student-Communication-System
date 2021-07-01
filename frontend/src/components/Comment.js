@@ -141,7 +141,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                             (<Form.Control 
                                 type="text" 
                                 placeholder="留言..." 
-                                value={comment.content} 
+                                value={cmtValue?cmtValue:comment.content} 
                                 onChange={(e) => setCmtValue(e.target.value)} 
                                 onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
                             />) :
