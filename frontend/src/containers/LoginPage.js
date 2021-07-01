@@ -1,5 +1,6 @@
 import { Button,Form, Card, Container, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
+import { useHistory } from 'react-router-dom';
 import React, { useState, useEffect, useCallback } from 'react';
 import '../App.css';
 import { useMutation, useLazyQuery } from '@apollo/client';
@@ -9,7 +10,9 @@ import {
 } from '../graphql';
 
 const LoginPage = () => {
-    const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY)
+    const [queryUser, { loading, error, data }] = useLazyQuery(USER_QUERY, {
+        fetchPolicy: "no-cache"
+      })
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     
     const [UID, setUID] = useState("");
@@ -21,83 +24,86 @@ const LoginPage = () => {
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
-    //const history = useHistory();
+    const history = useHistory();
 
     
     
-    // const handleAfterQuery = async () => {
-    //     if(page === "login"){
-    //         if(! data.users[0]){
-    //             setMsg("序號不存在")
-    //             setShow(true)
-    //         }
-    //         else if(data.users[0].password === null){
-    //             setMsg("序號未註冊")
-    //             setShow(true)
-    //         }
-    //         else if(password !== data.users[0].password){
-    //             setMsg("密碼錯誤")
-    //             setShow(true)
-    //         }
-    //         else if(password === data.users[0].password){
-    //             setValidated(true)
-    //             window.localStorage.setItem("id", UID)
-    //             window.localStorage.setItem("group", data.users[0].group)
-    //             window.localStorage.setItem("isLogin", true)
-    //             //setLoggedIn(true)
-    //         }
-    //     }
-    //     else{
-    //         alert(true)
-    //         console.log(data.users[0])
-    //         if(! data.users[0]){
-    //             setMsg("序號不存在")
-    //             setShow(true)
-    //         }
-    //         else if(data.users[0].password !== null){
-    //             console.log(true)
-    //             setMsg("序號已註冊")
-    //             setShow(true)
-    //         }
-    //         else{
-    //             const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
-    //             console.log(msg.data.updateUser)
-    //             if(msg.data.updateUser === "success"){
-    //                 console.log(true)
-    //                 setMsg("註冊成功")
-    //                 setShow(true)
-    //                 //setPage("login")
-    //             }
-    //         }
-    //     }
-    // }
+    const handleAfterQuery = async () => {
+        if(page === "login"){
+            if(! data.users[0]){
+                setMsg("序號不存在")
+                setShow(true)
+            }
+            else if(data.users[0].password === null){
+                setMsg("序號未註冊")
+                setShow(true)
+            }
+            else if(password !== data.users[0].password){
+                setMsg("密碼錯誤")
+                setShow(true)
+            }
+            else if(password === data.users[0].password){
+                setValidated(true)
+                window.localStorage.setItem("id", UID)
+                window.localStorage.setItem("group", data.users[0].group)
+                window.localStorage.setItem("isLogin", true)
+                setLoggedIn(true)
+            }
+        }
+        else{
+            // alert(true)
+            // console.log(data.users[0])
+            if(! data.users[0]){
+                setMsg("序號不存在")
+                setShow(true)
+            }
+            else if(data.users[0].password !== null){
+                console.log(true)
+                setMsg("序號已註冊")
+                setShow(true)
+            }
+            else{
+                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
+                console.log(msg.data.updateUser)
+                if(msg.data.updateUser === "success"){
+                    console.log(true)
+                    setMsg("註冊成功")
+                    setShow(true)
+                    setPage("login")
+                }
+            }
+        }
+    }
 
     const handleLogin = async (e) => {
         e.preventDefault()
-        console.log(UID)
+        //console.log(UID)
         if(e.currentTarget.checkValidity()){
             await queryUser({ variables: { UID: UID }})
-            if(data){
-                if(! data.users[0]){
-                    setMsg("序號不存在")
-                    setShow(true)
-                }
-                else if(data.users[0].password === null){
-                    setMsg("序號未註冊")
-                    setShow(true)
-                }
-                else if(password !== data.users[0].password){
-                    setMsg("密碼錯誤")
-                    setShow(true)
-                }
-                else if(password === data.users[0].password){
-                    setValidated(true)
-                    window.localStorage.setItem("id", UID)
-                    window.localStorage.setItem("group", data.users[0].group)
-                    window.localStorage.setItem("isLogin", true)
-                    setLoggedIn(true)
-                }
-            }
+            // console.log(data)
+            // if(data){
+            //     if(! data.users[0]){
+            //         setMsg("序號不存在")
+            //         setShow(true)
+            //     }
+            //     else if(data.users[0].password === null){
+            //         setMsg("序號未註冊")
+            //         setShow(true)
+            //     }
+            //     else if(password !== data.users[0].password){
+            //         setMsg("密碼錯誤")
+            //         setShow(true)
+            //     }
+            //     else if(password === data.users[0].password){
+            //         console.log(true)
+            //         setValidated(true)
+            //         window.localStorage.setItem("id", UID)
+            //         window.localStorage.setItem("group", data.users[0].group)
+            //         window.localStorage.setItem("isLogin", true)
+            //         setLoggedIn(true)
+            //         //history.push("/mainPage/${UID}")
+            //     }
+            // }
         }
         else{
             if(UID.length === 0 && password.length === 0){
@@ -117,28 +123,28 @@ const LoginPage = () => {
         e.preventDefault()
         if(e.currentTarget.checkValidity()){
             await queryUser({ variables: { UID: regisUID }})
-            if(data){
-                if(! data.users[0]){
-                    setMsg("序號不存在")
-                    setShow(true)
-                }
-                else if(data.users[0].password !== null){
-                    console.log(true)
-                    setMsg("序號已註冊")
-                    setShow(true)
-                }
-                else{
-                    const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
-                    console.log(msg.data.updateUser)
-                    if(msg.data.updateUser === "success"){
-                        console.log(true)
-                        setMsg("註冊成功")
-                        setShow(true)
-                        setPage("login")
-                    }
-                }
+            // if(data){
+            //     if(! data.users[0]){
+            //         setMsg("序號不存在")
+            //         setShow(true)
+            //     }
+            //     else if(data.users[0].password !== null){
+            //         console.log(true)
+            //         setMsg("序號已註冊")
+            //         setShow(true)
+            //     }
+            //     else{
+            //         const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
+            //         console.log(msg.data.updateUser)
+            //         if(msg.data.updateUser === "success"){
+            //             console.log(true)
+            //             setMsg("註冊成功")
+            //             setShow(true)
+            //             setPage("login")
+            //         }
+            //     }
 
-            }
+            // }
         }
         else{
             if(regisUID.length === 0 && regisPassword.length === 0){
@@ -229,6 +235,11 @@ const LoginPage = () => {
             </Form>
         </>
     )
+
+    useEffect(() => {
+        if(data)
+            handleAfterQuery()
+    }, [data])
 
     return (
         <>
