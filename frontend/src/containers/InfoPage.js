@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+import Header from "../components/Header";
 import { Container, Modal } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import cellEditFactory, { Type } from 'react-bootstrap-table2-editor';
@@ -262,6 +263,7 @@ const InfoPage = props => {
     
     return(
       <>
+        <Header />
         <Container>
           {showAlert}
           <div>

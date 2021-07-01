@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import Bulletin from "../components/Bulletin";
+import Header from "../components/Header";
 import '../App.css';
 import { Form, Row, Col, Card, Container, Nav, Button, Modal } from 'react-bootstrap';
 import SearchIcon from '@material-ui/icons/Search';
@@ -35,6 +36,7 @@ const MainPage = props => {
 
     return( 
         <>
+            <Header />
             <Container>
                 {showAlert}
                 <div>
