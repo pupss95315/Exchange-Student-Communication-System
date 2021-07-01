@@ -47,7 +47,7 @@ const Reply = ({
                         (<Form.Control 
                             type="text" 
                             placeholder="留言..." 
-                            value={replyValue?replyValue:reply.content} 
+                            value={replyValue} 
                             onChange={(e) => setReplyValue(e.target.value)} 
                             onKeyPress={e => e.key === "Enter" && handleUpdateReply()}
                         />) :

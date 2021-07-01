@@ -22,7 +22,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
     const [updateCmt] = useMutation(UPDATE_COMMENT_MUTATION);
     const [isReplied, setIsReplied] = useState(false);
     const [cmtEdit, setCmtEdit] = useState(false);
-    const [cmtValue, setCmtValue] = useState(comment.content);
+    const [cmtValue, setCmtValue] = useState("");
 
     useEffect(() => {
         try {
@@ -141,7 +141,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                             (<Form.Control 
                                 type="text" 
                                 placeholder="留言..." 
-                                value={cmtValue?cmtValue:comment.content} 
+                                value={cmtValue} 
                                 onChange={(e) => setCmtValue(e.target.value)} 
                                 onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
                             />) :
