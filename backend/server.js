@@ -13,7 +13,7 @@ import db from "./src/db.js";
 import Query from "./src/resolvers/Query.js";
 import Mutation from "./src/resolvers/Mutation.js";
 import Subscription from "./src/resolvers/Subscription.js";
-import User from './src/resolvers/User.js';
+// import User from './src/resolvers/User.js';
 import Comment from './src/resolvers/Comment.js';
 import Reply from './src/resolvers/Reply.js';
 import mongo from "./src/mongo.js";
@@ -39,7 +39,7 @@ const server = new ApolloServer({
     Query,
     Mutation,
     Subscription,
-    User, 
+    // User, 
     Comment, 
     Reply,
   },
