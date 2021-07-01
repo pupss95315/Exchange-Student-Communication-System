@@ -50,6 +50,7 @@ const InfoPage = props => {
     const [updateUser] = useMutation(UPDATE_USER_MUTATION);
     const { loading, error, data } = useQuery(USER_QUERY, { variables: {group: group}});
 
+    
     useEffect(() => {
       if(data){
         console.log(data.users)

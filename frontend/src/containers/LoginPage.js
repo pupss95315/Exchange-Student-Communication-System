@@ -20,58 +20,84 @@ const LoginPage = () => {
     const [page, setPage] = useState("login");
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
-    //const [loggedIn, setLoggedIn] = useState(false)
+    const [loggedIn, setLoggedIn] = useState(false)
     //const history = useHistory();
 
     
     
-    const handleAfterQuery = async () => {
-        if(page === "login"){
-            if(! data.users[0]){
-                setMsg("序號不存在")
-                setShow(true)
-            }
-            else if(data.users[0].password === null){
-                setMsg("序號未註冊")
-                setShow(true)
-            }
-            else if(password !== data.users[0].password){
-                setMsg("密碼錯誤")
-                setShow(true)
-            }
-            else if(password === data.users[0].password){
-                setValidated(true)
-                window.localStorage.setItem("id", UID)
-                window.localStorage.setItem("group", data.users[0].group)
-                window.localStorage.setItem("isLogin", true)
-                //setLoggedIn(true)
-            }
-        }
-        else{
-            if(! data.users[0]){
-                setMsg("序號不存在")
-                setShow(true)
-            }
-            else if(data.users[0].password !== null){
-                setMsg("序號已註冊")
-                setShow(true)
-            }
-            else{
-                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
-                if(msg.data.updateUser === "success"){
-                    console.log(true)
-                    setMsg("註冊成功")
+    // const handleAfterQuery = async () => {
+    //     if(page === "login"){
+    //         if(! data.users[0]){
+    //             setMsg("序號不存在")
+    //             setShow(true)
+    //         }
+    //         else if(data.users[0].password === null){
+    //             setMsg("序號未註冊")
+    //             setShow(true)
+    //         }
+    //         else if(password !== data.users[0].password){
+    //             setMsg("密碼錯誤")
+    //             setShow(true)
+    //         }
+    //         else if(password === data.users[0].password){
+    //             setValidated(true)
+    //             window.localStorage.setItem("id", UID)
+    //             window.localStorage.setItem("group", data.users[0].group)
+    //             window.localStorage.setItem("isLogin", true)
+    //             //setLoggedIn(true)
+    //         }
+    //     }
+    //     else{
+    //         alert(true)
+    //         console.log(data.users[0])
+    //         if(! data.users[0]){
+    //             setMsg("序號不存在")
+    //             setShow(true)
+    //         }
+    //         else if(data.users[0].password !== null){
+    //             console.log(true)
+    //             setMsg("序號已註冊")
+    //             setShow(true)
+    //         }
+    //         else{
+    //             const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
+    //             console.log(msg.data.updateUser)
+    //             if(msg.data.updateUser === "success"){
+    //                 console.log(true)
+    //                 setMsg("註冊成功")
+    //                 setShow(true)
+    //                 //setPage("login")
+    //             }
+    //         }
+    //     }
+    // }
+
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        console.log(UID)
+        if(e.currentTarget.checkValidity()){
+            await queryUser({ variables: { UID: UID }})
+            if(data){
+                if(! data.users[0]){
+                    setMsg("序號不存在")
                     setShow(true)
-                    setPage("login")
+                }
+                else if(data.users[0].password === null){
+                    setMsg("序號未註冊")
+                    setShow(true)
+                }
+                else if(password !== data.users[0].password){
+                    setMsg("密碼錯誤")
+                    setShow(true)
+                }
+                else if(password === data.users[0].password){
+                    setValidated(true)
+                    window.localStorage.setItem("id", UID)
+                    window.localStorage.setItem("group", data.users[0].group)
+                    window.localStorage.setItem("isLogin", true)
+                    setLoggedIn(true)
                 }
             }
-        }
-    }
-
-    const handleLogin = (e) => {
-        e.preventDefault()
-        if(e.currentTarget.checkValidity()){
-            queryUser({ variables: { UID: UID }})
         }
         else{
             if(UID.length === 0 && password.length === 0){
@@ -87,9 +113,32 @@ const LoginPage = () => {
         }
     };
 
-    const handleRegister = (e) => {
+    const handleRegister = async (e) => {
+        e.preventDefault()
         if(e.currentTarget.checkValidity()){
-            queryUser({ variables: { UID: regisUID }})
+            await queryUser({ variables: { UID: regisUID }})
+            if(data){
+                if(! data.users[0]){
+                    setMsg("序號不存在")
+                    setShow(true)
+                }
+                else if(data.users[0].password !== null){
+                    console.log(true)
+                    setMsg("序號已註冊")
+                    setShow(true)
+                }
+                else{
+                    const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
+                    console.log(msg.data.updateUser)
+                    if(msg.data.updateUser === "success"){
+                        console.log(true)
+                        setMsg("註冊成功")
+                        setShow(true)
+                        setPage("login")
+                    }
+                }
+
+            }
         }
         else{
             if(regisUID.length === 0 && regisPassword.length === 0){
@@ -116,16 +165,9 @@ const LoginPage = () => {
         </Modal>
     )
 
-    useEffect(() => {
-        if (data && !loading) {
-            console.log(data)
-            handleAfterQuery()
-        }
-    }, [data, loading]);
-
     const login = (
         <>
-            <Form noValidate validated={validated} onSubmit={handleLogin} style={{width: "60%"}}>
+            <Form noValidate validated={validated} onSubmit={e => handleLogin(e)} style={{width: "60%"}}>
                 <Form.Group controlId="UID" className="mb-4">
                     <Form.Control
                         autoFocus
@@ -157,7 +199,7 @@ const LoginPage = () => {
     )
     const register = (
         <>
-            <Form noValidate validated={validated} onSubmit={handleRegister} style={{width: "60%"}}>
+            <Form noValidate validated={validated} onSubmit={e => handleRegister(e)} style={{width: "60%"}}>
                 <Form.Group size="lg" controlId="regisUID" className="mb-4">
                     <Form.Control
                         autoFocus
@@ -191,7 +233,7 @@ const LoginPage = () => {
     return (
         <>
             {
-                localStorage.getItem("isLogin")? <Redirect push to="/mainPage/${UID}"/>:
+                loggedIn? <Redirect push to="/mainPage/${UID}"/>:
                 (<Container className="center d-flex justify-content-center">
                     {showAlert}
                     <Card style={{width: "50%", borderRadius: "30px"}}>
