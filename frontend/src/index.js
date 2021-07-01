@@ -14,10 +14,10 @@ import { WebSocketLink } from "apollo-link-ws";
 import { getMainDefinition } from "apollo-utilities";
 
 const httpLink = new HttpLink({
-    uri: 'http://localhost:5000/'
+    uri: 'http://swing-ntu.herokuapp.com:80/'
 })
 const wsLink = new WebSocketLink({
-    uri: `ws://localhost:5000/`,
+    uri: `ws://swing-ntu.herokuapp.com:80/`,
     options: { reconnect: true }
 })
 
