@@ -64,7 +64,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                             }
                         case "UPDATED":
                             var newReply = subscriptionData.data.reply.data;
-                            var index = prev.comments.[0].replies.findIndex(reply => reply.id === newReply.id)
+                            var index = prev.comments[0].replies.findIndex(reply => reply.id === newReply.id)
                             var newReplies = [...prev.comments[0].replies]
                             newReplies.splice(index, 1, newReply)
                             //console.log(newReplies)
@@ -141,7 +141,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                             (<Form.Control 
                                 type="text" 
                                 placeholder="留言..." 
-                                value={cmtValue.length === 0?comment.content:cmtValue} 
+                                value={comment.content} 
                                 onChange={(e) => setCmtValue(e.target.value)} 
                                 onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
                             />) :
