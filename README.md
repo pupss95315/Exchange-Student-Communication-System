@@ -38,7 +38,7 @@ https://swing-ntu.herokuapp.com/
 下次再回來我們的系統跟大家一起聊天、討論，希望大家都能知己知彼，成為交換填志願大師 ><
 
 ## 系統架構
-前端使用 React.js，後端使用 Node.js + GraphQL，資料庫則是 MongoDB，程式碼公開在 Github ( https://github.com/pupss95315/Exchange-Student-Communication-System )，歡迎大家 PR 或者來信建議想要新增修改的功能～
+前端使用 React.js，後端使用 Node.js + GraphQL，資料庫則是 MongoDB，程式碼公開在 Github ( https://github.com/pupss95315/Swing-NTU )，歡迎大家 PR 或者來信建議想要新增修改的功能～
 喜歡我們的系統也可以在 Github 上面給我們星星！
 最後不免俗要祝有申請的大家都能順利出發去交換，展開新的人生體驗～
  
