@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+import re
 
 #########################
 ## StudentId and score ##
@@ -15,17 +16,32 @@ for t in teams:
     for i in range(0, len(sel)):
         if (len(sel[i].text)==4):
             df = df.append({'student': sel[i].text, 'score': sel[i+1].text}, ignore_index=True)
-display(df)
+# display(df)
 
 #################
 ## School list ##
 #################
 address = 'https://oia.ntu.edu.tw/outgoing/school.list'
-school = pd.DataFrame(columns=['school', 'semeCnt', 'headCnt'])
+school = pd.DataFrame(columns=['semeQuota', 'headQuota'])
 response = requests.get(address)
 soup = BeautifulSoup(response.text, "html.parser")
+## quota
+sel = soup.select("td")
+for i in range(0, len(sel)):
+    # print(i, sel[i].text)
+    if (str(sel[i].text)[:5]=='\n申請資料'):
+        # print(sel[i-1].text)
+        temp = re.findall(r'\d+', sel[i-2].text)
+        semeTemp = temp[0] if len(temp) else -1
+        temp = re.findall(r'\d+', sel[i-1].text)
+        headTemp = temp[0] if len(temp) else -1
+        school = school.append({'semeQuota': semeTemp, 'headQuota': headTemp}, ignore_index=True)
+# display(school)
 sel = soup.select("span")
+schools = []
 for i in range(0, len(sel)):
     if (str(sel[i].text)[:5]=='since'):
-        school = school.append({'school': sel[i-1].text[1:-1]}, ignore_index=True)
-display(school)
+        schools.append(sel[i-1].text[1:-1])
+school['school'] = schools
+school = school[['school', 'semeQuota', 'headQuota']]
+# display(school)
