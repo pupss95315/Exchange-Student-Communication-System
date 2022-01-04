@@ -44,7 +44,7 @@ type User {
   GPA: Float!
   password: String
   college: CollegeType
-  school: String
+  school: School
   isRegistered: Boolean 
   duration: String
   languageExam: String 
