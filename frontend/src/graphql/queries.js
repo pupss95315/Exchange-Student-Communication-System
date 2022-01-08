@@ -19,23 +19,35 @@ export const USER_QUERY = gql`
   }
 `;
 
+export const SCHOOL_QUERY = gql`
+  query ($group: GroupType) {
+    schools (group: $group) {
+      id,
+      school, 
+      semeQuota, 
+      headQuota, 
+      group
+    }
+  }
+`;
+
 export const COMMENT_QUERY = gql`
   query ($CID: ID, $group: GroupType, $type: QueryType, $data: String) {
-    comments(CID: $CID, group: $group, type: $type, data: $data){
-      author{
+    comments (CID: $CID, group: $group, type: $type, data: $data) {
+      author {
         id
         user_id
       }
       id
       content
-      replies{
+      replies {
         id
-        author{
+        author {
           user_id
         }
         content
       }
-      followers{
+      followers {
         user_id
       }
       datetime

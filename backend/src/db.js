@@ -8,11 +8,11 @@ const userSchema = new Schema({
   group: { type: String, required: true },
   password: String,
   college: String,
-  school: String,
+  school: { type: mongoose.Types.ObjectId, ref: 'users' },
   isRegistered: Boolean, 
   duration: String,
   languageExam: String, 
-  apply_list: [String],
+  apply_list: [{ type: mongoose.Types.ObjectId, ref: 'schools', required: true }],
 });
   
 const commentSchema = new Schema({
@@ -30,15 +30,24 @@ const replySchema = new Schema({
   comment: { type: mongoose.Types.ObjectId, ref: 'comments' },
   datetime: { type: Date, required: true },
 });
-  
+
+const schoolSchema = new Schema({
+  school_name: { type: String, required: true },
+  seme_quota: Int,
+  head_quota: Int,
+  group: { type: String, required: true },
+});
+
 const users = mongoose.model('users', userSchema);
 const comments = mongoose.model('comments', commentSchema);
 const replies = mongoose.model('replies', replySchema);
+const schools = mongoose.model('schools', schoolSchema);
 
 const db = {
   users,
   comments,
   replies,
+  schools, 
 }
 
 export { db as default };

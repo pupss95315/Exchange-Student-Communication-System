@@ -11,7 +11,7 @@ const userdata = [
     isRegistered: true, 
     duration: '109-1', 
     languageExam: '', 
-    apply_list: ['University A', 'University B', 'University C']
+    apply_list: ['--', '--', '--']
   },{
     user_id: 'b07705027',
     password: '77hsu', 
@@ -22,7 +22,7 @@ const userdata = [
     isRegistered: true, 
     duration: '109-1', 
     languageExam: '', 
-    apply_list: ['University D', 'University B', 'University C']
+    apply_list: ['--', '--', '--']
   },{
     user_id: 'b07902005',
     password: 'abc', 
@@ -33,7 +33,7 @@ const userdata = [
     isRegistered: true, 
     duration: '109-2', 
     languageExam: '', 
-    apply_list: ['University B', 'University A', 'University C']
+    apply_list: ['--', '--', '--']
   },{
     user_id: 'b06105032',
     password: 'julie', 
@@ -44,7 +44,7 @@ const userdata = [
     isRegistered: true, 
     duration: '109-1', 
     languageExam: 'TOFEL', 
-    apply_list: ['University D', 'University B', 'University A']
+    apply_list: ['--', '--', '--']
   },
 ]
 

@@ -25,7 +25,7 @@ input UpdateUserInput {
   password: String
   GPA: Float
   college: CollegeType
-  school: String
+  school: [School]
   isRegistered: Boolean 
   duration: String
   languageExam: String 
@@ -44,11 +44,11 @@ type User {
   GPA: Float!
   password: String
   college: CollegeType
-  school: String
+  school: School
   isRegistered: Boolean 
   duration: String
   languageExam: String 
-  apply_list: [String]
+  apply_list: [School]
 }
 
 type Comment {
@@ -67,6 +67,14 @@ type Reply {
   comment: Comment!
   content: String!
   datetime: String!
+}
+
+type School {
+  id: ID!
+  school: String!
+  semeQuota: Int
+  headQuota: Int
+  group: GroupType!
 }
 
 enum QueryType {
