@@ -124,7 +124,7 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
           <Sort sort={sort} setSort={setSort}></Sort>
           { (type === null)? <CommentForm UID={UID} group={group} ></CommentForm>: null }
         </Row>
-        { data? comments.map((comment, index) => (
+        {/* { data? comments.map((comment, index) => (
           ( index < (page)*10 && index >= (page-1)*10) ? 
             (<Comment
                 key={index}
@@ -135,7 +135,17 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
             />) 
             : null
         )): null}
-        {data && comments.length > 0? <Pagination onChange={handlePageChange} page={page} className="mt-5" count={pageNum + 1} />:null}
+        {data && comments.length > 0? <Pagination onChange={handlePageChange} page={page} className="mt-5" count={pageNum + 1} />:null} */}
+        {data? comments.map((comment, index) => (
+          <Comment
+            key={index}
+            UID={UID}
+            comment={comment}
+            setShow={setShow}
+            setMsg={setMsg}
+          />
+          )):null
+        }
     </>
   )
 }
