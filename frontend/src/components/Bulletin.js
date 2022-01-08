@@ -62,12 +62,14 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
             setPage(1)
             break;
           case "關注":
+            temp.reverse();
             temp.sort((a, b) => b.followers.length-a.followers.length);
             setComments(temp)
             setPage(1)
             break;
           case "回覆":
             temp.sort((a, b) => b.replies.length-a.replies.length);
+            temp.reverse();
             setComments(temp)
             setPage(1)
             break;
