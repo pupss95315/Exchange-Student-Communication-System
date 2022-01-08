@@ -39,9 +39,10 @@ const Reply = ({
 
     return(
         <Accordion.Collapse eventKey="0">
-            <Card.Body className="d-flex align-items-center justify-content-between">
-                <Col className="d-flex align-items-center">    
+            <Card.Body> 
+                <div className="mb-2 d-flex align-items-center">
                     <AccountCircleIcon className="me-2" style={{ fontSize:"45", color:"#E0E0E0" }}></AccountCircleIcon>
+                    <span className = "me-2" style={{fontWeight: "bold", fontSize:"18px"}}>{reply.author.user_id}</span>
                     {
                         replyEdit ? 
                         (<Form.Control 
@@ -52,14 +53,15 @@ const Reply = ({
                             onKeyPress={e => e.key === "Enter" && handleUpdateReply()}
                         />) :
                         (<>
-                        <span className = "me-2" style={{fontWeight: "bold", fontSize:"18px"}}>{reply.author.user_id}</span>
-                        <span style={{fontSize:"18px"}}>{reply.content}</span>
+                            <Card style={{border:"none"}}>
+                                <Card.Text style={{fontSize:"18px"}}>{reply.content}</Card.Text>
+                            </Card>
                         </>)
                     }
-                </Col>
+                </div>
                 {
                     reply.author.user_id === UID? 
-                    (<div>
+                    (<div className="d-flex justify-content-end">
                         <Button variant="outline-secondary" size="sm" onClick={() => setReplyEdit(!replyEdit)}>編輯</Button>
                         <a className='ms-3' style={{color: "grey"}} variant="light" onClick={()=>handleDeleteReply()}>
                             <HighlightOffOutlinedIcon style={{fontSize: "30px"}}></HighlightOffOutlinedIcon>

@@ -155,7 +155,9 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                 onChange={(e) => setCmtValue(e.target.value)} 
                                 onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
                             />) :
-                            (<span style={{fontSize:"18px"}}>{comment.content}</span>)
+                            (<Card style={{border:"none"}}>
+                                <Card.Text style={{fontSize:"18px"}}>{comment.content}</Card.Text>
+                            </Card>)
                         }
                     </Accordion.Toggle>
                     {data? (data.comments[0].replies.length === 0? 
