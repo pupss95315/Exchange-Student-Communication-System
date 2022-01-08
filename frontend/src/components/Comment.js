@@ -103,15 +103,21 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
 
     const handleUpdateCmt = async (CID, type, data) => {
         console.log(CID)
-        const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
-        if(res.data.updateComment === "success"){
-            if(type === "EDIT"){
-            setCmtEdit(false)
-            setMsg("留言更新成功")
+        if(data.length == 0){
+            setMsg("留言不可為空")
             setShow(true)
-            }
-            else{
-                console.log(true)
+        }
+        else{
+            const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
+            if(res.data.updateComment === "success"){
+                if(type === "EDIT"){
+                setCmtEdit(false)
+                setMsg("留言更新成功")
+                setShow(true)
+                }
+                else{
+                    console.log(true)
+                }
             }
         }
     }
