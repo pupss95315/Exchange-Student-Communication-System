@@ -24,6 +24,10 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
     const [cmtEdit, setCmtEdit] = useState(false);
     const [cmtValue, setCmtValue] = useState("");
 
+    useEffect (() => {
+        setCmtValue(comment.content)
+    }, [comment.content])
+
     useEffect(() => {
         try {
             subscribeToMore({
