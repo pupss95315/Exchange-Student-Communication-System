@@ -1,6 +1,7 @@
 type Query {
   users(UID: String, group: GroupType): [User]
   comments(CID: ID, group: GroupType, type: QueryType, data: String): [Comment]
+  schools(group: GroupType): [School]
 }
 
 type Mutation {
@@ -25,11 +26,10 @@ input UpdateUserInput {
   password: String
   GPA: Float
   college: CollegeType
-  school: [School]
   isRegistered: Boolean 
   duration: String
   languageExam: String 
-  apply_list: [String]
+  apply_list: [School]
 }
 
 input UpdateCommentInput {

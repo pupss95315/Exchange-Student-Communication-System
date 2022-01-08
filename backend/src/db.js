@@ -33,8 +33,8 @@ const replySchema = new Schema({
 
 const schoolSchema = new Schema({
   school_name: { type: String, required: true },
-  seme_quota: Int,
-  head_quota: Int,
+  seme_quota: Number,
+  head_quota: Number,
   group: { type: String, required: true },
 });
 
