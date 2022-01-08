@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Accordion, Card, Button, Form, Col } from 'react-bootstrap';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import HighlightOffOutlinedIcon from '@material-ui/icons/HighlightOffOutlined';
@@ -20,6 +20,10 @@ const Reply = ({
     const [replyEdit, setReplyEdit] = useState(false);
     const [replyValue, setReplyValue] = useState("");
 
+    useEffect (() => {
+        setReplyValue(reply.content)
+    }, [reply.content])
+
     const handleDeleteReply = async () => {
         const res = await deleteReply({ variables: { RID: reply.id } })
         if(res.data.deleteReply === "success"){
@@ -29,11 +33,17 @@ const Reply = ({
     }
 
     const handleUpdateReply = async () => {
-        const res = await updateReply({ variables: { RID: reply.id, content: replyValue} })
-        if(res.data.updateReply === "success"){
-            setReplyEdit(false)
-            setMsg("回覆新增成功")
+        if(replyValue.length == 0){
+            setMsg("回覆不可為空")
             setShow(true)
+        }
+        else{
+            const res = await updateReply({ variables: { RID: reply.id, content: replyValue} })
+            if(res.data.updateReply === "success"){
+                setReplyEdit(false)
+                setMsg("回覆更新成功")
+                setShow(true)
+            }
         }
     }
 
@@ -47,7 +57,7 @@ const Reply = ({
                         replyEdit ? 
                         (<Form.Control 
                             type="text" 
-                            placeholder="留言..." 
+                            placeholder="回覆..." 
                             value={replyValue} 
                             onChange={(e) => setReplyValue(e.target.value)} 
                             onKeyPress={e => e.key === "Enter" && handleUpdateReply()}
