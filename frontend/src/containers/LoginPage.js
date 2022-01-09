@@ -56,13 +56,23 @@ const LoginPage = () => {
             if(! data.users[0]){
                 setMsg("序號不存在")
                 setShow(true)
-            }
-            else if(data.users[0].password !== null){
+            } else if(data.users[0].password !== null){
                 console.log(true)
                 setMsg("序號已註冊")
                 setShow(true)
-            }
-            else{
+            } else{
+                const studentID = 'b07705053'
+                const mail = await Email.send({
+                    Host : "smtp.gmail.com",
+                    Username : "swingntu@gmail.com",
+                    Password : "swingntu2022",
+                    To : studentID+'@ntu.edu.tw',
+                    From : "swingntu@gmail.com",
+                    Subject : "Swing NTU 驗證你的信箱",
+                    Body : "這是連結"
+                }).then(
+                    message => alert(message)
+                );
                 const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
                 console.log(msg.data.updateUser)
                 if(msg.data.updateUser === "success"){

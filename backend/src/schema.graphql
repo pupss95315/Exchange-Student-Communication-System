@@ -30,6 +30,7 @@ input SchoolInput {
 }
 
 input UpdateUserInput {
+  student_id: String
   password: String
   GPA: Float
   college: CollegeType
@@ -47,6 +48,7 @@ input UpdateCommentInput {
 type User {
   id: ID!
   user_id: String!
+  student_id: String
   group: GroupType!
   GPA: Float!
   password: String
