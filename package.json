@@ -7,5 +7,7 @@
   "scripts": {
     "start": "cd frontend && yarn start",
     "server": "cd backend && yarn server"
-  }
+  },
+  "repository": "https://github.com/pupss95315/Swing-NTU.git",
+  "author": "PJL-Emily <b07705053@ntu.edu.tw>"
 }

@@ -2,6 +2,13 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+const schoolSchema = new Schema({
+  school_name: { type: String, required: true },
+  seme_quota: Number,
+  head_quota: Number,
+  group: { type: String, required: true },
+});
+
 const userSchema = new Schema({
   user_id: { type: String, required: true },
   GPA: { type: Number, required: true },
@@ -29,13 +36,6 @@ const replySchema = new Schema({
   content: { type: String, required: true },
   comment: { type: mongoose.Types.ObjectId, ref: 'comments' },
   datetime: { type: Date, required: true },
-});
-
-const schoolSchema = new Schema({
-  school_name: { type: String, required: true },
-  seme_quota: Number,
-  head_quota: Number,
-  group: { type: String, required: true },
 });
 
 const users = mongoose.model('users', userSchema);
