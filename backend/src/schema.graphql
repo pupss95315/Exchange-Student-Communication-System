@@ -22,6 +22,13 @@ type Subscription {
   reply(CID: ID!): ReplySubscriptionPayload!
 }
 
+input SchoolInput {
+  school_name: String!
+  semeQuota: Int
+  headQuota: Int
+  group: GroupType!
+}
+
 input UpdateUserInput {
   password: String
   GPA: Float
@@ -29,7 +36,7 @@ input UpdateUserInput {
   isRegistered: Boolean 
   duration: String
   languageExam: String 
-  apply_list: [School]
+  apply_list: [SchoolInput]
 }
 
 input UpdateCommentInput {
@@ -71,7 +78,7 @@ type Reply {
 
 type School {
   id: ID!
-  school: String!
+  school_name: String!
   semeQuota: Int
   headQuota: Int
   group: GroupType!

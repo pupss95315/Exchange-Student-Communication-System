@@ -20,8 +20,8 @@ const Mutation = {
     if (data.keys().includes('apply_list')) {
       schools = data.apply_list;
       newSchools = [];
-      for (s in schools) {
-        const ret = await db.schools.findOne({ name: s });
+      for (var s in schools) {
+        const ret = await db.schools.findOne({ school_name: s });
         newSchools.push(ret._id);
       }
       data.apply_list = newSchools;
