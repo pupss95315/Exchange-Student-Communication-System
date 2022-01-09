@@ -166,7 +166,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                 目前尚無回覆
                             </Card.Body>
                         </Accordion.Collapse>) :
-                        (data.comments[0].replies.map((reply, index) => (
+                        ([...data.comments[0].replies].reverse().map((reply, index) => (
                             <Reply
                                 key={index}
                                 UID={UID}
