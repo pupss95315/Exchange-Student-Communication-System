@@ -17,6 +17,15 @@ const Mutation = {
     if (!user) {
       throw new Error ('User not exist');
     }
+    if (data.keys().includes('apply_list')) {
+      schools = data.apply_list;
+      newSchools = [];
+      for (s in schools) {
+        const ret = await db.schools.findOne({ name: s });
+        newSchools.push(ret._id);
+      }
+      data.apply_list = newSchools;
+    }
     await db.users.updateOne({ user_id: UID }, { $set: data });
     console.log(user)
     return "success";
