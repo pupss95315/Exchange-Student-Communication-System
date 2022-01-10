@@ -16,11 +16,11 @@ const userSchema = new Schema({
   group: { type: String, required: true },
   password: String,
   college: String,
-  school: { type: mongoose.Types.ObjectId, ref: 'schools' },
+  school: String,
   isRegistered: Boolean, 
   duration: String,
   languageExam: String, 
-  apply_list: [{ type: mongoose.Types.ObjectId, ref: 'schools', required: true }],
+  apply_list: [{ type: String, required: true }],
 });
   
 const commentSchema = new Schema({

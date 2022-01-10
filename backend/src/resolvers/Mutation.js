@@ -26,15 +26,22 @@ const Mutation = {
     if (!user) {
       throw new Error ('User not exist');
     }
-    if (Object.keys(data).includes('apply_list')) {
-      schools = data.apply_list;
-      newSchools = [];
-      for (var s in schools) {
-        const ret = await db.schools.findOne({ school_name: s, group: user.group });
-        newSchools.push(ret._id);
-      }
-      data.apply_list = newSchools;
-    }
+    // if(Object.keys(data).includes('apply_list')) {
+    //   var schools = data.apply_list;
+    //   var newSchools = [];
+    //   console.log(schools)
+    //   for (var s in schools) {
+    //     const ret = await db.schools.findOne({ school_name: s, group: user.group });
+    //     console.log(user.group)
+    //     if(ret){
+    //       newSchools.push(ret.school_name);
+    //     }
+    //     else{
+    //       newSchools.push("")
+    //     }
+    //   }
+    //   data.apply_list = newSchools;
+    // }
     await db.users.updateOne({ user_id: UID }, { $set: data });
     console.log(user)
     return "success";

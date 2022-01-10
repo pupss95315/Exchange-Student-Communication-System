@@ -34,10 +34,11 @@ input UpdateUserInput {
   password: String
   GPA: Float
   college: CollegeType
+  school: String
   isRegistered: Boolean 
   duration: String
   languageExam: String 
-  apply_list: [SchoolInput]
+  apply_list: [String]
 }
 
 input UpdateCommentInput {
@@ -53,11 +54,11 @@ type User {
   GPA: Float!
   password: String
   college: CollegeType
-  school: School
+  school: String
   isRegistered: Boolean 
   duration: String
   languageExam: String 
-  apply_list: [School]
+  apply_list: [String]
 }
 
 type Comment {
