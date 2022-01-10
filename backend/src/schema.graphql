@@ -80,7 +80,7 @@ type Reply {
 
 type School {
   id: ID!
-  school_name: String!
+  school_name: String
   semeQuota: Int
   headQuota: Int
   group: GroupType!

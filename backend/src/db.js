@@ -11,11 +11,12 @@ const schoolSchema = new Schema({
 
 const userSchema = new Schema({
   user_id: { type: String, required: true },
+  student_id: String,
   GPA: { type: Number, required: true },
   group: { type: String, required: true },
   password: String,
   college: String,
-  school: { type: mongoose.Types.ObjectId, ref: 'users' },
+  school: { type: mongoose.Types.ObjectId, ref: 'schools' },
   isRegistered: Boolean, 
   duration: String,
   languageExam: String, 
