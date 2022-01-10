@@ -9,11 +9,15 @@ export const USER_QUERY = gql`
       group,
       GPA,
       college,
-      school,
+      school {
+        school_name
+      },
       isRegistered,
       duration,
       languageExam,
-      apply_list,
+      apply_list {
+        school_name
+      },
       password
     }
   }
@@ -23,7 +27,7 @@ export const SCHOOL_QUERY = gql`
   query ($group: GroupType) {
     schools (group: $group) {
       id,
-      school, 
+      school_name, 
       semeQuota, 
       headQuota, 
       group
