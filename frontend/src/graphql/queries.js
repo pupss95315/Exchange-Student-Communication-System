@@ -9,15 +9,11 @@ export const USER_QUERY = gql`
       group,
       GPA,
       college,
-      school {
-        school_name
-      },
+      school,
       isRegistered,
       duration,
       languageExam,
-      apply_list {
-        school_name
-      },
+      apply_list,
       password
     }
   }
