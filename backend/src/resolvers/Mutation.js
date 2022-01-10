@@ -26,7 +26,7 @@ const Mutation = {
     if (!user) {
       throw new Error ('User not exist');
     }
-    if (data.keys().includes('apply_list')) {
+    if (Object.keys(data).includes('apply_list')) {
       schools = data.apply_list;
       newSchools = [];
       for (var s in schools) {
