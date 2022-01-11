@@ -314,6 +314,16 @@ const InfoPage = props => {
       }
     ];
 
+    const rowStyle = (row, rowIndex) => {
+      const style = {};
+      if (row.user_id == id) {
+        style.backgroundColor = '#746C70';
+        style.color = 'white'
+      }
+      return style;
+    };
+    
+
     return(
       <>
         {
@@ -344,6 +354,7 @@ const InfoPage = props => {
                         hover
                         striped
                         bordered={ false } 
+                        rowStyle={ rowStyle }
                     >
                     </BootstrapTable >
                   </>:null
