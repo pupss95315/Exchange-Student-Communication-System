@@ -63,20 +63,6 @@ const LoginPage = () => {
             }
             else{
                 const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword, studentID: studentID }}})
-            } else{
-                const studentID = 'b07705053'
-                const mail = await Email.send({
-                    Host : "smtp.gmail.com",
-                    Username : "swingntu@gmail.com",
-                    Password : "swingntu2022",
-                    To : studentID+'@ntu.edu.tw',
-                    From : "swingntu@gmail.com",
-                    Subject : "Swing NTU 驗證你的信箱",
-                    Body : "這是連結"
-                }).then(
-                    message => alert(message)
-                );
-                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
                 console.log(msg.data.updateUser)
                 if(msg.data.updateUser === "success"){
                     console.log(true)
