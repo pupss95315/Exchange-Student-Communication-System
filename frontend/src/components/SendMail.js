@@ -5,8 +5,8 @@ import './ContactUs.css';
 
 export default function ContactUs() {
 
-  function sendEmail(e, studentId) {
-    e.preventDefault();
+  function sendEmail(studentId) {
+    // e.preventDefault();
     const verifyLink = 'https://swing-ntu-verify'.concat(studentId);
     emailjs.send("service_n0dkzyt","template_ls9b85f",{
         from_name: "Swing NTU",

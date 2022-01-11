@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { useMutation, useLazyQuery } from '@apollo/client';
+// import SendMail from '../components/SendMail.js'
 import {
     UPDATE_USER_MUTATION,
     USER_QUERY
@@ -64,7 +65,9 @@ const LoginPage = () => {
             else{
                 const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword, student_id: studentID }}})
                 console.log(msg.data.updateUser)
-                if(msg.data.updateUser === "success"){
+                // const verify = await SendMail(studentID);
+                // console.log(verify)
+                if (msg.data.updateUser === "success") {
                     console.log(true)
                     setMsg("註冊成功")
                     setShow(true)
