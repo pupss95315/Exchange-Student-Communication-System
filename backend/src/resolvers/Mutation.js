@@ -6,7 +6,7 @@ const Mutation = {
     if (userExist) {
       throw new Error ('User already exist');
     } 
-    var user = new db.users({user_id: UID, GPA: GPA, group: group});
+    var user = new db.users({user_id: UID, GPA: GPA, group: group, apply_list: ['', '', '']});
     //console.log(user);
     user.save();
 
