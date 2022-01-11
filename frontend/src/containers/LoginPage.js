@@ -26,7 +26,7 @@ const LoginPage = () => {
     const [loggedIn, setLoggedIn] = useState(false)
     // const history = useHistory();
 
-    
+
     
     const handleAfterQuery = async () => {
         if(page === "login"){
@@ -62,7 +62,7 @@ const LoginPage = () => {
                 setShow(true)
             }
             else{
-                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword, studentID: studentID }}})
+                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword, student_id: studentID }}})
                 console.log(msg.data.updateUser)
                 if(msg.data.updateUser === "success"){
                     console.log(true)
@@ -253,7 +253,7 @@ const LoginPage = () => {
     return (
         <>
             {
-                loggedIn? <Redirect push to="/mainPage/${UID}"/>:
+                loggedIn? <Redirect push to="/mainPage/"/>:
                 (<Container className="center d-flex justify-content-center">
                     {showAlert}
                     <Card style={{width: "50%", borderRadius: "30px"}}>
