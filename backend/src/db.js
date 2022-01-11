@@ -2,8 +2,16 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+const schoolSchema = new Schema({
+  school_name: { type: String, required: true },
+  seme_quota: Number,
+  head_quota: Number,
+  group: { type: String, required: true },
+});
+
 const userSchema = new Schema({
   user_id: { type: String, required: true },
+  student_id: String,
   GPA: { type: Number, required: true },
   group: { type: String, required: true },
   password: String,
@@ -12,7 +20,7 @@ const userSchema = new Schema({
   isRegistered: Boolean, 
   duration: String,
   languageExam: String, 
-  apply_list: [String],
+  apply_list: [{ type: String, required: true }],
 });
   
 const commentSchema = new Schema({
@@ -30,15 +38,17 @@ const replySchema = new Schema({
   comment: { type: mongoose.Types.ObjectId, ref: 'comments' },
   datetime: { type: Date, required: true },
 });
-  
+
 const users = mongoose.model('users', userSchema);
 const comments = mongoose.model('comments', commentSchema);
 const replies = mongoose.model('replies', replySchema);
+const schools = mongoose.model('schools', schoolSchema);
 
 const db = {
   users,
   comments,
   replies,
+  schools, 
 }
 
 export { db as default };

@@ -61,3 +61,6 @@ input:placeholder-shown {
   position: absolute;
   bottom: 0;
 }
+.react-bootstrap-table th.sortable {
+  font-size: 16px;
+}

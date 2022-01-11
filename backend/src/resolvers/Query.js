@@ -13,6 +13,14 @@ const Query = {
     // if no filter, return all users
     return db.users;  
   },
+  async schools(parent, args, { db }, info) {
+    if (args.group) {
+      const ret = await db.schools.find({ group : args.group });
+      return ret;
+    }
+    // if no filter, return all schools
+    return db.schools;  
+  },
   async comments(parent, args, { db }, info) {
     if (args.CID) {
       const ret = await db.comments.findOne({ _id: args.CID });

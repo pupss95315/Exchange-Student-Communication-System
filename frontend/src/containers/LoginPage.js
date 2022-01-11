@@ -1,9 +1,9 @@
 import { Button,Form, Card, Container, Modal } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom'
-import { useHistory } from 'react-router-dom';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { useMutation, useLazyQuery } from '@apollo/client';
+// import SendMail from '../components/SendMail.js'
 import {
     UPDATE_USER_MUTATION,
     USER_QUERY
@@ -18,15 +18,16 @@ const LoginPage = () => {
     const [UID, setUID] = useState("");
     const [password, setPassword] = useState("");
     const [regisUID, setRegisUID] = useState("");
+    const [studentID, setStudentID] = useState("");
     const [regisPassword, setRegisPassword] = useState("");
     const [msg, setMsg] = useState("");
     const [page, setPage] = useState("login");
     const [show, setShow] = useState(false);
     const [validated, setValidated] = useState(false);
     const [loggedIn, setLoggedIn] = useState(false)
-    const history = useHistory();
+    // const history = useHistory();
 
-    
+
     
     const handleAfterQuery = async () => {
         if(page === "login"){
@@ -56,16 +57,17 @@ const LoginPage = () => {
             if(! data.users[0]){
                 setMsg("序號不存在")
                 setShow(true)
-            }
-            else if(data.users[0].password !== null){
+            } else if(data.users[0].password !== null){
                 console.log(true)
                 setMsg("序號已註冊")
                 setShow(true)
             }
             else{
-                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword }}})
+                const msg = await updateUser({ variables: { UID: regisUID, data: { password: regisPassword, student_id: studentID }}})
                 console.log(msg.data.updateUser)
-                if(msg.data.updateUser === "success"){
+                // const verify = await SendMail(studentID);
+                // console.log(verify)
+                if (msg.data.updateUser === "success") {
                     console.log(true)
                     setMsg("註冊成功")
                     setShow(true)
@@ -218,6 +220,16 @@ const LoginPage = () => {
                         className="form-control"
                     />
                 </Form.Group>
+                <Form.Group size="lg" controlId="studentID" className="mb-4">
+                    <Form.Control
+                        required
+                        type="text"
+                        value={studentID}
+                        placeholder="學號"
+                        style={{borderRadius: "30px"}}
+                        onChange={(e) => setStudentID(e.target.value)}
+                    />
+                </Form.Group>
                 <Form.Group size="lg" controlId="password" className="mb-4">
                     <Form.Control
                         required
@@ -244,12 +256,12 @@ const LoginPage = () => {
     return (
         <>
             {
-                loggedIn? <Redirect push to="/mainPage/${UID}"/>:
+                loggedIn? <Redirect push to="/mainPage/"/>:
                 (<Container className="center d-flex justify-content-center">
                     {showAlert}
                     <Card style={{width: "50%", borderRadius: "30px"}}>
                         <Card.Title style={{fontSize: "18px"}} className="d-flex justify-content-center">
-                            <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓系統</h2>
+                            <h2 className="m-4" style={{fontWeight: "bold"}}>交換學生搓湯圓平台</h2>
                         </Card.Title>
                         <div className="d-flex justify-content-center mb-4">
                             { page === "login" ? login : register }

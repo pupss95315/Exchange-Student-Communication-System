@@ -19,8 +19,8 @@ function App() {
         <>
             <Switch>      
                 <Route exact path="/" component={LoginPage}/>
-                <Route path="/mainPage/:id" component={MainPage}/>
-                <Route path="/infoPage/:group/:id" component={InfoPage}/>
+                <Route path="/mainPage/" component={MainPage}/>
+                <Route path="/infoPage/:group/" component={InfoPage}/>
             </Switch>
             {/* <Footer></Footer> */}
         </>

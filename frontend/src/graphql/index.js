@@ -12,6 +12,7 @@ export {
 export { 
     USER_QUERY,
     COMMENT_QUERY,
+    SCHOOL_QUERY
 } from './queries';
 
 export { 

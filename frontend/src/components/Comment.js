@@ -24,6 +24,10 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
     const [cmtEdit, setCmtEdit] = useState(false);
     const [cmtValue, setCmtValue] = useState("");
 
+    useEffect (() => {
+        setCmtValue(comment.content)
+    }, [comment.content])
+
     useEffect(() => {
         try {
             subscribeToMore({
@@ -99,15 +103,21 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
 
     const handleUpdateCmt = async (CID, type, data) => {
         console.log(CID)
-        const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
-        if(res.data.updateComment === "success"){
-            if(type === "EDIT"){
-            setCmtEdit(false)
-            setMsg("留言更新成功")
+        if(data.length == 0){
+            setMsg("留言不可為空")
             setShow(true)
-            }
-            else{
-                console.log(true)
+        }
+        else{
+            const res = await updateCmt( { variables: { CID: CID, type: type, data: data } } )
+            if(res.data.updateComment === "success"){
+                if(type === "EDIT"){
+                setCmtEdit(false)
+                setMsg("留言更新成功")
+                setShow(true)
+                }
+                else{
+                    console.log(true)
+                }
             }
         }
     }
@@ -145,7 +155,9 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                 onChange={(e) => setCmtValue(e.target.value)} 
                                 onKeyPress={e => e.key === "Enter" && handleUpdateCmt(comment.id, "EDIT", cmtValue)}
                             />) :
-                            (<span style={{fontSize:"18px"}}>{comment.content}</span>)
+                            (<Card style={{border:"none"}}>
+                                <Card.Text style={{fontSize:"18px"}}>{comment.content}</Card.Text>
+                            </Card>)
                         }
                     </Accordion.Toggle>
                     {data? (data.comments[0].replies.length === 0? 
@@ -154,7 +166,7 @@ const Comment = ({key, UID, comment, setShow, setMsg}) => {
                                 目前尚無回覆
                             </Card.Body>
                         </Accordion.Collapse>) :
-                        (data.comments[0].replies.map((reply, index) => (
+                        ([...data.comments[0].replies].reverse().map((reply, index) => (
                             <Reply
                                 key={index}
                                 UID={UID}
