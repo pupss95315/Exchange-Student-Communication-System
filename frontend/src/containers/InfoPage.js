@@ -216,7 +216,8 @@ const InfoPage = props => {
         headerAlign: 'center',
         align: 'center',
         classes: 'table__columns',
-        sort: true
+        sort: true,
+        editable: false
       }, 
       // {
       //   dataField: 'GPA2',
