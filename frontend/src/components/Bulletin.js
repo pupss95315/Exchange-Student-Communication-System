@@ -68,8 +68,8 @@ const Bulletin = ({ UID, setShow, setMsg, group, type, search }) => {
             setPage(1)
             break;
           case "回覆":
-            temp.sort((a, b) => b.replies.length-a.replies.length);
             temp.reverse();
+            temp.sort((a, b) => b.replies.length-a.replies.length);
             setComments(temp)
             setPage(1)
             break;
