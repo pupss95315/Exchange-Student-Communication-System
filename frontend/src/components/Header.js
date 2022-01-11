@@ -19,12 +19,12 @@ const Header = () => {
             <Navbar.Collapse className="justify-content-end">
                 <Nav>  
                     <Nav.Item id="navbarItem">
-                        <Nav.Link href={"/mainPage/"+UID}>
+                        <Nav.Link href={"/mainPage/"}>
                             <h4>首頁</h4>
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item id="navbarItem">
-                        <Nav.Link href={"/infoPage/"+group+"/"+UID}>
+                        <Nav.Link href={"/infoPage/"+group+"/"}>
                             <h4>志願表</h4>
                         </Nav.Link>
                     </Nav.Item>
