@@ -249,8 +249,9 @@ const LoginPage = () => {
     )
 
     useEffect(() => {
-        if(data.users.length)
-            handleAfterQuery()
+        if (data)
+            if (data.users.length)
+                handleAfterQuery()
     }, [data])
 
     return (
