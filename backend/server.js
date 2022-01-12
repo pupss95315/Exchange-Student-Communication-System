@@ -1,6 +1,9 @@
 import express from "express";
 import { ApolloServer, PubSub } from "apollo-server-express";
-import { importSchema } from "graphql-import";
+/* 'graphql-import' is deprecated, use 'graphql-tools' instead */
+// import { importSchema } from "graphql-import";
+import { loadSchemaSync } from '@graphql-tools/load'
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 // import bodyParser from "body-parser";
 import cors from "cors";
 import http from "http";
@@ -23,7 +26,7 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
 
-const typeDefs = importSchema("./src/schema.graphql");
+const schema = loadSchemaSync(join(__dirname, 'schema.graphql'), { loaders: [new GraphQLFileLoader()] })
 const pubsub = new PubSub();
 const app = express();
 
@@ -34,7 +37,7 @@ app.get("/*", function (req, res) {
 });
 
 const server = new ApolloServer({
-  typeDefs,
+  schema,
   resolvers: {
     Query,
     Mutation,
