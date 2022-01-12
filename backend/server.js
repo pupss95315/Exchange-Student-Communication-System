@@ -26,7 +26,7 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
 
-const schema = loadSchemaSync(join(__dirname, 'schema.graphql'), { loaders: [new GraphQLFileLoader()] })
+const schema = loadSchemaSync(join(__dirname, './src/schema.graphql'), { loaders: [new GraphQLFileLoader()] })
 const pubsub = new PubSub();
 const app = express();
 
@@ -50,6 +50,8 @@ const server = new ApolloServer({
     db,
     pubsub,
   },
+  introspection: true,
+  playground: true,
 });
 
 server.applyMiddleware({ app });
