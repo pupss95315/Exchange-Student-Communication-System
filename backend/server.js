@@ -55,6 +55,7 @@ const server = new ApolloServer({
   playground: true,
 });
 
+await server.start();
 server.applyMiddleware({ app });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
@@ -64,4 +65,4 @@ mongo.connect();
 httpServer.listen(port, () => {
   console.log(`🚀 Server Ready at ${port}! 🚀`);
   console.log(`Graphql Port at ${port}${server.subscriptionsPath}`);
-});
+}); 
