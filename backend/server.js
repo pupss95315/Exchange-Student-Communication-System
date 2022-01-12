@@ -1,5 +1,7 @@
 import express from "express";
-import { ApolloServer, PubSub } from "apollo-server-express";
+// import { ApolloServer, PubSub } from "apollo-server-express";
+import pkg from 'apollo-server-express';
+const { ApolloServer, PubSub } = pkg;
 import { importSchema } from "graphql-import";
 // import bodyParser from "body-parser";
 import cors from "cors";
