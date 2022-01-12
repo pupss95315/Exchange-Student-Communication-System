@@ -6,37 +6,27 @@ const Mutation = {
     if (userExist) {
       throw new Error ('User already exist');
     } 
-    var user = new db.users({user_id: UID, GPA: GPA, group: group, apply_list: ['', '', '']});
+    var user = new db.users({ user_id: UID, GPA: GPA, group: group, apply_list: ['', '', ''] });
     //console.log(user);
     user.save();
 
     return user;
   },
-  // async translateSchool(parent, { db, pubsub }, info) {
-  //   const schools = await db.schools;
-  //   const mapping = {"一般組": "GENERAL", "法語組": "FRENCH", "日語組": "JAPANESE", 
-  //   "西語組": "SPANISH", "韓語組": "KOREAN", "德語組": "GERMAN", "中文組": "CHINESE"};
-  //   for (var s in schools) {
-  //     await db.schools.updateOne({ school_name: s.name }, { $set: { group: mapping(s.group) } });
-  //   }
-  //   return db.schools;
-  // },
   async updateUser(parent, { UID, data }, { db, pubsub }, info) {
     const user = await db.users.findOne({ user_id: UID });
     if (!user) {
       throw new Error ('User not exist');
     }
-    // if(Object.keys(data).includes('apply_list')) {
+    // if (Object.keys(data).includes('apply_list')) {
     //   var schools = data.apply_list;
     //   var newSchools = [];
     //   console.log(schools)
     //   for (var s in schools) {
     //     const ret = await db.schools.findOne({ school_name: s, group: user.group });
     //     console.log(user.group)
-    //     if(ret){
+    //     if (ret) {
     //       newSchools.push(ret.school_name);
-    //     }
-    //     else{
+    //     } else {
     //       newSchools.push("")
     //     }
     //   }
