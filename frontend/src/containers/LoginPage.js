@@ -250,7 +250,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         if (data)
-            if (data.users)
+            if (data.users.length)
                 handleAfterQuery()
     }, [data])
 
