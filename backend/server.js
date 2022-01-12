@@ -1,5 +1,6 @@
 import express from "express";
-import { ApolloServer, PubSub } from "apollo-server-express";
+import { ApolloServer } from "apollo-server-express";
+import { PubSub } from 'graphql-subscriptions';
 /* 'graphql-import' is deprecated, use 'graphql-tools' instead */
 // import { importSchema } from "graphql-import";
 import { loadSchemaSync } from '@graphql-tools/load'
@@ -26,7 +27,7 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
 
-const schema = loadSchemaSync(join(__dirname, './src/schema.graphql'), { loaders: [new GraphQLFileLoader()] })
+const schema = loadSchemaSync(join(__dirname, 'src', 'schema.graphql'), { loaders: [new GraphQLFileLoader()] })
 const pubsub = new PubSub();
 const app = express();
 
