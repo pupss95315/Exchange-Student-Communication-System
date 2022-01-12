@@ -249,7 +249,7 @@ const LoginPage = () => {
     )
 
     useEffect(() => {
-        if(data.users.length)
+        if(data)
             handleAfterQuery()
     }, [data])
 
