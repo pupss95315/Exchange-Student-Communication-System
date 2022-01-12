@@ -1,6 +1,10 @@
 import express from "express";
-import { ApolloServer, PubSub } from "apollo-server-express";
-import { importSchema } from "graphql-import";
+import { ApolloServer } from "apollo-server-express";
+import { PubSub } from 'graphql-subscriptions';
+/* 'graphql-import' is deprecated, use 'graphql-tools' instead */
+// import { importSchema } from "graphql-import";
+import { loadSchemaSync } from '@graphql-tools/load'
+import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 // import bodyParser from "body-parser";
 import cors from "cors";
 import http from "http";
@@ -23,18 +27,18 @@ dotenv.config();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 80;
 
-const typeDefs = importSchema("./src/schema.graphql");
+const schema = loadSchemaSync(path.join(__dirname, 'src', 'schema.graphql'), { loaders: [new GraphQLFileLoader()] })
 const pubsub = new PubSub();
 const app = express();
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, "../frontend/build")));
-app.get("/*", function (req, res) {
+app.get("/graphql", function (req, res) {
   res.sendFile(path.join(__dirname, "../frontend/build", "index.html"));
 });
 
 const server = new ApolloServer({
-  typeDefs,
+  schema,
   resolvers: {
     Query,
     Mutation,
@@ -47,9 +51,12 @@ const server = new ApolloServer({
     db,
     pubsub,
   },
+  introspection: true,
+  playground: true,
 });
 
-server.applyMiddleware({ app });
+await server.start();
+server.applyMiddleware({ app, cors: true });
 const httpServer = http.createServer(app);
 server.installSubscriptionHandlers(httpServer);
 
@@ -58,4 +65,4 @@ mongo.connect();
 httpServer.listen(port, () => {
   console.log(`🚀 Server Ready at ${port}! 🚀`);
   console.log(`Graphql Port at ${port}${server.subscriptionsPath}`);
-});
+}); 
