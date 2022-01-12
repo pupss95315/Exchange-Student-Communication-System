@@ -58,7 +58,7 @@ const server = new ApolloServer({
 await server.start();
 server.applyMiddleware({ app, cors: true });
 const httpServer = http.createServer(app);
-server.installSubscriptionHandlers(httpServer);
+// server.installSubscriptionHandlers(httpServer);
 
 mongo.connect();
 
