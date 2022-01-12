@@ -64,3 +64,11 @@ input:placeholder-shown {
 .react-bootstrap-table th.sortable {
   font-size: 16px;
 }
+.react-bootstrap-table thead{
+  position: sticky;
+  top: 1px;
+  background-color: #F4F3EE;
+}
+table {
+  border-collapse: collapse;
+ }
