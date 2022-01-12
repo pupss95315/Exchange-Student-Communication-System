@@ -222,7 +222,6 @@ const LoginPage = () => {
                 </Form.Group>
                 <Form.Group size="lg" controlId="studentID" className="mb-4">
                     <Form.Control
-                        required
                         type="text"
                         value={studentID}
                         placeholder="學號"
