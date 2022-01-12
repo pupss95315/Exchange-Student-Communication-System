@@ -90,12 +90,10 @@ const InfoPage = props => {
       school_dict = turnListToDict(school_list)
     }
 
-    console.log(school_dict)
 
     
     useEffect(() => {
       if(data){
-        console.log(data.users)
         var users = JSON.parse(JSON.stringify(data.users))
         var curList = users.map(function(user){
           var newUser = user
@@ -104,12 +102,12 @@ const InfoPage = props => {
               ...user, 
               college: collegeMapping[user.college]}
           }
-          if(user.isRegistered){
+          if(user.isRegistered != null){
             newUser = {
               ...user, 
               isRegistered: isRegisteredMapping[user.isRegistered]}
           }
-          if(user.college && user.isRegistered){
+          if(user.college && user.isRegistered != null){
             newUser = {
               ...user, 
               college: collegeMapping[user.college],
