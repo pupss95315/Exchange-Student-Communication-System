@@ -75,7 +75,7 @@ const InfoPage = props => {
     const group_dict = turnListToDict(group_list)
 
     // List of Duration
-    const duration_list = ["上學期", "下學期", "一學年"];
+    const duration_list = ["", "上學期", "下學期", "一學年"];
     const duration_dict = turnListToDict(duration_list)
 
     
@@ -83,11 +83,12 @@ const InfoPage = props => {
     const { loading, error, data } = useQuery(USER_QUERY, { variables: {group: group}});
     const { loading: school_loading, error:school_error, data:school_data } = useQuery(SCHOOL_QUERY, { variables: {group: group}});
 
-    var school_list;
+    var school_list =  new Array();
     var school_dict;
     if(school_data){
-      school_list = school_data.schools.map(s => s.school_name)
-      school_dict = turnListToDict(school_list)
+      school_list[0] = "";
+      school_list.push.apply(school_list, school_data.schools.map(s => s.school_name));
+      school_dict = turnListToDict(school_list);
     }
 
     
@@ -146,7 +147,7 @@ const InfoPage = props => {
         }
         else if(cellName === 'isRegistered'){
           update = Object.keys(isRegisteredMapping).find(key => isRegisteredMapping[key] === newValue);
-          msg = await updateUser({ variables: {UID: id, data: {isRegistered: update === true}} });
+          msg = await updateUser({ variables: {UID: id, data: {isRegistered: update === "true"}} });
         }
         else if(cellName === 'languageExam'){
           msg = await updateUser({ variables: {UID: id, data: {languageExam: newValue}} });
@@ -243,18 +244,19 @@ const InfoPage = props => {
       //   classes: 'table__columns',
       //   sort: true
       // }, 
+      // {
+      //   dataField: 'isRegistered',
+      //   text: '是否報到',
+      //   headerAlign: 'center',
+      //   align: 'center',
+      //   classes: 'table__columns',
+      //   sort: true,
+      //   editor: {
+      //     type: Type.SELECT,
+      //     options: isRegistered_dict
+      //   }
+      // },
       {
-        dataField: 'isRegistered',
-        text: '是否報到',
-        headerAlign: 'center',
-        align: 'center',
-        classes: 'table__columns',
-        sort: true,
-        editor: {
-          type: Type.SELECT,
-          options: isRegistered_dict
-        }
-      },{
         dataField: 'duration',
         text: '預計期間',
         headerAlign: 'center',
